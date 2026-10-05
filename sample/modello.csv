@@ -1,0 +1,6 @@
+Data;Ora;Scontrino;Prodotto;Categoria;Quantità;Prezzo;Importo;Costo
+01/10/2026;08:12;1;Espresso;Caffetteria;1;1,20;1,20;0,25
+01/10/2026;08:12;1;Cornetto;Pasticceria;1;1,30;1,30;0,45
+01/10/2026;08:40;2;Cappuccino;Caffetteria;2;1,60;3,20;0,35
+01/10/2026;13:05;3;Panino;Cucina;1;5,50;5,50;2,60
+01/10/2026;19:30;4;Spritz;Aperitivi;2;5,00;10,00;1,40

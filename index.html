@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard incassi e prodotti</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true">☕</span>
+    <div><strong>Il Nostro Bar</strong><small>Dashboard vendite</small></div></div>
+  <div class="actions" id="actions" hidden>
+    <button class="btn ghost" id="btn-add">Aggiungi file</button>
+    <button class="btn ghost" id="btn-export">Esporta prodotti</button>
+    <button class="btn ghost" id="btn-reset">Cambia dati</button>
+  </div>
+</header>
+
+<main>
+  <section id="welcome" class="hero">
+    <h1>Dashboard<br><span>incassi e prodotti</span></h1>
+    <p>Carica l'export del tuo gestionale/cassa (CSV) e scopri quando, cosa e quanto vendi davvero, con consigli semplici su cosa fare.</p>
+    <div id="drop" class="drop" tabindex="0">
+      <strong>Trascina qui il file CSV</strong>
+      <span>oppure</span>
+      <label class="btn gold">Scegli file<input type="file" id="file" accept=".csv,.txt,.tsv" multiple hidden></label>
+      <small>I dati restano sul tuo computer: non vengono inviati da nessuna parte.</small>
+    </div>
+    <div class="alt">
+      <button class="btn ghost" id="btn-demo">Prova con dati di esempio</button>
+      <button class="btn ghost" id="btn-sample">Scarica CSV di esempio</button>
+    </div>
+    <details class="help">
+      <summary>Che colonne deve avere il file?</summary>
+      <p>Una riga per prodotto venduto. Servono: <b>data (e ora)</b>, <b>prodotto</b> e <b>importo</b> (oppure prezzo × quantità).
+      Facoltativi ma utili: <b>n. scontrino</b> (per lo scontrino medio), <b>quantità</b>, <b>categoria</b> e <b>costo</b> (per i margini).
+      I nomi delle colonne vengono riconosciuti da soli; se qualcosa non torna puoi correggerlo a mano.</p>
+      <p><code>Data;Ora;Scontrino;Prodotto;Quantità;Prezzo;Importo;Costo</code></p>
+    </details>
+  </section>
+
+  <div id="msg" class="msg" role="status" hidden></div>
+  <details id="mapping" class="mapping" hidden></details>
+
+  <div id="dash" hidden>
+    <nav class="tabs" id="tabs" aria-label="Periodo">
+      <button data-p="1">Oggi</button><button data-p="7" class="on">Settimana</button><button data-p="30">Mese</button><button data-p="365">Anno</button><button data-p="0">Tutto</button>
+    </nav>
+    <p class="range" id="range"></p>
+    <section class="kpis" id="kpis"></section>
+
+    <h2>Suggerimenti</h2>
+    <section class="sugg" id="sugg"></section>
+
+    <h2>Confronto nel tempo</h2>
+    <section class="grid2" id="compare"></section>
+    <article class="card"><h3>Incassi per settimana <small>(blocchi di 7 giorni)</small></h3><div class="chart" id="ch-weeks"></div></article>
+
+    <h2>Fasce orarie</h2>
+    <article class="card"><h3>Incasso medio per ora <small>(per giorno di apertura)</small></h3><div class="chart" id="ch-hours"></div>
+      <p class="legend"><i class="sw gold"></i>migliori <i class="sw green"></i>nella media <i class="sw warn"></i>fasce deboli</p></article>
+    <article class="card"><h3>Giorno × ora <small>(incasso medio, più scuro = meglio)</small></h3><div class="chart" id="heat"></div></article>
+
+    <h2>Giorni</h2>
+    <section class="grid2">
+      <article class="card"><h3>Incasso medio per giorno della settimana</h3><div class="chart" id="ch-dow"></div></article>
+      <article class="card"><h3>Giorni peggiori</h3><div id="worst"></div></article>
+    </section>
+
+    <h2>Prodotti</h2>
+    <section class="grid2">
+      <article class="card"><h3>Più venduti <span class="seg" id="seg"><button data-m="revenue" class="on">€</button><button data-m="qty">pezzi</button></span></h3><div id="top"></div></article>
+      <article class="card"><h3 id="low-h">Poco redditizi</h3><div id="low"></div></article>
+    </section>
+    <p class="foot" id="foot"></p>
+  </div>
+</main>
+<script src="js/parser.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard incassi e prodotti</title>
+<style>
+:root{color-scheme:dark}
+[hidden]{display:none!important}
+:root{
+  --bg:#0b2e23; --bg2:#0e3b2c; --ink:#1d2b24; --muted:#6b7a72; --paper:#f8f3e6; --paper2:#efe7d2; --line:#e0d6bb;
+  --gold:#c9a24a; --gold-d:#9a7a2b; --green:#1f6b50; --green-d:#134a37; --warn:#d9822b; --bad:#b4392e; --good:#1f7a4d;
+  --r:16px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{margin:0;background:var(--bg) radial-gradient(120% 60% at 80% -10%,var(--bg2),var(--bg) 70%) no-repeat;color:#f4efe0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+main,.top{max-width:1080px;margin:0 auto;padding:0 16px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+.brand{display:flex;gap:10px;align-items:center}
+.logo{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--paper);font-size:20px}
+.brand strong{display:block;line-height:1.1}.brand small{color:#bfd0c6}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:999px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer;display:inline-block;text-align:center}
+.btn.gold{background:linear-gradient(#d8b55c,var(--gold));color:#2b2208}
+.btn.ghost{background:rgba(255,255,255,.1);color:#f4efe0;border:1px solid rgba(255,255,255,.22)}
+.btn:hover{filter:brightness(1.08)}
+button:focus-visible,.drop:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+.hero h1{font-size:clamp(2.4rem,9vw,4.2rem);line-height:1;margin:28px 0 14px;font-weight:800;letter-spacing:-.02em}
+.hero h1 span{background:linear-gradient(90deg,#f0d78b,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:560px;color:#dbe6df;font-size:1.05rem}
+.drop{margin:22px 0 14px;max-width:560px;border:2px dashed rgba(201,162,74,.6);border-radius:var(--r);padding:26px 18px;display:flex;flex-direction:column;align-items:center;gap:8px;background:rgba(255,255,255,.04)}
+.drop.over{background:rgba(201,162,74,.18)}.drop small{color:#bfd0c6;text-align:center}
+.alt{display:flex;gap:8px;flex-wrap:wrap}
+.help{margin:18px 0 40px;max-width:560px;color:#dbe6df}.help summary{cursor:pointer;color:var(--gold)}
+code{background:rgba(255,255,255,.1);padding:2px 6px;border-radius:6px;font-size:.85em;word-break:break-word}
+
+.msg{background:var(--paper);color:var(--ink);border-left:6px solid var(--warn);border-radius:12px;padding:12px 14px;margin:12px 0}
+.mapping{background:rgba(255,255,255,.07);border-radius:12px;padding:10px 14px;margin:12px 0}
+.mapping summary{cursor:pointer;color:var(--gold)}
+.mapping .mf{margin:10px 0 4px;font-weight:600}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.mgrid label{display:flex;flex-direction:column;font-size:.8rem;color:#bfd0c6;gap:2px}
+select{font:inherit;padding:7px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+
+h2{font-size:1.15rem;margin:30px 0 10px;color:var(--gold);letter-spacing:.02em}
+.tabs{display:flex;gap:4px;background:var(--paper);padding:4px;border-radius:999px;margin:6px 0 8px;max-width:520px;overflow-x:auto}
+.tabs button{flex:1;border:0;background:none;padding:8px 12px;border-radius:999px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--green-d);color:#fff}
+.range{color:#bfd0c6;margin:4px 2px 12px;font-size:.9rem}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.kpi{background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.05));border:1px solid rgba(201,162,74,.45);border-radius:var(--r);padding:14px 16px}
+.kpi .l{color:#cfdcd4;font-size:.85rem}.kpi .v{font-size:1.9rem;font-weight:800;line-height:1.15;margin:2px 0}
+.kpi .s{font-size:.85rem;color:#cfdcd4}
+.kpi.main{grid-column:1/-1;background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.kpi.main .l,.kpi.main .s{color:var(--muted)}.kpi.main .v{font-size:2.4rem}
+@media(min-width:700px){.kpi.main{grid-column:auto;grid-row:span 1}}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-weight:700;font-size:.8rem;background:#e2f1e8;color:var(--good)}
+.pill.neg{background:#f6e0dc;color:var(--bad)}.pill.flat{background:#ece7d6;color:var(--muted)}
+
+.sugg{display:grid;gap:10px}
+.s-card{background:var(--paper);color:var(--ink);border-radius:var(--r);padding:12px 14px 12px 16px;border-left:7px solid var(--green)}
+.s-card.warn{border-color:var(--bad)}.s-card.tip{border-color:var(--warn)}.s-card.good{border-color:var(--good)}
+.s-card b{display:block}.s-card .tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--muted)}
+.s-card p{margin:4px 0 0}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:12px;margin-bottom:12px}
+.card{background:var(--paper);color:var(--ink);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;min-width:0;overflow-x:auto}
+.grid2 .card{margin-bottom:0}
+.card h3{margin:0 0 10px;font-size:1rem}.card h3 small{font-weight:400;color:var(--muted)}
+.chart{overflow-x:auto}
+.chart svg{display:block;max-width:none;height:auto}
+.bar{fill:var(--green)}.bar.gold{fill:var(--gold)}.bar.warn{fill:var(--warn)}.bar.dim{fill:#b9c9bf}
+svg text{fill:var(--ink);font:11px system-ui,sans-serif}svg text.mut{fill:var(--muted)}
+.legend{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin:0 4px 0 10px}.sw:first-child{margin-left:0}
+.sw.gold{background:var(--gold)}.sw.green{background:var(--green)}.sw.warn{background:var(--warn)}
+
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:6px 6px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+th{font-weight:600;color:var(--muted);font-size:.8rem}
+.up{color:var(--good);font-weight:700}.down{color:var(--bad);font-weight:700}
+.heat{border-collapse:separate;border-spacing:2px;font-size:.72rem}
+.heat th{padding:2px 4px;border:0}.heat td{padding:5px 0;min-width:30px;text-align:center;border:0;border-radius:4px;color:var(--ink)}
+.heat td.dk{color:#fff}
+.rank{list-style:none;margin:0;padding:0}
+.rank li{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
+.rank .n{color:var(--gold-d);font-weight:800}
+.rank .bg{grid-column:2/4;height:6px;border-radius:3px;background:var(--paper2);overflow:hidden}.rank .bg i{display:block;height:100%;background:var(--green)}
+.rank .sub{color:var(--muted);font-size:.8rem}
+.seg{float:right;background:var(--paper2);border-radius:999px;padding:2px}
+.seg button{border:0;background:none;padding:3px 10px;border-radius:999px;font:inherit;font-size:.8rem;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--green-d);color:#fff}
+.note{color:var(--muted);font-size:.85rem;margin:8px 0 0}
+.foot{color:#9fb3a8;font-size:.8rem;margin:20px 0 40px}
+
+.demo-note{max-width:1080px;margin:0 auto;padding:0 16px 4px;color:#bfd0c6;font-size:.85rem}
+#btn-export,#btn-sample{display:none!important}
+</style></head><body>
+
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true">☕</span>
+    <div><strong>Il Nostro Bar</strong><small>Dashboard vendite</small></div></div>
+  <div class="actions" id="actions">
+    <button class="btn ghost" id="btn-add">Aggiungi file</button>
+    <button class="btn ghost" id="btn-export">Esporta prodotti</button>
+    <button class="btn ghost" id="btn-reset">Cambia dati</button>
+  </div>
+</header>
+<p class="demo-note">Versione dimostrativa con dati di esempio generati al computer (un bar, 120 giorni). Per usare i tuoi dati carica un CSV con “Cambia dati”.</p>
+
+<main>
+  <section id="welcome" class="hero" hidden="">
+    <h1>Dashboard<br><span>incassi e prodotti</span></h1>
+    <p>Carica l'export del tuo gestionale/cassa (CSV) e scopri quando, cosa e quanto vendi davvero, con consigli semplici su cosa fare.</p>
+    <div id="drop" class="drop" tabindex="0">
+      <strong>Trascina qui il file CSV</strong>
+      <span>oppure</span>
+      <label class="btn gold">Scegli file<input type="file" id="file" accept=".csv,.txt,.tsv" multiple="" hidden=""></label>
+      <small>I dati restano sul tuo computer: non vengono inviati da nessuna parte.</small>
+    </div>
+    <div class="alt">
+      <button class="btn ghost" id="btn-demo">Prova con dati di esempio</button>
+      <button class="btn ghost" id="btn-sample">Scarica CSV di esempio</button>
+    </div>
+    <details class="help">
+      <summary>Che colonne deve avere il file?</summary>
+      <p>Una riga per prodotto venduto. Servono: <b>data (e ora)</b>, <b>prodotto</b> e <b>importo</b> (oppure prezzo × quantità).
+      Facoltativi ma utili: <b>n. scontrino</b> (per lo scontrino medio), <b>quantità</b>, <b>categoria</b> e <b>costo</b> (per i margini).
+      I nomi delle colonne vengono riconosciuti da soli; se qualcosa non torna puoi correggerlo a mano.</p>
+      <p><code>Data;Ora;Scontrino;Prodotto;Quantità;Prezzo;Importo;Costo</code></p>
+    </details>
+  </section>
+
+  <div id="msg" class="msg" role="status" hidden=""></div>
+  <details id="mapping" class="mapping"><summary>Colonne riconosciute (correggi se serve)</summary><div class="mf">dati di esempio · 53208 righe</div><div class="mgrid"><label>Data e ora (insieme)<select data-d="0" data-f="datetime"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Data<select data-d="0" data-f="date"><option value="-1">— nessuna —</option><option value="0" selected="">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Ora<select data-d="0" data-f="time"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1" selected="">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>N. scontrino<select data-d="0" data-f="receipt"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2" selected="">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Prodotto<select data-d="0" data-f="product"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3" selected="">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Quantità<select data-d="0" data-f="qty"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5" selected="">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Prezzo unitario<select data-d="0" data-f="price"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6" selected="">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Importo riga<select data-d="0" data-f="total"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7" selected="">Importo</option><option value="8">Costo</option></select></label><label>Costo unitario<select data-d="0" data-f="cost"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8" selected="">Costo</option></select></label><label>Categoria<select data-d="0" data-f="category"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4" selected="">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label></div></details>
+
+  <div id="dash">
+    <nav class="tabs" id="tabs" aria-label="Periodo">
+      <button data-p="1">Oggi</button><button data-p="7" class="on">Settimana</button><button data-p="30">Mese</button><button data-p="365">Anno</button><button data-p="0">Tutto</button>
+    </nav>
+    <p class="range" id="range">Ultimi 7 giorni · dati dal 09/06/2026 al 06/10/2026</p>
+    <section class="kpis" id="kpis"><div class="kpi main"><div class="l">Incassi</div><div class="v">€10.863</div><div class="s"><span class="pill neg">▼ −9%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Scontrino medio</div><div class="v">€6,15</div><div class="s"><span class="pill ">▲ +3%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Scontrini</div><div class="v">1.767</div><div class="s"><span class="pill neg">▼ −11%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Prodotto top</div><div class="v" style="font-size:1.4rem">Spritz</div><div class="s">€1.510 · 302 pezzi</div></div><div class="kpi"><div class="l">Ora migliore</div><div class="v">19:00 – 20:00</div><div class="s">finestra d'oro 19:00–21:00 (33% incassi)</div></div></section>
+
+    <h2>Suggerimenti</h2>
+    <section class="sugg" id="sugg"><div class="s-card warn"><span class="tag">Attenzione</span><b>Margini bassi su Tagliere misto, Insalatona</b><p>Tagliere misto (margine 43%), Insalatona (margine 41%) contro una media del 66%. Valuta di ritoccare il prezzo di qualche decimo, ridurre la porzione o trattare meglio il fornitore.</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Dalle 15 alle 18 vendi poco: prova una promo aperitivo</b><p>In media incassi €29 l'ora, il 73% in meno della tua media oraria (€107). Prova una promo aperitivo anticipato o una merenda (es. spritz + stuzzichino a prezzo fisso).</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Dalle 9 alle 12 vendi poco: prova una promo colazione</b><p>In media incassi €43 l'ora, il 60% in meno della tua media oraria (€107). Prova una formula colazione a prezzo fisso (caffè + brioche).</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Martedì è il giorno più debole</b><p>Incassi in media €1.025, il 40% sotto la media dei giorni (€1.717). Prova una serata a tema, un menu fisso o uno sconto per chi torna (es. coupon sul prossimo acquisto) il martedì.</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Cappuccino + Cornetto: proponili in combo</b><p>Finiscono nello stesso scontrino 4.119 volte. Una formula a prezzo unico alza lo scontrino medio e semplifica il servizio.</p></div><div class="s-card good"><span class="tag">Punto di forza</span><b>Dalle 19 alle 21 fai il 33% degli incassi</b><p>È la tua finestra d'oro: tieni il personale al completo, prepara in anticipo i prodotti più richiesti ed evita di programmare consegne o pulizie in quelle ore.</p></div><div class="s-card good"><span class="tag">Punto di forza</span><b>Sabato è il tuo giorno migliore</b><p>Incassi in media €2.452 (+43% sulla media). Assicurati di avere scorte e personale adeguati.</p></div></section>
+
+    <h2>Confronto nel tempo</h2>
+    <section class="grid2" id="compare"><article class="card"><h3>Ultimi 7 giorni vs 7 precedenti</h3><table><tbody><tr><th></th><th>30/09–06/10</th><th>23/09–29/09</th><th>Δ</th></tr><tr><td>Incasso</td><td>€10.863</td><td>€11.892</td><td class="down">▼ −9%</td></tr><tr><td>Scontrini</td><td>1.767</td><td>1.989</td><td class="down">▼ −11%</td></tr><tr><td>Scontrino medio</td><td>€6,15</td><td>€5,98</td><td class="up">▲ +3%</td></tr></tbody></table></article><article class="card"><h3>Ultimi 30 giorni vs 30 precedenti</h3><table><tbody><tr><th></th><th>07/09–06/10</th><th>08/08–06/09</th><th>Δ</th></tr><tr><td>Incasso</td><td>€48.928</td><td>€53.846</td><td class="down">▼ −9%</td></tr><tr><td>Scontrini</td><td>8.157</td><td>8.811</td><td class="down">▼ −7%</td></tr><tr><td>Scontrino medio</td><td>€6,00</td><td>€6,11</td><td class="down">▼ −2%</td></tr></tbody></table></article><article class="card"><h3>Mesi <small>(calendario)</small></h3><table><tbody><tr><th></th><th>Incasso</th><th>Scontrino medio</th><th>Media/giorno</th></tr><tr><td>giu 2026 *</td><td>€37.528</td><td>€6,17</td><td>€1.706</td></tr><tr><td>lug 2026</td><td>€53.073</td><td>€6,04</td><td>€1.712</td></tr><tr><td>ago 2026</td><td>€54.824</td><td>€6,12</td><td>€1.769</td></tr><tr><td>set 2026</td><td>€50.373</td><td>€5,99</td><td>€1.679</td></tr><tr><td>ott 2026 *</td><td>€9.609</td><td>€6,20</td><td>€1.601</td></tr></tbody></table><p class="note">* mese incompleto: confronta le medie al giorno.</p></article></section>
+    <article class="card"><h3>Incassi per settimana <small>(blocchi di 7 giorni)</small></h3><div class="chart" id="ch-weeks"><svg viewBox="0 0 456 190" width="456" role="img" aria-label="Incassi per settimana"><line x1="0" x2="456" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar " x="11.84" y="27.002455768702674" width="40.32" height="138.99754423129733" rx="3"><title>12/08–18/08: €12.134</title></rect><text class="mut" x="32" y="182" text-anchor="middle">12/08</text><text x="32" y="23.002455768702674" text-anchor="middle">12,1k</text><rect class="bar " x="67.84" y="20" width="40.32" height="146" rx="3"><title>19/08–25/08: €12.746</title></rect><text class="mut" x="88" y="182" text-anchor="middle">19/08</text><text x="88" y="16" text-anchor="middle">12,7k</text><rect class="bar " x="123.84" y="21.656396375191235" width="40.32" height="144.34360362480876" rx="3"><title>26/08–01/09: €12.601</title></rect><text class="mut" x="144" y="182" text-anchor="middle">26/08</text><text x="144" y="17.656396375191235" text-anchor="middle">12,6k</text><rect class="bar " x="179.84" y="24.63355694166566" width="40.32" height="141.36644305833434" rx="3"><title>02/09–08/09: €12.341</title></rect><text class="mut" x="200" y="182" text-anchor="middle">02/09</text><text x="200" y="20.63355694166566" text-anchor="middle">12,3k</text><rect class="bar " x="235.84" y="29.532870424855815" width="40.32" height="136.46712957514418" rx="3"><title>09/09–15/09: €11.913</title></rect><text class="mut" x="256" y="182" text-anchor="middle">09/09</text><text x="256" y="25.532870424855815" text-anchor="middle">11,9k</text><rect class="bar " x="291.84" y="30.21329881134514" width="40.32" height="135.78670118865486" rx="3"><title>16/09–22/09: €11.854</title></rect><text class="mut" x="312" y="182" text-anchor="middle">16/09</text><text x="312" y="26.21329881134514" text-anchor="middle">11,9k</text><rect class="bar " x="347.84" y="29.77228041269464" width="40.32" height="136.22771958730536" rx="3"><title>23/09–29/09: €11.892</title></rect><text class="mut" x="368" y="182" text-anchor="middle">23/09</text><text x="368" y="25.77228041269464" text-anchor="middle">11,9k</text><rect class="bar gold" x="403.84" y="41.56980895217917" width="40.32" height="124.43019104782083" rx="3"><title>30/09–06/10: €10.863</title></rect><text class="mut" x="424" y="182" text-anchor="middle">30/09</text><text x="424" y="37.56980895217917" text-anchor="middle">10,9k</text></svg></div></article>
+
+    <h2>Fasce orarie</h2>
+    <article class="card"><h3>Incasso medio per ora <small>(per giorno di apertura)</small></h3><div class="chart" id="ch-hours"><svg viewBox="0 0 616 190" width="616" role="img" aria-label="Incasso medio per ora"><line x1="0" x2="616" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar warn" x="9.32" y="145.2847440605268" width="27.36" height="20.715255939473185" rx="3"><title>7:00–8:00 · media €42 · 2,5% degli incassi</title></rect><text class="mut" x="23" y="182" text-anchor="middle">7</text><text x="23" y="141.2847440605268" text-anchor="middle">42</text><rect class="bar " x="47.32" y="124.69317840722007" width="27.36" height="41.306821592779926" rx="3"><title>8:00–9:00 · media €84 · 4,9% degli incassi</title></rect><text class="mut" x="61" y="182" text-anchor="middle">8</text><text x="61" y="120.69317840722007" text-anchor="middle">84</text><rect class="bar warn" x="85.32" y="135.73396994425943" width="27.36" height="30.266030055740565" rx="3"><title>9:00–10:00 · media €62 · 3,6% degli incassi</title></rect><text class="mut" x="99" y="182" text-anchor="middle">9</text><text x="99" y="131.73396994425943" text-anchor="middle">62</text><rect class="bar warn" x="123.32" y="147.06842351832276" width="27.36" height="18.93157648167725" rx="3"><title>10:00–11:00 · media €39 · 2,3% degli incassi</title></rect><text class="mut" x="137" y="182" text-anchor="middle">10</text><text x="137" y="143.06842351832276" text-anchor="middle">39</text><rect class="bar warn" x="161.32" y="151.8497493484744" width="27.36" height="14.150250651525592" rx="3"><title>11:00–12:00 · media €29 · 1,7% degli incassi</title></rect><text class="mut" x="175" y="182" text-anchor="middle">11</text><text x="175" y="147.8497493484744" text-anchor="middle">29</text><rect class="bar " x="199.32" y="91.02075063609608" width="27.36" height="74.97924936390392" rx="3"><title>12:00–13:00 · media €153 · 8,9% degli incassi</title></rect><text class="mut" x="213" y="182" text-anchor="middle">12</text><text x="213" y="87.02075063609608" text-anchor="middle">153</text><rect class="bar " x="237.32" y="84.65520617385363" width="27.36" height="81.34479382614637" rx="3"><title>13:00–14:00 · media €166 · 9,7% degli incassi</title></rect><text class="mut" x="251" y="182" text-anchor="middle">13</text><text x="251" y="80.65520617385363" text-anchor="middle">166</text><rect class="bar " x="275.32" y="129.06124761902117" width="27.36" height="36.93875238097884" rx="3"><title>14:00–15:00 · media €75 · 4,4% degli incassi</title></rect><text class="mut" x="289" y="182" text-anchor="middle">14</text><text x="289" y="125.06124761902117" text-anchor="middle">75</text><rect class="bar warn" x="313.32" y="151.8501589189584" width="27.36" height="14.149841081041597" rx="3"><title>15:00–16:00 · media €29 · 1,7% degli incassi</title></rect><text class="mut" x="327" y="182" text-anchor="middle">15</text><text x="327" y="147.8501589189584" text-anchor="middle">29</text><rect class="bar warn" x="351.32" y="154.61926496124514" width="27.36" height="11.38073503875487" rx="3"><title>16:00–17:00 · media €23 · 1,4% degli incassi</title></rect><text class="mut" x="365" y="182" text-anchor="middle">16</text><text x="365" y="150.61926496124514" text-anchor="middle">23</text><rect class="bar warn" x="389.32" y="149.14085016733486" width="27.36" height="16.85914983266514" rx="3"><title>17:00–18:00 · media €34 · 2,0% degli incassi</title></rect><text class="mut" x="403" y="182" text-anchor="middle">17</text><text x="403" y="145.14085016733486" text-anchor="middle">34</text><rect class="bar gold" x="427.32" y="78.00460065475161" width="27.36" height="87.99539934524839" rx="3"><title>18:00–19:00 · media €179 · 10,5% degli incassi</title></rect><text class="mut" x="441" y="182" text-anchor="middle">18</text><text x="441" y="74.00460065475161" text-anchor="middle">179</text><rect class="bar gold" x="465.32" y="20" width="27.36" height="146" rx="3"><title>19:00–20:00 · media €297 · 17,4% degli incassi</title></rect><text class="mut" x="479" y="182" text-anchor="middle">19</text><text x="479" y="16" text-anchor="middle">297</text><rect class="bar gold" x="503.32" y="32.85600792210269" width="27.36" height="133.1439920778973" rx="3"><title>20:00–21:00 · media €271 · 15,8% degli incassi</title></rect><text class="mut" x="517" y="182" text-anchor="middle">20</text><text x="517" y="28.85600792210269" text-anchor="middle">271</text><rect class="bar " x="541.32" y="86.8808121838803" width="27.36" height="79.1191878161197" rx="3"><title>21:00–22:00 · media €161 · 9,4% degli incassi</title></rect><text class="mut" x="555" y="182" text-anchor="middle">21</text><text x="555" y="82.8808121838803" text-anchor="middle">161</text><rect class="bar " x="579.32" y="131.99663927780958" width="27.36" height="34.00336072219043" rx="3"><title>22:00–23:00 · media €69 · 4,0% degli incassi</title></rect><text class="mut" x="593" y="182" text-anchor="middle">22</text><text x="593" y="127.99663927780958" text-anchor="middle">69</text></svg></div>
+      <p class="legend"><i class="sw gold"></i>migliori <i class="sw green"></i>nella media <i class="sw warn"></i>fasce deboli</p></article>
+    <article class="card"><h3>Giorno × ora <small>(incasso medio, più scuro = meglio)</small></h3><div class="chart" id="heat"><table class="heat"><tbody><tr><th></th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th></tr><tr><th>Lun</th><td class="" style="background:rgba(31,107,80,0.18)" title="€36">36</td><td class="" style="background:rgba(31,107,80,0.25)" title="€73">73</td><td class="" style="background:rgba(31,107,80,0.22)" title="€57">57</td><td class="" style="background:rgba(31,107,80,0.17)" title="€35">35</td><td class="" style="background:rgba(31,107,80,0.16)" title="€26">26</td><td class="" style="background:rgba(31,107,80,0.38)" title="€135">135</td><td class="" style="background:rgba(31,107,80,0.41)" title="€146">146</td><td class="" style="background:rgba(31,107,80,0.24)" title="€67">67</td><td class="" style="background:rgba(31,107,80,0.15)" title="€24">24</td><td class="" style="background:rgba(31,107,80,0.14)" title="€18">18</td><td class="" style="background:rgba(31,107,80,0.17)" title="€32">32</td><td class="" style="background:rgba(31,107,80,0.43)" title="€157">157</td><td class="dk" style="background:rgba(31,107,80,0.65)" title="€264">264</td><td class="" style="background:rgba(31,107,80,0.57)" title="€226">226</td><td class="" style="background:rgba(31,107,80,0.38)" title="€134">134</td><td class="" style="background:rgba(31,107,80,0.24)" title="€68">68</td></tr><tr><th>Mar</th><td class="" style="background:rgba(31,107,80,0.15)" title="€26">26</td><td class="" style="background:rgba(31,107,80,0.21)" title="€53">53</td><td class="" style="background:rgba(31,107,80,0.18)" title="€37">37</td><td class="" style="background:rgba(31,107,80,0.14)" title="€20">20</td><td class="" style="background:rgba(31,107,80,0.13)" title="€17">17</td><td class="" style="background:rgba(31,107,80,0.29)" title="€92">92</td><td class="" style="background:rgba(31,107,80,0.31)" title="€102">102</td><td class="" style="background:rgba(31,107,80,0.20)" title="€47">47</td><td class="" style="background:rgba(31,107,80,0.13)" title="€14">14</td><td class="" style="background:rgba(31,107,80,0.13)" title="€12">12</td><td class="" style="background:rgba(31,107,80,0.14)" title="€18">18</td><td class="" style="background:rgba(31,107,80,0.33)" title="€110">110</td><td class="" style="background:rgba(31,107,80,0.48)" title="€180">180</td><td class="" style="background:rgba(31,107,80,0.43)" title="€158">158</td><td class="" style="background:rgba(31,107,80,0.31)" title="€102">102</td><td class="" style="background:rgba(31,107,80,0.18)" title="€39">39</td></tr><tr><th>Mer</th><td class="" style="background:rgba(31,107,80,0.17)" title="€35">35</td><td class="" style="background:rgba(31,107,80,0.26)" title="€78">78</td><td class="" style="background:rgba(31,107,80,0.20)" title="€48">48</td><td class="" style="background:rgba(31,107,80,0.17)" title="€34">34</td><td class="" style="background:rgba(31,107,80,0.16)" title="€27">27</td><td class="" style="background:rgba(31,107,80,0.37)" title="€130">130</td><td class="" style="background:rgba(31,107,80,0.38)" title="€135">135</td><td class="" style="background:rgba(31,107,80,0.24)" title="€66">66</td><td class="" style="background:rgba(31,107,80,0.15)" title="€25">25</td><td class="" style="background:rgba(31,107,80,0.15)" title="€22">22</td><td class="" style="background:rgba(31,107,80,0.16)" title="€31">31</td><td class="" style="background:rgba(31,107,80,0.42)" title="€153">153</td><td class="dk" style="background:rgba(31,107,80,0.63)" title="€254">254</td><td class="dk" style="background:rgba(31,107,80,0.60)" title="€238">238</td><td class="" style="background:rgba(31,107,80,0.39)" title="€139">139</td><td class="" style="background:rgba(31,107,80,0.24)" title="€65">65</td></tr><tr><th>Gio</th><td class="" style="background:rgba(31,107,80,0.19)" title="€42">42</td><td class="" style="background:rgba(31,107,80,0.27)" title="€80">80</td><td class="" style="background:rgba(31,107,80,0.23)" title="€62">62</td><td class="" style="background:rgba(31,107,80,0.18)" title="€36">36</td><td class="" style="background:rgba(31,107,80,0.16)" title="€28">28</td><td class="" style="background:rgba(31,107,80,0.41)" title="€149">149</td><td class="" style="background:rgba(31,107,80,0.44)" title="€164">164</td><td class="" style="background:rgba(31,107,80,0.25)" title="€70">70</td><td class="" style="background:rgba(31,107,80,0.16)" title="€29">29</td><td class="" style="background:rgba(31,107,80,0.14)" title="€21">21</td><td class="" style="background:rgba(31,107,80,0.17)" title="€33">33</td><td class="" style="background:rgba(31,107,80,0.48)" title="€180">180</td><td class="dk" style="background:rgba(31,107,80,0.68)" title="€276">276</td><td class="dk" style="background:rgba(31,107,80,0.66)" title="€266">266</td><td class="" style="background:rgba(31,107,80,0.44)" title="€160">160</td><td class="" style="background:rgba(31,107,80,0.25)" title="€73">73</td></tr><tr><th>Ven</th><td class="" style="background:rgba(31,107,80,0.21)" title="€54">54</td><td class="" style="background:rgba(31,107,80,0.33)" title="€108">108</td><td class="" style="background:rgba(31,107,80,0.26)" title="€75">75</td><td class="" style="background:rgba(31,107,80,0.20)" title="€49">49</td><td class="" style="background:rgba(31,107,80,0.18)" title="€40">40</td><td class="" style="background:rgba(31,107,80,0.51)" title="€197">197</td><td class="" style="background:rgba(31,107,80,0.56)" title="€220">220</td><td class="" style="background:rgba(31,107,80,0.29)" title="€89">89</td><td class="" style="background:rgba(31,107,80,0.17)" title="€35">35</td><td class="" style="background:rgba(31,107,80,0.17)" title="€31">31</td><td class="" style="background:rgba(31,107,80,0.20)" title="€46">46</td><td class="" style="background:rgba(31,107,80,0.58)" title="€228">228</td><td class="dk" style="background:rgba(31,107,80,0.92)" title="€391">391</td><td class="dk" style="background:rgba(31,107,80,0.84)" title="€353">353</td><td class="" style="background:rgba(31,107,80,0.56)" title="€220">220</td><td class="" style="background:rgba(31,107,80,0.26)" title="€77">77</td></tr><tr><th>Sab</th><td class="" style="background:rgba(31,107,80,0.23)" title="€63">63</td><td class="" style="background:rgba(31,107,80,0.34)" title="€114">114</td><td class="" style="background:rgba(31,107,80,0.29)" title="€90">90</td><td class="" style="background:rgba(31,107,80,0.22)" title="€57">57</td><td class="" style="background:rgba(31,107,80,0.18)" title="€37">37</td><td class="" style="background:rgba(31,107,80,0.56)" title="€219">219</td><td class="dk" style="background:rgba(31,107,80,0.61)" title="€241">241</td><td class="" style="background:rgba(31,107,80,0.34)" title="€114">114</td><td class="" style="background:rgba(31,107,80,0.19)" title="€43">43</td><td class="" style="background:rgba(31,107,80,0.17)" title="€36">36</td><td class="" style="background:rgba(31,107,80,0.20)" title="€47">47</td><td class="dk" style="background:rgba(31,107,80,0.66)" title="€265">265</td><td class="dk" style="background:rgba(31,107,80,1.00)" title="€429">429</td><td class="dk" style="background:rgba(31,107,80,0.92)" title="€392">392</td><td class="" style="background:rgba(31,107,80,0.55)" title="€213">213</td><td class="" style="background:rgba(31,107,80,0.29)" title="€92">92</td></tr><tr><th>Dom</th><td class="" style="background:rgba(31,107,80,0.18)" title="€39">39</td><td class="" style="background:rgba(31,107,80,0.28)" title="€85">85</td><td class="" style="background:rgba(31,107,80,0.23)" title="€64">64</td><td class="" style="background:rgba(31,107,80,0.18)" title="€40">40</td><td class="" style="background:rgba(31,107,80,0.16)" title="€27">27</td><td class="" style="background:rgba(31,107,80,0.42)" title="€151">151</td><td class="" style="background:rgba(31,107,80,0.43)" title="€156">156</td><td class="" style="background:rgba(31,107,80,0.25)" title="€74">74</td><td class="" style="background:rgba(31,107,80,0.17)" title="€33">33</td><td class="" style="background:rgba(31,107,80,0.15)" title="€22">22</td><td class="" style="background:rgba(31,107,80,0.17)" title="€34">34</td><td class="" style="background:rgba(31,107,80,0.45)" title="€165">165</td><td class="dk" style="background:rgba(31,107,80,0.71)" title="€293">293</td><td class="dk" style="background:rgba(31,107,80,0.67)" title="€270">270</td><td class="" style="background:rgba(31,107,80,0.44)" title="€162">162</td><td class="" style="background:rgba(31,107,80,0.25)" title="€72">72</td></tr></tbody></table></div></article>
+
+    <h2>Giorni</h2>
+    <section class="grid2">
+      <article class="card"><h3>Incasso medio per giorno della settimana</h3><div class="chart" id="ch-dow"><svg viewBox="0 0 400 190" width="400" role="img" aria-label="Incasso medio per giorno della settimana"><line x1="0" x2="400" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar " x="11.84" y="76.8283669092696" width="40.32" height="89.1716330907304" rx="3"><title>Lunedì: media €1.498 su 17 giorni</title></rect><text class="mut" x="32" y="182" text-anchor="middle">Lun</text><text x="32" y="72.8283669092696" text-anchor="middle">1,5k</text><rect class="bar warn" x="67.84" y="104.94421068960588" width="40.32" height="61.05578931039411" rx="3"><title>Martedì: media €1.025 su 18 giorni</title></rect><text class="mut" x="88" y="182" text-anchor="middle">Mar</text><text x="88" y="100.94421068960588" text-anchor="middle">1,0k</text><rect class="bar " x="123.84" y="77.89132239136713" width="40.32" height="88.10867760863287" rx="3"><title>Mercoledì: media €1.480 su 17 giorni</title></rect><text class="mut" x="144" y="182" text-anchor="middle">Mer</text><text x="144" y="73.89132239136713" text-anchor="middle">1,5k</text><rect class="bar " x="179.84" y="66.6642710127464" width="40.32" height="99.3357289872536" rx="3"><title>Giovedì: media €1.668 su 17 giorni</title></rect><text class="mut" x="200" y="182" text-anchor="middle">Gio</text><text x="200" y="62.6642710127464" text-anchor="middle">1,7k</text><rect class="bar " x="235.84" y="34.30139181415527" width="40.32" height="131.69860818584473" rx="3"><title>Venerdì: media €2.212 su 17 giorni</title></rect><text class="mut" x="256" y="182" text-anchor="middle">Ven</text><text x="256" y="30.301391814155267" text-anchor="middle">2,2k</text><rect class="bar gold" x="291.84" y="20" width="40.32" height="146" rx="3"><title>Sabato: media €2.452 su 17 giorni</title></rect><text class="mut" x="312" y="182" text-anchor="middle">Sab</text><text x="312" y="16" text-anchor="middle">2,5k</text><rect class="bar " x="347.84" y="65.56173926393504" width="40.32" height="100.43826073606496" rx="3"><title>Domenica: media €1.687 su 17 giorni</title></rect><text class="mut" x="368" y="182" text-anchor="middle">Dom</text><text x="368" y="61.56173926393504" text-anchor="middle">1,7k</text></svg></div></article>
+      <article class="card"><h3>Giorni peggiori</h3><div id="worst"><table><tbody><tr><th>Giorno</th><th>Incasso</th><th>vs media del giorno</th></tr><tr><td>Mar 11/08/2026</td><td>€807</td><td class="down">▼ −21%</td></tr><tr><td>Mar 21/07/2026</td><td>€851</td><td class="down">▼ −17%</td></tr><tr><td>Mar 06/10/2026</td><td>€898</td><td class="down">▼ −12%</td></tr><tr><td>Mar 09/06/2026</td><td>€941</td><td class="down">▼ −8%</td></tr><tr><td>Mar 14/07/2026</td><td>€955</td><td class="down">▼ −7%</td></tr></tbody></table><p class="note">Giorni con meno incasso nel periodo caricato.</p></div></article>
+    </section>
+
+    <h2>Prodotti</h2>
+    <section class="grid2">
+      <article class="card"><h3>Più venduti <span class="seg" id="seg"><button data-m="revenue" class="on">€</button><button data-m="qty">pezzi</button></span></h3><div id="top"><ol class="rank"><li><span class="n">1</span><span>Spritz <span class="sub">302 pz</span></span><b>€1.510</b><span class="bg"><i style="width:100%"></i></span></li><li><span class="n">2</span><span>Birra media <span class="sub">268 pz</span></span><b>€1.340</b><span class="bg"><i style="width:89%"></i></span></li><li><span class="n">3</span><span>Panino <span class="sub">240 pz</span></span><b>€1.320</b><span class="bg"><i style="width:87%"></i></span></li><li><span class="n">4</span><span>Cocktail <span class="sub">143 pz</span></span><b>€1.144</b><span class="bg"><i style="width:76%"></i></span></li><li><span class="n">5</span><span>Tagliere misto <span class="sub">90 pz</span></span><b>€1.080</b><span class="bg"><i style="width:72%"></i></span></li><li><span class="n">6</span><span>Toast <span class="sub">150 pz</span></span><b>€675</b><span class="bg"><i style="width:45%"></i></span></li><li><span class="n">7</span><span>Calice di vino <span class="sub">165 pz</span></span><b>€660</b><span class="bg"><i style="width:44%"></i></span></li><li><span class="n">8</span><span>Cornetto <span class="sub">483 pz</span></span><b>€628</b><span class="bg"><i style="width:42%"></i></span></li><li><span class="n">9</span><span>Espresso <span class="sub">515 pz</span></span><b>€618</b><span class="bg"><i style="width:41%"></i></span></li><li><span class="n">10</span><span>Cappuccino <span class="sub">362 pz</span></span><b>€579</b><span class="bg"><i style="width:38%"></i></span></li></ol></div></article>
+      <article class="card"><h3 id="low-h">Poco redditizi (margine basso)</h3><div id="low"><table><tbody><tr><th>Prodotto</th><th>Margine</th><th>€ margine</th></tr><tr><td>Insalatona</td><td class="down">41%</td><td>€2.277</td></tr><tr><td>Tagliere misto</td><td class="down">43%</td><td>€9.620</td></tr></tbody></table><p class="note">Margine medio del locale: 66%. Elenco: prodotti sotto il 75% della media (tutti i dati).</p></div></article>
+    </section>
+    <p class="foot" id="foot">33.783 scontrini · 53.208 righe · 120 giorni con vendite. Fasce orarie, giorni e suggerimenti usano tutti i dati caricati; le schede in alto cambiano solo i riquadri e i prodotti.</p>
+  </div>
+</main>
+<script>
+/* Lettura export del gestionale/cassa: CSV (; , tab), numeri e date all'italiana. */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.Parser = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  function norm(s) {
+    return String(s == null ? '' : s).toLowerCase().normalize('NFD')
+      .replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function dayKey(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+
+  function detectDelimiter(text) {
+    const sample = text.slice(0, 4000);
+    const counts = { ';': 0, ',': 0, '\t': 0, '|': 0 };
+    let inQ = false;
+    for (const ch of sample) {
+      if (ch === '"') inQ = !inQ;
+      else if (!inQ && ch in counts) counts[ch]++;
+    }
+    return Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+  }
+
+  function parseCSV(text, delim) {
+    const rows = [];
+    let row = [], field = '', inQ = false;
+    const flush = () => {
+      row.push(field); field = '';
+      if (row.length > 1 || row[0] !== '') rows.push(row);
+      row = [];
+    };
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (inQ) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+        else field += c;
+      } else if (c === '"' && field === '') inQ = true;
+      else if (c === delim) { row.push(field); field = ''; }
+      else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; flush(); }
+      else field += c;
+    }
+    if (field !== '' || row.length) flush();
+    return rows;
+  }
+
+  // "1.234,56" "1234.56" "€ 12,5" "(3,00)" "-4,2" -> number | NaN
+  function parseNumber(v) {
+    if (typeof v === 'number') return v;
+    let s = String(v == null ? '' : v).trim();
+    if (!s) return NaN;
+    s = s.replace(/[€\s ]|eur/gi, '');
+    let neg = false;
+    if (/^\(.*\)$/.test(s)) { neg = true; s = s.slice(1, -1); }
+    if (s[0] === '-') { neg = !neg; s = s.slice(1); }
+    else if (s[0] === '+') s = s.slice(1);
+    const c = s.lastIndexOf(','), d = s.lastIndexOf('.');
+    if (c >= 0 && d >= 0) {
+      s = c > d ? s.replace(/\./g, '').replace(',', '.') : s.replace(/,/g, '');
+    } else if (c >= 0) {
+      s = (s.match(/,/g).length > 1) ? s.replace(/,/g, '') : s.replace(',', '.');
+    } else if (d >= 0 && /^\d{1,3}(\.\d{3})+$/.test(s)) {
+      s = s.replace(/\./g, '');
+    }
+    if (!/^(\d+\.?\d*|\.\d+)$/.test(s)) return NaN;
+    const n = parseFloat(s);
+    return neg ? -n : n;
+  }
+
+  // Data (dd/mm/yyyy o yyyy-mm-dd, con o senza ora) + ora opzionale separata -> Date | null
+  function parseDateTime(v, t) {
+    v = String(v == null ? '' : v).trim();
+    t = String(t == null ? '' : t).trim();
+    let y, mo, d, h = 0, mi = 0, se = 0, m, hasTime = false;
+    if ((m = v.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})(?:[T,\s]+(\d{1,2})[:.](\d{2})(?::(\d{2}))?)?/))) {
+      y = +m[1]; mo = +m[2]; d = +m[3];
+      if (m[4] !== undefined) { h = +m[4]; mi = +m[5]; se = +(m[6] || 0); hasTime = true; }
+    } else if ((m = v.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4}|\d{2})(?:[T,\s]+(\d{1,2})[:.](\d{2})(?::(\d{2}))?)?/))) {
+      d = +m[1]; mo = +m[2]; y = +m[3]; if (y < 100) y += 2000;
+      if (m[4] !== undefined) { h = +m[4]; mi = +m[5]; se = +(m[6] || 0); hasTime = true; }
+    } else return null;
+    if (!hasTime && t) {
+      const tm = t.match(/(\d{1,2})[:.](\d{2})(?::(\d{2}))?/);
+      if (tm) { h = +tm[1]; mi = +tm[2]; se = +(tm[3] || 0); }
+    }
+    if (mo < 1 || mo > 12 || d < 1 || d > 31 || h > 23 || mi > 59) return null;
+    return new Date(y, mo - 1, d, h, mi, se);
+  }
+
+  const FIELDS = ['datetime', 'date', 'time', 'receipt', 'product', 'qty', 'price', 'total', 'cost', 'category'];
+  const EXACT = {
+    datetime: /^(data ora|datetime|data e ora|timestamp|data ora scontrino|data scontrino ora|data documento ora)$/,
+    date: /^(data|giorno|date|data vendita|data scontrino|data documento)$/,
+    time: /^(ora|orario|time|ora vendita|ora scontrino)$/,
+    receipt: /^(scontrino|n scontrino|numero scontrino|num scontrino|nr scontrino|documento|n documento|numero documento|id scontrino|ticket|n ticket|id vendita|numero|n|id|conto|comanda|n conto)$/,
+    product: /^(prodotto|articolo|descrizione|descrizione articolo|descrizione prodotto|desc|nome|nome prodotto|voce|product|item)$/,
+    qty: /^(quantita|qta|q ta|qt|pezzi|n pezzi|quantity|qty|q)$/,
+    price: /^(prezzo|prezzo unitario|prz|prezzo vendita|prezzo unit|unit price|price|listino|prezzo listino)$/,
+    total: /^(importo|totale|totale riga|importo riga|incasso|valore|netto|totale netto|lordo|totale lordo|amount|total|importo totale)$/,
+    cost: /^(costo|costo unitario|costo acquisto|costo unit|prezzo acquisto|cost|costo medio)$/,
+    category: /^(categoria|reparto|famiglia|gruppo|category|categoria merceologica)$/
+  };
+  const LOOSE = {
+    datetime: /data.*ora|ora.*data/, date: /\bdata\b|giorno/, time: /\bora\b|orario/,
+    receipt: /scontrin|document|ticket|conto/, product: /prodott|articol|descriz/,
+    qty: /quant|qta|pezzi/, price: /prezz/, total: /import|total|incass/,
+    cost: /cost/, category: /categ|repart|famigl/
+  };
+
+  // headers -> { campo: indiceColonna | -1 }
+  function detectColumns(headers) {
+    const map = {}, used = new Set();
+    const n = headers.map(norm);
+    FIELDS.forEach(f => { map[f] = -1; });
+    [EXACT, LOOSE].forEach(table => {
+      FIELDS.forEach(f => {
+        if (map[f] >= 0) return;
+        const i = n.findIndex((h, idx) => !used.has(idx) && h && table[f].test(h));
+        if (i >= 0) { map[f] = i; used.add(i); }
+      });
+    });
+    if (map.datetime >= 0 && map.date >= 0 && map.time < 0) { /* data+ora insieme e data: tieni datetime */ map.date = -1; }
+    return map;
+  }
+
+  function decodeBuffer(buf) {
+    let text;
+    try { text = new TextDecoder('utf-8', { fatal: true }).decode(buf); }
+    catch (e) { text = new TextDecoder('windows-1252').decode(buf); }
+    return text.replace(/^﻿/, '');
+  }
+
+  // testo -> { headers, rows, delimiter, mapping }
+  function parseTable(text) {
+    text = text.replace(/^﻿/, '');
+    let delim = null;
+    const sep = text.match(/^sep=(.)\r?\n/i);
+    if (sep) { delim = sep[1]; text = text.slice(sep[0].length); }
+    if (!delim) delim = detectDelimiter(text);
+    const all = parseCSV(text, delim);
+    if (!all.length) return { headers: [], rows: [], delimiter: delim, mapping: detectColumns([]) };
+    let best = 0, bestScore = -1;
+    for (let i = 0; i < Math.min(10, all.length); i++) {
+      const m = detectColumns(all[i]);
+      const score = FIELDS.filter(f => m[f] >= 0).length;
+      if (score > bestScore) { bestScore = score; best = i; }
+    }
+    const headers = all[best].map(h => String(h).trim());
+    return { headers, rows: all.slice(best + 1), delimiter: delim, mapping: detectColumns(headers) };
+  }
+
+  function missingFields(mapping) {
+    const miss = [];
+    if (mapping.datetime < 0 && mapping.date < 0) miss.push('data (e ora)');
+    if (mapping.product < 0) miss.push('prodotto');
+    if (mapping.total < 0 && mapping.price < 0) miss.push('importo o prezzo');
+    return miss;
+  }
+
+  // righe + mapping -> righe vendita normalizzate
+  function buildLines(rows, mapping) {
+    const lines = [];
+    const skipped = { noDate: 0, noAmount: 0 };
+    const cell = (r, f) => (mapping[f] >= 0 ? r[mapping[f]] : undefined);
+    for (const r of rows) {
+      const ts = mapping.datetime >= 0
+        ? parseDateTime(cell(r, 'datetime'), mapping.time >= 0 ? cell(r, 'time') : '')
+        : parseDateTime(cell(r, 'date'), cell(r, 'time'));
+      if (!ts) { skipped.noDate++; continue; }
+      let qty = parseNumber(cell(r, 'qty'));
+      if (!isFinite(qty) || qty === 0) qty = 1;
+      let revenue = parseNumber(cell(r, 'total'));
+      if (!isFinite(revenue)) {
+        const p = parseNumber(cell(r, 'price'));
+        revenue = isFinite(p) ? p * qty : NaN;
+      }
+      if (!isFinite(revenue)) { skipped.noAmount++; continue; }
+      const c = parseNumber(cell(r, 'cost'));
+      const rid = mapping.receipt >= 0 ? String(cell(r, 'receipt') || '').trim() : '';
+      lines.push({
+        ts,
+        receipt: rid ? dayKey(ts) + '|' + rid : 'auto|' + Math.floor(ts.getTime() / 60000),
+        product: String(cell(r, 'product') || '').trim() || '(senza nome)',
+        category: String(cell(r, 'category') || '').trim(),
+        qty, revenue,
+        cost: isFinite(c) ? c * Math.abs(qty) * (qty < 0 ? -1 : 1) : null
+      });
+    }
+    return { lines, skipped };
+  }
+
+  return { FIELDS, norm, dayKey, parseCSV, parseTable, parseNumber, parseDateTime,
+    detectColumns, decodeBuffer, missingFields, buildLines };
+});
+
+/* Analisi vendite: prodotti, fasce orarie, giorni, confronti e suggerimenti. */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.Analytics = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  const DOW_NAMES = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
+  const DOW_SHORT = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+  const DOW_ORDER = [1, 2, 3, 4, 5, 6, 0]; // settimana da lunedì
+  const DOW_ON = ['la domenica', 'il lunedì', 'il martedì', 'il mercoledì', 'il giovedì', 'il venerdì', 'il sabato'];
+
+  const pad = n => (n < 10 ? '0' + n : '' + n);
+  const dayKey = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  const startOfDay = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  const fmtDate = d => pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+  const fmtShort = d => pad(d.getDate()) + '/' + pad(d.getMonth() + 1);
+
+  function group(n, dec) {
+    const neg = n < 0;
+    const [i, f] = Math.abs(n).toFixed(dec).split('.');
+    const s = i.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (f ? ',' + f : '');
+    return (neg ? '-' : '') + s;
+  }
+  const fmtEur = (n, dec) => '€' + group(n, dec == null ? (Math.abs(n) >= 1000 ? 0 : 2) : dec);
+  const fmtInt = n => group(Math.round(n), 0);
+  const fmtPct = (n, dec) => group(n * 100, dec == null ? 0 : dec) + '%';
+  const sum = (a, f) => a.reduce((s, x) => s + (f ? f(x) : x), 0);
+  const hh = h => h + ':00';
+
+  function buildReceipts(lines) {
+    const map = new Map();
+    for (const l of lines) {
+      let r = map.get(l.receipt);
+      if (!r) { r = { key: l.receipt, ts: l.ts, revenue: 0, items: 0, products: new Set() }; map.set(l.receipt, r); }
+      if (l.ts < r.ts) r.ts = l.ts;
+      r.revenue += l.revenue; r.items += l.qty; r.products.add(l.product);
+    }
+    return [...map.values()];
+  }
+
+  function compute(lines) {
+    const receipts = buildReceipts(lines).filter(r => r.revenue > 0);
+    const totalRevenue = sum(lines, l => l.revenue);
+    const ticketRevenue = sum(receipts, r => r.revenue);
+
+    // --- giorni, ore, giorni della settimana
+    const days = new Map();
+    const byHour = Array.from({ length: 24 }, () => ({ revenue: 0, receipts: 0, days: new Set() }));
+    const dow = Array.from({ length: 7 }, () => ({ revenue: 0, receipts: 0, days: new Set() }));
+    const dowHour = Array.from({ length: 7 }, () => new Array(24).fill(0));
+    for (const r of receipts) {
+      const k = dayKey(r.ts), h = r.ts.getHours(), w = r.ts.getDay();
+      let d = days.get(k);
+      if (!d) { d = { key: k, date: startOfDay(r.ts), dow: w, revenue: 0, receipts: 0, items: 0, firstHour: 24, lastHour: 0 }; days.set(k, d); }
+      d.revenue += r.revenue; d.receipts++; d.items += r.items;
+      d.firstHour = Math.min(d.firstHour, h); d.lastHour = Math.max(d.lastHour, h);
+      byHour[h].revenue += r.revenue; byHour[h].receipts++; byHour[h].days.add(k);
+      dow[w].revenue += r.revenue; dow[w].receipts++; dow[w].days.add(k);
+      dowHour[w][h] += r.revenue;
+    }
+    const dayList = [...days.values()].sort((a, b) => a.date - b.date);
+    return { lines, receipts, totalRevenue, ticketRevenue, days, dayList, byHour, dow, dowHour };
+  }
+
+  // L'ultimo giorno è "parziale" se le vendite finiscono molto prima del solito.
+  function lastDayIsPartial(c) {
+    const n = c.dayList.length;
+    if (n < 8) return false;
+    const last = c.dayList[n - 1];
+    const prev = c.dayList.slice(Math.max(0, n - 15), n - 1);
+    const medianLast = prev.map(d => d.lastHour).sort((a, b) => a - b)[Math.floor(prev.length / 2)];
+    return last.lastHour < medianLast - 2;
+  }
+
+  function sumRange(dayList, from, to) {
+    let revenue = 0, receipts = 0;
+    for (const d of dayList) if (d.date >= from && d.date <= to) { revenue += d.revenue; receipts += d.receipts; }
+    return { revenue, receipts, avgTicket: receipts ? revenue / receipts : 0 };
+  }
+
+  function compareWindows(dayList, len) {
+    const first = dayList[0].date, end = dayList[dayList.length - 1].date;
+    const span = Math.round((end - first) / 864e5) + 1;
+    if (span < len * 2) return null;
+    const cur = sumRange(dayList, addDays(end, -(len - 1)), end);
+    const prev = sumRange(dayList, addDays(end, -(2 * len - 1)), addDays(end, -len));
+    const d = (a, b) => (b ? a / b - 1 : null);
+    return {
+      len, cur, prev,
+      curFrom: addDays(end, -(len - 1)), curTo: end,
+      prevFrom: addDays(end, -(2 * len - 1)), prevTo: addDays(end, -len),
+      delta: { revenue: d(cur.revenue, prev.revenue), receipts: d(cur.receipts, prev.receipts), avgTicket: d(cur.avgTicket, prev.avgTicket) }
+    };
+  }
+
+  function analyze(allLines, opts) {
+    opts = opts || {};
+    if (!allLines.length) return null;
+    let c = compute(allLines);
+    if (!c.receipts.length) return null;
+    let droppedPartial = null;
+    if (opts.dropPartial !== false && lastDayIsPartial(c)) {
+      droppedPartial = c.dayList[c.dayList.length - 1].date;
+      const cut = addDays(droppedPartial, 0);
+      c = compute(allLines.filter(l => startOfDay(l.ts) < cut));
+    }
+    const { receipts, dayList, byHour, dow, dowHour } = c;
+    const activeDays = dayList.length;
+    const first = dayList[0].date, last = dayList[activeDays - 1].date;
+
+    const totals = {
+      revenue: c.totalRevenue,
+      receipts: receipts.length,
+      avgTicket: c.ticketRevenue / receipts.length,
+      itemsPerReceipt: sum(receipts, r => r.items) / receipts.length,
+      activeDays, avgDaily: c.totalRevenue / activeDays, first, last
+    };
+
+    // --- ore
+    const minDays = Math.max(2, Math.ceil(activeDays * 0.2));
+    const openHours = [];
+    byHour.forEach((h, i) => { if (h.days.size >= minDays) openHours.push(i); });
+    if (!openHours.length) byHour.forEach((h, i) => { if (h.receipts) openHours.push(i); });
+    const hFrom = Math.min(...openHours), hTo = Math.max(...openHours);
+    const hours = byHour.map((h, i) => ({
+      hour: i, revenue: h.revenue, receipts: h.receipts,
+      avgRevenue: h.revenue / activeDays, avgReceipts: h.receipts / activeDays,
+      share: c.ticketRevenue ? h.revenue / c.ticketRevenue : 0,
+      inRange: i >= hFrom && i <= hTo
+    }));
+    const rangeHours = hours.filter(h => h.inRange);
+    const avgHourRevenue = sum(rangeHours, h => h.avgRevenue) / rangeHours.length;
+    const slowSlots = [];
+    if (rangeHours.length >= 6 && activeDays >= 5) {
+      let cur = null;
+      for (const h of rangeHours) {
+        if (h.avgRevenue < 0.6 * avgHourRevenue) {
+          if (cur && cur.to === h.hour) { cur.to = h.hour + 1; cur.hours.push(h); }
+          else { cur = { from: h.hour, to: h.hour + 1, hours: [h] }; slowSlots.push(cur); }
+        } else cur = null;
+      }
+      slowSlots.forEach(s => {
+        s.avgRevenue = sum(s.hours, h => h.avgRevenue) / s.hours.length;
+        s.below = 1 - s.avgRevenue / avgHourRevenue;
+        s.edge = s.to === hTo + 1 ? 'end' : (s.from === hFrom ? 'start' : null);
+      });
+      slowSlots.sort((a, b) => b.below * b.hours.length - a.below * a.hours.length);
+    }
+    let bestWindow = null;
+    for (let h = hFrom; h < hTo; h++) {
+      const share = hours[h].share + hours[h + 1].share;
+      if (!bestWindow || share > bestWindow.share) bestWindow = { from: h, to: h + 2, share };
+    }
+    const topHours = rangeHours.slice().sort((a, b) => b.avgRevenue - a.avgRevenue).slice(0, 3);
+
+    // --- giorni della settimana
+    const dowStats = DOW_ORDER.map(w => {
+      const n = dow[w].days.size;
+      return { dow: w, name: DOW_NAMES[w], short: DOW_SHORT[w], days: n,
+        avgRevenue: n ? dow[w].revenue / n : 0, avgReceipts: n ? dow[w].receipts / n : 0,
+        avgTicket: dow[w].receipts ? dow[w].revenue / dow[w].receipts : 0 };
+    });
+    const openDow = dowStats.filter(d => d.days >= 2 || (activeDays < 14 && d.days >= 1));
+    const meanDow = openDow.length ? sum(openDow, d => d.avgRevenue) / openDow.length : 0;
+    const worstDow = openDow.length >= 3 ? openDow.reduce((a, b) => (b.avgRevenue < a.avgRevenue ? b : a)) : null;
+    const bestDow = openDow.length >= 3 ? openDow.reduce((a, b) => (b.avgRevenue > a.avgRevenue ? b : a)) : null;
+    const worstDays = activeDays >= 10
+      ? dayList.slice().sort((a, b) => a.revenue - b.revenue).slice(0, 5).map(d => {
+        const avg = dowStats.find(s => s.dow === d.dow).avgRevenue;
+        return Object.assign({ vsDow: avg ? d.revenue / avg - 1 : 0 }, d);
+      }) : [];
+    const bestDays = activeDays >= 10 ? dayList.slice().sort((a, b) => b.revenue - a.revenue).slice(0, 5) : [];
+
+    const heat = DOW_ORDER.map(w => ({
+      dow: w, name: DOW_NAMES[w], short: DOW_SHORT[w],
+      cells: rangeHours.map(h => dow[w].days.size ? dowHour[w][h.hour] / dow[w].days.size : 0)
+    }));
+
+    // --- prodotti
+    const pm = new Map();
+    for (const l of c.lines) {
+      let p = pm.get(l.product);
+      if (!p) { p = { name: l.product, category: l.category, qty: 0, revenue: 0, costLines: 0, knownRevenue: 0, cost: 0, hourRevenue: new Array(24).fill(0) }; pm.set(l.product, p); }
+      p.qty += l.qty; p.revenue += l.revenue;
+      p.hourRevenue[l.ts.getHours()] += l.revenue;
+      if (l.cost != null) { p.costLines++; p.cost += l.cost; p.knownRevenue += l.revenue; }
+    }
+    const products = [...pm.values()].map(p => {
+      const hasCost = p.costLines > 0;
+      return Object.assign(p, {
+        share: c.totalRevenue ? p.revenue / c.totalRevenue : 0,
+        hasCost,
+        margin: hasCost ? p.knownRevenue - p.cost : null,
+        marginPct: hasCost && p.knownRevenue > 0 ? (p.knownRevenue - p.cost) / p.knownRevenue : null
+      });
+    }).sort((a, b) => b.revenue - a.revenue);
+    const costLines = c.lines.filter(l => l.cost != null).length;
+    const costCoverage = costLines / c.lines.length;
+    const withCost = products.filter(p => p.hasCost);
+    const knownRev = sum(withCost, p => p.knownRevenue);
+    const avgMarginPct = knownRev > 0 ? sum(withCost, p => p.margin) / knownRev : null;
+    let lowProfit = [], lowProfitMode = 'sales';
+    if (costCoverage >= 0.5 && avgMarginPct != null) {
+      lowProfitMode = 'margin';
+      lowProfit = withCost.filter(p => p.marginPct != null && p.marginPct < avgMarginPct * 0.75)
+        .sort((a, b) => a.marginPct - b.marginPct).slice(0, 8);
+    } else {
+      lowProfit = products.filter(p => p.share < 0.01).slice(-8).reverse();
+    }
+
+    // --- acquisti insieme
+    const prodReceipts = new Map(), pairs = new Map();
+    for (const r of receipts) {
+      const arr = [...r.products];
+      arr.forEach(p => prodReceipts.set(p, (prodReceipts.get(p) || 0) + 1));
+      if (arr.length >= 2 && arr.length <= 8) {
+        arr.sort();
+        for (let i = 0; i < arr.length; i++) for (let j = i + 1; j < arr.length; j++) {
+          const k = arr[i] + '\u0000' + arr[j];
+          pairs.set(k, (pairs.get(k) || 0) + 1);
+        }
+      }
+    }
+    let topPair = null;
+    for (const [k, n] of pairs) {
+      const [a, b] = k.split('\u0000');
+      const conf = n / Math.min(prodReceipts.get(a), prodReceipts.get(b));
+      if (n >= Math.max(5, receipts.length * 0.02) && conf >= 0.25 && (!topPair || n > topPair.count)) topPair = { a, b, count: n, conf };
+    }
+
+    // --- confronti
+    const week = compareWindows(dayList, 7);
+    const month = compareWindows(dayList, 30);
+    const span = Math.round((last - first) / 864e5) + 1;
+    const weeks = [];
+    for (let i = Math.min(8, Math.floor(span / 7)) - 1; i >= 0; i--) {
+      const to = addDays(last, -7 * i), from = addDays(to, -6);
+      weeks.push(Object.assign({ from, to }, sumRange(dayList, from, to)));
+    }
+    const mm = new Map();
+    for (const d of dayList) {
+      const k = d.date.getFullYear() + '-' + pad(d.date.getMonth() + 1);
+      let m = mm.get(k);
+      if (!m) { m = { key: k, year: d.date.getFullYear(), month: d.date.getMonth(), revenue: 0, receipts: 0, days: 0 }; mm.set(k, m); }
+      m.revenue += d.revenue; m.receipts += d.receipts; m.days++;
+    }
+    const months = [...mm.values()].map(m => {
+      const dim = new Date(m.year, m.month + 1, 0).getDate();
+      return Object.assign(m, { avgTicket: m.receipts ? m.revenue / m.receipts : 0, avgDaily: m.revenue / m.days, partial: m.days < dim * 0.9 });
+    }).slice(-6);
+
+    const a = { totals, hours, hFrom, hTo, avgHourRevenue, slowSlots, bestWindow, topHours,
+      dowStats, meanDow, worstDow, bestDow, worstDays, bestDays, heat, products, costCoverage, avgMarginPct,
+      lowProfit, lowProfitMode, topPair, week, month, weeks, months, dayList, span, droppedPartial,
+      multiReceipts: receipts.filter(r => r.products.size > 1).length };
+    a.suggestions = suggest(a);
+    return a;
+  }
+
+  function slotIdea(from) {
+    if (from < 11) return { what: 'colazione', idea: 'una formula colazione a prezzo fisso (caffè + brioche)' };
+    if (from < 15) return { what: 'pausa pranzo', idea: 'una formula pranzo veloce (panino o piatto + bibita) a prezzo fisso' };
+    if (from < 19) return { what: 'aperitivo', idea: 'una promo aperitivo anticipato o una merenda (es. spritz + stuzzichino a prezzo fisso)' };
+    if (from < 22) return { what: 'happy hour', idea: 'un happy hour (2x1 o prezzo speciale su drink e piatto del giorno)' };
+    return { what: 'dopocena', idea: 'una promo dopocena (amaro/drink a prezzo speciale) oppure valuta di chiudere prima' };
+  }
+
+  function suggest(a) {
+    const out = [];
+    const T = a.totals;
+    const push = (level, title, text) => out.push({ level, title, text });
+
+    // fasce lente
+    a.slowSlots.slice(0, 2).forEach(s => {
+      const slot = 'dalle ' + s.from + ' alle ' + s.to;
+      const idea = slotIdea(s.from);
+      let text = 'In media incassi ' + fmtEur(s.avgRevenue, 0) + ' l\'ora, il ' + fmtPct(s.below) + ' in meno della tua media oraria (' + fmtEur(a.avgHourRevenue, 0) + '). ';
+      if (s.edge === 'end' && s.to - s.from <= 2 && s.from >= 21) text += 'Prova ' + idea.idea + ' oppure valuta di anticipare la chiusura.';
+      else text += 'Prova ' + idea.idea + '.';
+      push('tip', slot.charAt(0).toUpperCase() + slot.slice(1) + ' vendi poco: prova una promo ' + idea.what, text);
+    });
+
+    // fascia migliore
+    if (a.bestWindow && a.bestWindow.share >= 0.2) {
+      push('good', 'Dalle ' + a.bestWindow.from + ' alle ' + a.bestWindow.to + ' fai il ' + fmtPct(a.bestWindow.share) + ' degli incassi',
+        'È la tua finestra d\'oro: tieni il personale al completo, prepara in anticipo i prodotti più richiesti ed evita di programmare consegne o pulizie in quelle ore.');
+    }
+
+    // giorno debole / forte
+    if (a.worstDow && a.meanDow && a.worstDow.avgRevenue < a.meanDow * 0.8) {
+      const w = a.worstDow, gap = 1 - w.avgRevenue / a.meanDow;
+      push('tip', w.name + ' è il giorno più debole',
+        'Incassi in media ' + fmtEur(w.avgRevenue, 0) + ', il ' + fmtPct(gap) + ' sotto la media dei giorni (' + fmtEur(a.meanDow, 0) +
+        '). Prova ' + (w.dow === 5 || w.dow === 6 ? 'un evento o musica dal vivo' : 'una serata a tema, un menu fisso o uno sconto per chi torna (es. coupon sul prossimo acquisto)') + ' ' + DOW_ON[w.dow] + '.');
+    }
+    if (a.bestDow && a.worstDow && a.bestDow.dow !== a.worstDow.dow && a.bestDow.avgRevenue > a.meanDow * 1.25) {
+      push('good', a.bestDow.name + ' è il tuo giorno migliore',
+        'Incassi in media ' + fmtEur(a.bestDow.avgRevenue, 0) + ' (+' + fmtPct(a.bestDow.avgRevenue / a.meanDow - 1) + ' sulla media). Assicurati di avere scorte e personale adeguati.');
+    }
+
+    // trend
+    if (a.week && a.week.delta.revenue != null) {
+      const d = a.week.delta;
+      if (d.revenue <= -0.1) {
+        const why = d.receipts < d.avgTicket ? 'Vengono meno clienti (' + fmtPct(d.receipts, 0).replace('-', '−') + ' scontrini)'
+          : 'Lo scontrino medio è sceso (' + fmtPct(d.avgTicket, 0).replace('-', '−') + ')';
+        push('warn', 'Ultimi 7 giorni in calo: ' + fmtPct(d.revenue).replace('-', '−') + ' sui 7 precedenti', why + '. Guarda il confronto qui sotto per capire quando è successo.');
+      } else if (d.revenue >= 0.1) {
+        push('good', 'Ultimi 7 giorni in crescita: +' + fmtPct(d.revenue), 'Incassi ' + fmtEur(a.week.cur.revenue, 0) + ' contro ' + fmtEur(a.week.prev.revenue, 0) + ' dei 7 giorni precedenti. Capisci cosa ha funzionato e ripetilo.');
+      }
+    }
+
+    // margini
+    if (a.lowProfitMode === 'margin' && a.lowProfit.length) {
+      const big = a.lowProfit.filter(p => p.share >= 0.015).sort((x, y) => (a.avgMarginPct - y.marginPct) * y.revenue - (a.avgMarginPct - x.marginPct) * x.revenue).slice(0, 3);
+      const pick = big.length ? big : a.lowProfit.slice(0, 3);
+      push('warn', 'Margini bassi su ' + pick.map(p => p.name).join(', '),
+        pick.map(p => p.name + ' (margine ' + fmtPct(p.marginPct) + ')').join(', ') + ' contro una media del ' + fmtPct(a.avgMarginPct) +
+        '. Valuta di ritoccare il prezzo di qualche decimo, ridurre la porzione o trattare meglio il fornitore.');
+    }
+
+    // pochi venduti
+    const slow = a.products.filter(p => p.share < 0.01);
+    if (a.products.length >= 8 && a.span >= 30 && slow.length >= 2) {
+      const tail = slow.slice(-3).reverse();
+      push('tip', 'Prodotti che girano pochissimo',
+        tail.map(p => p.name + ' (' + fmtInt(p.qty) + ' pz)').join(', ') + ' pesano meno dell\'1% degli incassi. Valuta di toglierli dal menu o proporli come "consigliato del giorno" per smaltire le scorte.');
+    }
+
+    // dipendenza da pochi prodotti
+    if (a.products.length >= 6) {
+      const top3 = sum(a.products.slice(0, 3), p => p.share);
+      if (top3 > 0.6) push('tip', 'Incassi concentrati su 3 prodotti (' + fmtPct(top3) + ')',
+        a.products.slice(0, 3).map(p => p.name).join(', ') + '. Se uno manca o cambia il prezzo del fornitore l\'incasso ne risente: lavora su un secondo prodotto "traino".');
+    }
+
+    // abbinamenti
+    if (a.topPair) {
+      push('tip', a.topPair.a + ' + ' + a.topPair.b + ': proponili in combo',
+        'Finiscono nello stesso scontrino ' + fmtInt(a.topPair.count) + ' volte. Una formula a prezzo unico alza lo scontrino medio e semplifica il servizio.');
+    } else if (T.itemsPerReceipt < 1.4 && a.products.length >= 4) {
+      push('tip', 'Pochi prodotti per scontrino (' + group(T.itemsPerReceipt, 1) + ')',
+        'Lo scontrino medio è ' + fmtEur(T.avgTicket) + '. Fai suggerire sempre un abbinamento alla cassa (es. "con un dolce?") per aumentarlo.');
+    }
+
+    if (!out.length) push('good', 'Nessun problema evidente', 'Con i dati caricati non emergono fasce o prodotti critici. Carica più giorni di vendite per analisi più precise.');
+    const order = { warn: 0, tip: 1, good: 2 };
+    return out.sort((x, y) => order[x.level] - order[y.level]);
+  }
+
+  return { DOW_NAMES, DOW_SHORT, analyze, fmtEur, fmtInt, fmtPct, fmtDate, fmtShort, dayKey, startOfDay, addDays, hh, group };
+});
+
+/* Dati dimostrativi realistici di un bar (deterministici) + esportazione CSV all'italiana. */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.Demo = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  const pad = n => (n < 10 ? '0' + n : '' + n);
+
+  // pesi per fascia: [mattina 7-11, pranzo 12-14, pomeriggio 15-17, sera 18-23]
+  const PRODUCTS = [
+    ['Espresso', 'Caffetteria', 1.2, 0.25, [10, 5, 3, 2]],
+    ['Cappuccino', 'Caffetteria', 1.6, 0.35, [8, 2, 2, 0.3]],
+    ['Cornetto', 'Pasticceria', 1.3, 0.45, [7, 1, 1, 0.1]],
+    ['Spritz', 'Aperitivi', 5, 1.4, [0, 0.3, 1.5, 9]],
+    ['Birra media', 'Birre', 5, 1.2, [0, 1, 1, 6]],
+    ['Calice di vino', 'Vini', 4, 1, [0, 0.5, 0.5, 4]],
+    ['Cocktail', 'Aperitivi', 8, 2, [0, 0, 0.3, 4]],
+    ['Panino', 'Cucina', 5.5, 2.6, [0.3, 7, 1, 1]],
+    ['Toast', 'Cucina', 4.5, 1.9, [0.5, 4, 1.5, 0.5]],
+    ['Insalatona', 'Cucina', 8, 4.7, [0, 1.2, 0.2, 0.1]],
+    ['Tagliere misto', 'Cucina', 12, 6.8, [0, 0.2, 0.2, 2.5]],
+    ['Acqua', 'Bibite', 1.5, 0.3, [1, 3, 1.5, 1]],
+    ['Coca Cola', 'Bibite', 3, 1.1, [0.3, 3, 1.5, 1.5]],
+    ['Tè freddo', 'Bibite', 3, 0.9, [0.1, 1, 1, 0.3]],
+    ['Succo di frutta', 'Bibite', 3.2, 1.5, [0.5, 0.3, 0.2, 0.05]],
+    ['Amaro', 'Distillati', 3.5, 0.8, [0, 0, 0, 1.5]]
+  ];
+  const HOUR_BASE = { 7: 15, 8: 30, 9: 22, 10: 14, 11: 10, 12: 24, 13: 26, 14: 12, 15: 5, 16: 4, 17: 6, 18: 20, 19: 34, 20: 30, 21: 18, 22: 8 };
+  const DOW_F = { 0: 1.0, 1: 0.9, 2: 0.6, 3: 0.9, 4: 1.0, 5: 1.3, 6: 1.45 };
+
+  function bucket(h) { return h < 12 ? 0 : h < 15 ? 1 : h < 18 ? 2 : 3; }
+
+  // -> righe { ts, receipt, product, category, qty, price, total, cost }
+  function generate(days, endDate, seed) {
+    const rnd = rng(seed || 42);
+    const rows = [];
+    let rid = 0;
+    const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+    for (let k = days - 1; k >= 0; k--) {
+      const day = new Date(end.getFullYear(), end.getMonth(), end.getDate() - k);
+      const f = DOW_F[day.getDay()] * (k < 7 ? 0.88 : 1);
+      rid = 0;
+      for (let h = 7; h <= 22; h++) {
+        const n = Math.round(HOUR_BASE[h] * f * (0.75 + 0.5 * rnd()));
+        for (let i = 0; i < n; i++) {
+          rid++;
+          const ts = new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, Math.floor(rnd() * 60), Math.floor(rnd() * 60));
+          const b = bucket(h);
+          const items = [];
+          const nItems = rnd() < 0.55 ? 1 : rnd() < 0.7 ? 2 : rnd() < 0.7 ? 3 : 4;
+          const pick = () => {
+            const tot = PRODUCTS.reduce((s, p) => s + p[4][b], 0);
+            let x = rnd() * tot;
+            for (const p of PRODUCTS) { x -= p[4][b]; if (x <= 0) return p; }
+            return PRODUCTS[0];
+          };
+          for (let j = 0; j < nItems; j++) {
+            const p = pick();
+            if (!items.includes(p)) items.push(p);
+            if (p[0] === 'Cappuccino' && rnd() < 0.6) { const c = PRODUCTS[2]; if (!items.includes(c)) items.push(c); }
+          }
+          for (const p of items) {
+            const qty = rnd() < 0.12 ? 2 : 1;
+            rows.push({ ts, receipt: day.getFullYear() * 1e4 + (day.getMonth() + 1) * 100 + day.getDate() + '-' + rid, product: p[0], category: p[1], qty, price: p[2], total: p[2] * qty, cost: p[3] });
+          }
+        }
+      }
+    }
+    return rows;
+  }
+
+  const num = n => String(Math.round(n * 100) / 100).replace('.', ',');
+  function toCSV(rows) {
+    const out = ['Data;Ora;Scontrino;Prodotto;Categoria;Quantità;Prezzo;Importo;Costo'];
+    for (const r of rows) {
+      const t = r.ts;
+      out.push([pad(t.getDate()) + '/' + pad(t.getMonth() + 1) + '/' + t.getFullYear(), pad(t.getHours()) + ':' + pad(t.getMinutes()),
+        r.receipt, r.product, r.category, r.qty, num(r.price), num(r.total), num(r.cost)].join(';'));
+    }
+    return out.join('\r\n');
+  }
+
+  return { generate, toCSV };
+});
+
+(function () {
+  'use strict';
+  const A = Analytics, P = Parser;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const LABELS = { datetime: 'Data e ora (insieme)', date: 'Data', time: 'Ora', receipt: 'N. scontrino', product: 'Prodotto', qty: 'Quantità', price: 'Prezzo unitario', total: 'Importo riga', cost: 'Costo unitario', category: 'Categoria' };
+
+  const state = { datasets: [], lines: [], period: 7, topMode: 'revenue', full: null };
+
+  // ---------- caricamento
+  async function loadFiles(files) {
+    for (const f of files) {
+      try {
+        const t = P.parseTable(P.decodeBuffer(await f.arrayBuffer()));
+        state.datasets.push({ name: f.name, headers: t.headers, rows: t.rows, mapping: t.mapping });
+      } catch (e) { showMsg('Non riesco a leggere "' + f.name + '".'); }
+    }
+    rebuild();
+  }
+  function loadDemo() {
+    const end = new Date(); end.setDate(end.getDate() - 1);
+    const rows = Demo.generate(120, end, 42);
+    const t = P.parseTable(Demo.toCSV(rows));
+    state.datasets = [{ name: 'dati di esempio', headers: t.headers, rows: t.rows, mapping: t.mapping, demo: true }];
+    rebuild();
+  }
+  function showMsg(html) { const m = $('msg'); m.hidden = !html; m.innerHTML = html || ''; }
+
+  function rebuild() {
+    state.lines = []; const problems = []; let skipped = 0;
+    for (const ds of state.datasets) {
+      const miss = P.missingFields(ds.mapping);
+      if (miss.length) { problems.push('<b>' + esc(ds.name) + '</b>: non trovo la colonna ' + miss.join(', ') + '. Sceglila qui sotto.'); continue; }
+      const b = P.buildLines(ds.rows, ds.mapping);
+      skipped += b.skipped.noDate + b.skipped.noAmount;
+      for (const l of b.lines) state.lines.push(l);
+    }
+    renderMapping(problems.length > 0);
+    let msg = problems.join('<br>');
+    if (skipped) msg += (msg ? '<br>' : '') + skipped + ' righe ignorate perché senza data o importo valido.';
+    showMsg(msg);
+    state.full = state.lines.length ? A.analyze(state.lines) : null;
+    if (state.datasets.length && !state.full && !problems.length) showMsg('Nessuna vendita valida trovata nel file. Controlla le colonne riconosciute.');
+    const has = !!state.full;
+    $('welcome').hidden = state.datasets.length > 0;
+    $('dash').hidden = !has; $('actions').hidden = !state.datasets.length;
+    if (has) render();
+  }
+
+  function renderMapping(open) {
+    const el = $('mapping');
+    el.hidden = !state.datasets.length;
+    el.open = open;
+    el.innerHTML = '<summary>Colonne riconosciute (correggi se serve)</summary>' + state.datasets.map((ds, di) =>
+      '<div class="mf">' + esc(ds.name) + ' · ' + ds.rows.length + ' righe</div><div class="mgrid">' +
+      P.FIELDS.map(f => '<label>' + LABELS[f] + '<select data-d="' + di + '" data-f="' + f + '"><option value="-1">— nessuna —</option>' +
+        ds.headers.map((h, i) => '<option value="' + i + '"' + (ds.mapping[f] === i ? ' selected' : '') + '>' + esc(h || 'colonna ' + (i + 1)) + '</option>').join('') + '</select></label>').join('') + '</div>').join('');
+  }
+
+  // ---------- periodo
+  function periodLines(days, shift) {
+    const last = state.full.totals.last;
+    const to = A.addDays(last, 1 - (shift || 0) * days);          // esclusivo
+    const from = days ? A.addDays(to, -days) : new Date(0);
+    return state.lines.filter(l => l.ts >= from && l.ts < to);
+  }
+  const delta = (cur, prev) => (prev ? cur / prev - 1 : null);
+  function pill(d, suffix) {
+    if (d == null || !isFinite(d)) return '';
+    const cls = Math.abs(d) < 0.005 ? 'flat' : d > 0 ? '' : 'neg';
+    return '<span class="pill ' + cls + '">' + (d > 0.005 ? '▲ +' : d < -0.005 ? '▼ −' : '= ') + A.fmtPct(Math.abs(d)) + '</span>' + (suffix ? ' <span>' + suffix + '</span>' : '');
+  }
+  const PNAME = { 1: 'ieri', 7: 'settimana scorsa', 30: 'mese precedente', 365: 'anno precedente' };
+
+  function render() {
+    const F = state.full, T = F.totals, p = state.period;
+    const cur = A.analyze(periodLines(p), { dropPartial: false });
+    const prev = p ? A.analyze(periodLines(p, 1), { dropPartial: false }) : null;
+    $('range').textContent = (p ? 'Ultimi ' + (p === 1 ? 'giorno' : p + ' giorni') + ' · ' : 'Tutto il periodo · ') + 'dati dal ' + A.fmtDate(T.first) + ' al ' + A.fmtDate(T.last) +
+      (F.droppedPartial ? ' (giornata del ' + A.fmtDate(F.droppedPartial) + ' esclusa: incompleta)' : '');
+    const c = cur ? cur.totals : null;
+    if (!c) { $('kpis').innerHTML = '<div class="kpi main"><div class="l">Nessuna vendita nel periodo</div></div>'; }
+    else {
+      const pt = prev ? prev.totals : null, top = cur.products[0], bh = cur.hours.slice().sort((a, b) => b.revenue - a.revenue)[0];
+      const win = cur.bestWindow;
+      $('kpis').innerHTML =
+        '<div class="kpi main"><div class="l">Incassi' + (p === 1 ? ' di ' + A.fmtDate(c.last) : '') + '</div><div class="v">' + A.fmtEur(c.revenue, 0) + '</div><div class="s">' + (pt ? pill(delta(c.revenue, pt.revenue), 'vs ' + PNAME[p]) : c.receipts + ' scontrini') + '</div></div>' +
+        '<div class="kpi"><div class="l">Scontrino medio</div><div class="v">' + A.fmtEur(c.avgTicket) + '</div><div class="s">' + (pt ? pill(delta(c.avgTicket, pt.avgTicket), 'vs ' + PNAME[p]) : A.group(c.itemsPerReceipt, 1) + ' prodotti a scontrino') + '</div></div>' +
+        '<div class="kpi"><div class="l">Scontrini</div><div class="v">' + A.fmtInt(c.receipts) + '</div><div class="s">' + (pt ? pill(delta(c.receipts, pt.receipts), 'vs ' + PNAME[p]) : '≈ ' + A.fmtInt(c.receipts / c.activeDays) + ' al giorno') + '</div></div>' +
+        '<div class="kpi"><div class="l">Prodotto top</div><div class="v" style="font-size:1.4rem">' + esc(top.name) + '</div><div class="s">' + A.fmtEur(top.revenue, 0) + ' · ' + A.fmtInt(top.qty) + ' pezzi</div></div>' +
+        '<div class="kpi"><div class="l">Ora migliore</div><div class="v">' + (bh ? bh.hour + ':00 – ' + (bh.hour + 1) + ':00' : '–') + '</div><div class="s">' + (win && c.activeDays > 1 ? 'finestra d\'oro ' + win.from + ':00–' + win.to + ':00 (' + A.fmtPct(win.share) + ' incassi)' : bh ? A.fmtEur(bh.revenue, 0) + ' incassati' : '') + '</div></div>';
+    }
+    renderTop(cur);
+    renderStatic();
+  }
+
+  // ---------- grafici
+  function bars(items, o) {
+    o = o || {};
+    const bw = o.bw || 38, W = Math.max(items.length * bw + 8, 300), H = o.h || 190, top = 20, bot = 24;
+    const max = Math.max(1, ...items.map(i => i.v));
+    let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" role="img" aria-label="' + esc(o.aria || 'grafico') + '">';
+    s += '<line x1="0" x2="' + W + '" y1="' + (H - bot) + '" y2="' + (H - bot) + '" stroke="#d8cfb3"/>';
+    items.forEach((it, i) => {
+      const h = Math.max(it.v > 0 ? 2 : 0, it.v / max * (H - top - bot)), x = 4 + i * bw + bw * .14, w = bw * .72, y = H - bot - h;
+      s += '<rect class="bar ' + (it.cls || '') + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="3"><title>' + esc(it.tip || it.label) + '</title></rect>';
+      s += '<text class="mut" x="' + (x + w / 2) + '" y="' + (H - 8) + '" text-anchor="middle">' + esc(it.label) + '</text>';
+      if (o.values !== false) s += '<text x="' + (x + w / 2) + '" y="' + (y - 4) + '" text-anchor="middle">' + esc(it.top) + '</text>';
+    });
+    return s + '</svg>';
+  }
+  const short = n => (n >= 1000 ? A.group(n / 1000, 1) + 'k' : A.fmtInt(n));
+
+  function renderStatic() {
+    const F = state.full;
+    // suggerimenti
+    const TAG = { warn: 'Attenzione', tip: 'Da provare', good: 'Punto di forza' };
+    $('sugg').innerHTML = F.suggestions.map(s => '<div class="s-card ' + s.level + '"><span class="tag">' + TAG[s.level] + '</span><b>' + esc(s.title) + '</b><p>' + esc(s.text) + '</p></div>').join('');
+
+    // confronti
+    const cmp = (c, title) => {
+      if (!c) return '<article class="card"><h3>' + title + '</h3><p class="note">Servono almeno ' + 2 * (title.indexOf('7') > 0 ? 7 : 30) + ' giorni di dati per questo confronto.</p></article>';
+      const row = (l, a, b, d, f) => '<tr><td>' + l + '</td><td>' + f(a) + '</td><td>' + f(b) + '</td><td class="' + (d > 0.005 ? 'up' : d < -0.005 ? 'down' : '') + '">' + (d == null ? '–' : (d > 0 ? '▲ +' : d < 0 ? '▼ −' : '') + A.fmtPct(Math.abs(d))) + '</td></tr>';
+      return '<article class="card"><h3>' + title + '</h3><table><tr><th></th><th>' + A.fmtShort(c.curFrom) + '–' + A.fmtShort(c.curTo) + '</th><th>' + A.fmtShort(c.prevFrom) + '–' + A.fmtShort(c.prevTo) + '</th><th>Δ</th></tr>' +
+        row('Incasso', c.cur.revenue, c.prev.revenue, c.delta.revenue, v => A.fmtEur(v, 0)) +
+        row('Scontrini', c.cur.receipts, c.prev.receipts, c.delta.receipts, A.fmtInt) +
+        row('Scontrino medio', c.cur.avgTicket, c.prev.avgTicket, c.delta.avgTicket, v => A.fmtEur(v)) + '</table></article>';
+    };
+    const mt = F.months.length >= 2 ? '<article class="card"><h3>Mesi <small>(calendario)</small></h3><table><tr><th></th><th>Incasso</th><th>Scontrino medio</th><th>Media/giorno</th></tr>' +
+      F.months.map((m, i) => '<tr><td>' + ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'][m.month] + ' ' + m.year + (m.partial ? ' *' : '') + '</td><td>' + A.fmtEur(m.revenue, 0) + '</td><td>' + A.fmtEur(m.avgTicket) + '</td><td>' + A.fmtEur(m.avgDaily, 0) + '</td></tr>').join('') +
+      '</table><p class="note">* mese incompleto: confronta le medie al giorno.</p></article>' : '';
+    $('compare').innerHTML = cmp(F.week, 'Ultimi 7 giorni vs 7 precedenti') + cmp(F.month, 'Ultimi 30 giorni vs 30 precedenti') + mt;
+    $('ch-weeks').innerHTML = F.weeks.length >= 2 ? bars(F.weeks.map((w, i) => ({ label: A.fmtShort(w.from), v: w.revenue, top: short(w.revenue), cls: i === F.weeks.length - 1 ? 'gold' : '', tip: A.fmtShort(w.from) + '–' + A.fmtShort(w.to) + ': ' + A.fmtEur(w.revenue, 0) })), { bw: 56, aria: 'Incassi per settimana' })
+      : '<p class="note">Servono almeno 14 giorni di dati.</p>';
+
+    // ore
+    const hs = F.hours.filter(h => h.inRange), slow = new Set();
+    F.slowSlots.forEach(s => s.hours.forEach(h => slow.add(h.hour)));
+    const bestSet = new Set(F.topHours.map(h => h.hour));
+    $('ch-hours').innerHTML = bars(hs.map(h => ({ label: h.hour + '', v: h.avgRevenue, top: short(h.avgRevenue), cls: slow.has(h.hour) ? 'warn' : bestSet.has(h.hour) ? 'gold' : '', tip: h.hour + ':00–' + (h.hour + 1) + ':00 · media ' + A.fmtEur(h.avgRevenue, 0) + ' · ' + A.fmtPct(h.share, 1) + ' degli incassi' })), { aria: 'Incasso medio per ora' });
+    const allCells = F.heat.flatMap(r => r.cells), hmax = Math.max(1, ...allCells);
+    $('heat').innerHTML = '<table class="heat"><tr><th></th>' + hs.map(h => '<th>' + h.hour + '</th>').join('') + '</tr>' + F.heat.map(r => '<tr><th>' + r.short + '</th>' +
+      r.cells.map(v => { const pc = v / hmax; return '<td class="' + (pc > .55 ? 'dk' : '') + '" style="background:rgba(31,107,80,' + (v ? .1 + pc * .9 : .04).toFixed(2) + ')" title="' + A.fmtEur(v, 0) + '">' + (v ? Math.round(v) : '–') + '</td>'; }).join('') + '</tr>').join('') + '</table>';
+
+    // giorni
+    const open = F.dowStats.filter(d => d.days > 0);
+    $('ch-dow').innerHTML = bars(F.dowStats.map(d => ({ label: d.short, v: d.avgRevenue, top: short(d.avgRevenue), cls: F.worstDow && d.dow === F.worstDow.dow ? 'warn' : F.bestDow && d.dow === F.bestDow.dow ? 'gold' : '', tip: d.name + ': media ' + A.fmtEur(d.avgRevenue, 0) + ' su ' + d.days + ' giorni' })), { bw: 56, aria: 'Incasso medio per giorno della settimana' });
+    $('worst').innerHTML = F.worstDays.length ? '<table><tr><th>Giorno</th><th>Incasso</th><th>vs media del giorno</th></tr>' + F.worstDays.map(d =>
+      '<tr><td>' + A.DOW_SHORT[d.dow] + ' ' + A.fmtDate(d.date) + '</td><td>' + A.fmtEur(d.revenue, 0) + '</td><td class="' + (d.vsDow < -.005 ? 'down' : '') + '">' + (d.vsDow < 0 ? '▼ −' : '▲ +') + A.fmtPct(Math.abs(d.vsDow)) + '</td></tr>').join('') + '</table><p class="note">Giorni con meno incasso nel periodo caricato.</p>'
+      : '<p class="note">Servono almeno 10 giorni di dati.</p>';
+
+    $('foot').textContent = A.fmtInt(F.totals.receipts) + ' scontrini · ' + A.fmtInt(state.lines.length) + ' righe · ' + F.totals.activeDays + ' giorni con vendite. Fasce orarie, giorni e suggerimenti usano tutti i dati caricati; le schede in alto cambiano solo i riquadri e i prodotti.';
+  }
+
+  function renderTop(cur) {
+    const m = state.topMode;
+    const list = cur ? cur.products.slice().sort((a, b) => b[m] - a[m]).slice(0, 10) : [];
+    const max = list.length ? list[0][m] : 1;
+    $('top').innerHTML = '<ol class="rank">' + list.map((p, i) => '<li><span class="n">' + (i + 1) + '</span><span>' + esc(p.name) + ' <span class="sub">' + (m === 'revenue' ? A.fmtInt(p.qty) + ' pz' : A.fmtEur(p.revenue, 0)) + '</span></span><b>' + (m === 'revenue' ? A.fmtEur(p.revenue, 0) : A.fmtInt(p.qty)) + '</b><span class="bg"><i style="width:' + (p[m] / max * 100).toFixed(0) + '%"></i></span></li>').join('') + '</ol>';
+    const F = state.full;
+    if (F.lowProfitMode === 'margin') {
+      $('low-h').textContent = 'Poco redditizi (margine basso)';
+      $('low').innerHTML = F.lowProfit.length ? '<table><tr><th>Prodotto</th><th>Margine</th><th>€ margine</th></tr>' + F.lowProfit.map(p => '<tr><td>' + esc(p.name) + '</td><td class="down">' + A.fmtPct(p.marginPct) + '</td><td>' + A.fmtEur(p.margin, 0) + '</td></tr>').join('') +
+        '</table><p class="note">Margine medio del locale: ' + A.fmtPct(F.avgMarginPct) + '. Elenco: prodotti sotto il 75% della media (tutti i dati).</p>' : '<p class="note">Nessun prodotto con margine nettamente sotto la media. 👍</p>';
+    } else {
+      $('low-h').textContent = 'Poco venduti';
+      $('low').innerHTML = (F.lowProfit.length ? '<table><tr><th>Prodotto</th><th>Pezzi</th><th>Incasso</th></tr>' + F.lowProfit.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + A.fmtInt(p.qty) + '</td><td>' + A.fmtEur(p.revenue, 0) + '</td></tr>').join('') + '</table>' : '<p class="note">Nessun prodotto sotto l\'1% degli incassi.</p>') +
+        '<p class="note">Il file non contiene il <b>costo</b> dei prodotti, quindi non posso calcolare il margine reale: aggiungi una colonna "Costo" (costo unitario) per vedere quali prodotti rendono poco.</p>';
+    }
+  }
+
+  // ---------- eventi
+  function download(name, text, type) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['﻿' + text], { type: type || 'text/csv;charset=utf-8' }));
+    a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  const fileIn = $('file');
+  fileIn.addEventListener('change', () => { loadFiles([...fileIn.files]); fileIn.value = ''; });
+  $('btn-add').addEventListener('click', () => { const i = document.createElement('input'); i.type = 'file'; i.multiple = true; i.accept = '.csv,.txt,.tsv'; i.onchange = () => loadFiles([...i.files]); i.click(); });
+  $('btn-demo').addEventListener('click', loadDemo);
+  $('btn-sample').addEventListener('click', () => { const e = new Date(); e.setDate(e.getDate() - 1); download('esempio-vendite.csv', Demo.toCSV(Demo.generate(45, e, 42))); });
+  $('btn-reset').addEventListener('click', () => { state.datasets = []; showMsg(''); rebuild(); });
+  $('btn-export').addEventListener('click', () => {
+    const num = n => (n == null ? '' : String(Math.round(n * 100) / 100).replace('.', ','));
+    download('prodotti.csv', ['Prodotto;Quantità;Incasso;Costo;Margine;Margine %'].concat(state.full.products.map(p => [p.name, num(p.qty), num(p.revenue), p.hasCost ? num(p.cost) : '', num(p.margin), p.marginPct == null ? '' : num(p.marginPct * 100)].join(';'))).join('\r\n'));
+  });
+  $('tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; state.period = +b.dataset.p; [...$('tabs').children].forEach(x => x.classList.toggle('on', x === b)); render(); });
+  $('seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; state.topMode = b.dataset.m; [...$('seg').children].forEach(x => x.classList.toggle('on', x === b)); render(); });
+  $('mapping').addEventListener('change', e => { const s = e.target; if (s.tagName !== 'SELECT') return; state.datasets[+s.dataset.d].mapping[s.dataset.f] = +s.value; rebuild(); });
+  const drop = $('drop');
+  ['dragenter', 'dragover'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+  document.addEventListener('drop', e => { if (e.dataTransfer && e.dataTransfer.files.length) loadFiles([...e.dataTransfer.files]); });
+  drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileIn.click(); });
+})();
+
+document.getElementById("btn-demo").click();
+</script>
+</body></html>

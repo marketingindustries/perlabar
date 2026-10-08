@@ -285,7 +285,7 @@
     // fascia migliore
     if (a.bestWindow && a.bestWindow.share >= 0.2) {
       push('good', 'Dalle ' + a.bestWindow.from + ' alle ' + a.bestWindow.to + ' fai il ' + fmtPct(a.bestWindow.share) + ' degli incassi',
-        'È la tua finestra d\'oro: tieni il personale al completo, prepara in anticipo i prodotti più richiesti ed evita di programmare consegne o pulizie in quelle ore.');
+        'Sono le ore in cui conviene avere tutto il personale presente e i prodotti più richiesti già pronti. Evita di fissare consegne o pulizie in questa fascia.');
     }
 
     // giorno debole / forte
@@ -308,7 +308,7 @@
           : 'Lo scontrino medio è sceso (' + fmtPct(d.avgTicket, 0).replace('-', '−') + ')';
         push('warn', 'Ultimi 7 giorni in calo: ' + fmtPct(d.revenue).replace('-', '−') + ' sui 7 precedenti', why + '. Guarda il confronto qui sotto per capire quando è successo.');
       } else if (d.revenue >= 0.1) {
-        push('good', 'Ultimi 7 giorni in crescita: +' + fmtPct(d.revenue), 'Incassi ' + fmtEur(a.week.cur.revenue, 0) + ' contro ' + fmtEur(a.week.prev.revenue, 0) + ' dei 7 giorni precedenti. Capisci cosa ha funzionato e ripetilo.');
+        push('good', 'Ultimi 7 giorni in crescita: +' + fmtPct(d.revenue), 'Incassi ' + fmtEur(a.week.cur.revenue, 0) + ' contro ' + fmtEur(a.week.prev.revenue, 0) + ' dei 7 giorni precedenti. Controlla quali promozioni o eventi della settimana hanno contribuito e valuta di ripeterli.');
       }
     }
 
@@ -325,27 +325,27 @@
     const slow = a.products.filter(p => p.share < 0.01);
     if (a.products.length >= 8 && a.span >= 30 && slow.length >= 2) {
       const tail = slow.slice(-3).reverse();
-      push('tip', 'Prodotti che girano pochissimo',
-        tail.map(p => p.name + ' (' + fmtInt(p.qty) + ' pz)').join(', ') + ' pesano meno dell\'1% degli incassi. Valuta di toglierli dal menu o proporli come "consigliato del giorno" per smaltire le scorte.');
+      push('tip', 'Prodotti poco venduti',
+        tail.map(p => p.name + ' (' + fmtInt(p.qty) + ' pz)').join(', ') + ' pesano meno dell\'1% degli incassi. Valuta di toglierli dal menu oppure di proporli come consigliato del giorno per smaltire le scorte.');
     }
 
     // dipendenza da pochi prodotti
     if (a.products.length >= 6) {
       const top3 = sum(a.products.slice(0, 3), p => p.share);
       if (top3 > 0.6) push('tip', 'Incassi concentrati su 3 prodotti (' + fmtPct(top3) + ')',
-        a.products.slice(0, 3).map(p => p.name).join(', ') + '. Se uno manca o cambia il prezzo del fornitore l\'incasso ne risente: lavora su un secondo prodotto "traino".');
+        a.products.slice(0, 3).map(p => p.name).join(', ') + '. Se uno di questi manca o il fornitore cambia prezzo, l\'incasso ne risente. Promuovi altri prodotti per distribuire meglio le vendite.');
     }
 
     // abbinamenti
     if (a.topPair) {
       push('tip', a.topPair.a + ' + ' + a.topPair.b + ': proponili in combo',
-        'Finiscono nello stesso scontrino ' + fmtInt(a.topPair.count) + ' volte. Una formula a prezzo unico alza lo scontrino medio e semplifica il servizio.');
+        'Finiscono nello stesso scontrino ' + fmtInt(a.topPair.count) + ' volte. Una formula a prezzo unico può alzare lo scontrino medio e rende il servizio più rapido.');
     } else if (T.itemsPerReceipt < 1.4 && a.products.length >= 4) {
       push('tip', 'Pochi prodotti per scontrino (' + group(T.itemsPerReceipt, 1) + ')',
         'Lo scontrino medio è ' + fmtEur(T.avgTicket) + '. Fai suggerire sempre un abbinamento alla cassa (es. "con un dolce?") per aumentarlo.');
     }
 
-    if (!out.length) push('good', 'Nessun problema evidente', 'Con i dati caricati non emergono fasce o prodotti critici. Carica più giorni di vendite per analisi più precise.');
+    if (!out.length) push('good', 'Nessuna criticità evidente', 'Con i dati caricati non emergono fasce o prodotti critici. Carica più giorni di vendite per analisi più precise.');
     const order = { warn: 0, tip: 1, good: 2 };
     return out.sort((x, y) => order[x.level] - order[y.level]);
   }

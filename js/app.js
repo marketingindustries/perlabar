@@ -88,7 +88,7 @@
         '<div class="kpi"><div class="l">Scontrino medio</div><div class="v">' + A.fmtEur(c.avgTicket) + '</div><div class="s">' + (pt ? pill(delta(c.avgTicket, pt.avgTicket), 'vs ' + PNAME[p]) : A.group(c.itemsPerReceipt, 1) + ' prodotti a scontrino') + '</div></div>' +
         '<div class="kpi"><div class="l">Scontrini</div><div class="v">' + A.fmtInt(c.receipts) + '</div><div class="s">' + (pt ? pill(delta(c.receipts, pt.receipts), 'vs ' + PNAME[p]) : '≈ ' + A.fmtInt(c.receipts / c.activeDays) + ' al giorno') + '</div></div>' +
         '<div class="kpi"><div class="l">Prodotto top</div><div class="v" style="font-size:1.4rem">' + esc(top.name) + '</div><div class="s">' + A.fmtEur(top.revenue, 0) + ' · ' + A.fmtInt(top.qty) + ' pezzi</div></div>' +
-        '<div class="kpi"><div class="l">Ora migliore</div><div class="v">' + (bh ? bh.hour + ':00 – ' + (bh.hour + 1) + ':00' : '–') + '</div><div class="s">' + (win && c.activeDays > 1 ? 'finestra d\'oro ' + win.from + ':00–' + win.to + ':00 (' + A.fmtPct(win.share) + ' incassi)' : bh ? A.fmtEur(bh.revenue, 0) + ' incassati' : '') + '</div></div>';
+        '<div class="kpi"><div class="l">Ora migliore</div><div class="v">' + (bh ? bh.hour + ':00 – ' + (bh.hour + 1) + ':00' : '–') + '</div><div class="s">' + (win && c.activeDays > 1 ? 'finestra migliore ' + win.from + ':00–' + win.to + ':00 (' + A.fmtPct(win.share) + ' incassi)' : bh ? A.fmtEur(bh.revenue, 0) + ' incassati' : '') + '</div></div>';
     }
     renderTop(cur);
     renderStatic();
@@ -161,7 +161,7 @@
     if (F.lowProfitMode === 'margin') {
       $('low-h').textContent = 'Poco redditizi (margine basso)';
       $('low').innerHTML = F.lowProfit.length ? '<table><tr><th>Prodotto</th><th>Margine</th><th>€ margine</th></tr>' + F.lowProfit.map(p => '<tr><td>' + esc(p.name) + '</td><td class="down">' + A.fmtPct(p.marginPct) + '</td><td>' + A.fmtEur(p.margin, 0) + '</td></tr>').join('') +
-        '</table><p class="note">Margine medio del locale: ' + A.fmtPct(F.avgMarginPct) + '. Elenco: prodotti sotto il 75% della media (tutti i dati).</p>' : '<p class="note">Nessun prodotto con margine nettamente sotto la media. 👍</p>';
+        '</table><p class="note">Margine medio del locale: ' + A.fmtPct(F.avgMarginPct) + '. Elenco: prodotti sotto il 75% della media (tutti i dati).</p>' : '<p class="note">Nessun prodotto ha un margine nettamente sotto la media.</p>';
     } else {
       $('low-h').textContent = 'Poco venduti';
       $('low').innerHTML = (F.lowProfit.length ? '<table><tr><th>Prodotto</th><th>Pezzi</th><th>Incasso</th></tr>' + F.lowProfit.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + A.fmtInt(p.qty) + '</td><td>' + A.fmtEur(p.revenue, 0) + '</td></tr>').join('') + '</table>' : '<p class="note">Nessun prodotto sotto l\'1% degli incassi.</p>') +

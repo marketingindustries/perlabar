@@ -126,7 +126,7 @@
         row('Scontrini', c.cur.receipts, c.prev.receipts, c.delta.receipts, A.fmtInt) +
         row('Scontrino medio', c.cur.avgTicket, c.prev.avgTicket, c.delta.avgTicket, v => A.fmtEur(v)) + '</table></article>';
     };
-    const mt = F.months.length >= 2 ? '<article class="card"><h3>Mesi <small>(calendario)</small></h3><table><tr><th></th><th>Incasso</th><th>Scontrino medio</th><th>Media/giorno</th></tr>' +
+    const mt = F.months.length >= 2 ? '<article class="card wide"><h3>Mesi <small>(calendario)</small></h3><table><tr><th></th><th>Incasso</th><th>Scontrino medio</th><th>Media/giorno</th></tr>' +
       F.months.map((m, i) => '<tr><td>' + ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'][m.month] + ' ' + m.year + (m.partial ? ' *' : '') + '</td><td>' + A.fmtEur(m.revenue, 0) + '</td><td>' + A.fmtEur(m.avgTicket) + '</td><td>' + A.fmtEur(m.avgDaily, 0) + '</td></tr>').join('') +
       '</table><p class="note">* mese incompleto: confronta le medie al giorno.</p></article>' : '';
     $('compare').innerHTML = cmp(F.week, 'Ultimi 7 giorni vs 7 precedenti') + cmp(F.month, 'Ultimi 30 giorni vs 30 precedenti') + mt;
@@ -140,7 +140,7 @@
     $('ch-hours').innerHTML = bars(hs.map(h => ({ label: h.hour + '', v: h.avgRevenue, top: short(h.avgRevenue), cls: slow.has(h.hour) ? 'warn' : bestSet.has(h.hour) ? 'gold' : '', tip: h.hour + ':00–' + (h.hour + 1) + ':00 · media ' + A.fmtEur(h.avgRevenue, 0) + ' · ' + A.fmtPct(h.share, 1) + ' degli incassi' })), { aria: 'Incasso medio per ora' });
     const allCells = F.heat.flatMap(r => r.cells), hmax = Math.max(1, ...allCells);
     $('heat').innerHTML = '<table class="heat"><tr><th></th>' + hs.map(h => '<th>' + h.hour + '</th>').join('') + '</tr>' + F.heat.map(r => '<tr><th>' + r.short + '</th>' +
-      r.cells.map(v => { const pc = v / hmax; return '<td class="' + (pc > .55 ? 'dk' : '') + '" style="background:rgba(31,107,80,' + (v ? .1 + pc * .9 : .04).toFixed(2) + ')" title="' + A.fmtEur(v, 0) + '">' + (v ? Math.round(v) : '–') + '</td>'; }).join('') + '</tr>').join('') + '</table>';
+      r.cells.map(v => { const pc = v / hmax; return '<td class="' + (pc > .55 ? 'dk' : '') + '" style="background:rgba(20,20,20,' + (v ? .1 + pc * .9 : .04).toFixed(2) + ')" title="' + A.fmtEur(v, 0) + '">' + (v ? Math.round(v) : '–') + '</td>'; }).join('') + '</tr>').join('') + '</table>';
 
     // giorni
     const open = F.dowStats.filter(d => d.days > 0);

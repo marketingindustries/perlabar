@@ -3,29 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard incassi e prodotti</title>
+<title>Dashboard Perla Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="top">
-  <div class="brand"><span class="logo" aria-hidden="true">☕</span>
-    <div><strong>Il Nostro Bar</strong><small>Dashboard vendite</small></div></div>
-  <div class="actions" id="actions" hidden>
-    <button class="btn ghost" id="btn-add">Aggiungi file</button>
-    <button class="btn ghost" id="btn-export">Esporta prodotti</button>
-    <button class="btn ghost" id="btn-reset">Cambia dati</button>
+  <div class="top-in">
+    <div class="brand"><img class="logo" src="img/perla-bar-logo.png" alt="Perla Bar"><span class="brand-sub">Dashboard vendite</span></div>
+    <div class="actions" id="actions" hidden>
+      <button class="btn ghost" id="btn-add">Aggiungi file</button>
+      <button class="btn ghost" id="btn-export">Esporta prodotti</button>
+      <button class="btn ghost" id="btn-reset">Cambia dati</button>
+    </div>
   </div>
 </header>
 
 <main>
   <section id="welcome" class="hero">
-    <h1>Dashboard <span>incassi e prodotti</span></h1>
+    <h1>Dashboard incassi e prodotti</h1>
     <p>Carica il file CSV esportato dal gestionale o dalla cassa. La dashboard mostra incassi, prodotti più venduti, orari e giorni migliori e indica cosa conviene cambiare.</p>
     <div id="drop" class="drop" tabindex="0">
       <strong>Trascina qui il file CSV</strong>
       <span>oppure</span>
-      <label class="btn gold">Scegli un file<input type="file" id="file" accept=".csv,.txt,.tsv" multiple hidden></label>
-      <small>I dati restano sul tuo computer: non vengono inviati da nessuna parte.</small>
+      <label class="btn dark">Scegli un file<input type="file" id="file" accept=".csv,.txt,.tsv" multiple hidden></label>
+      <small>I dati restano sul tuo computer e non vengono inviati a nessun server.</small>
     </div>
     <div class="alt">
       <button class="btn ghost" id="btn-demo">Prova con dati di esempio</button>
@@ -76,6 +79,9 @@
     <p class="foot" id="foot"></p>
   </div>
 </main>
+
+<footer class="credit">Software creato da <strong>Automated by You</strong></footer>
+
 <script src="js/parser.js"></script>
 <script src="js/analytics.js"></script>
 <script src="js/demo.js"></script>

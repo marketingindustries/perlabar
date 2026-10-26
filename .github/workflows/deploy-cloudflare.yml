@@ -1,0 +1,21 @@
+name: Pubblica su Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ['site/**']
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pubblica la cartella site/
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=perla-bar-dashboard --branch=main

@@ -13,8 +13,10 @@ Alla fine compare l'indirizzo pubblico, del tipo `https://perla-bar-dashboard.pa
 
 ## Dopo una modifica
     node test/run.js
-    node tools/build-demo.js demo-src.html
-Poi aprire `demo-src.html` in un browser, salvare la pagina già compilata come `site/index.html` e ripetere l'ultimo comando di pubblicazione. Se la modifica riguarda solo i testi o lo stile, basta sostituire `site/index.html` con il nuovo file generato da `node tools/build-demo.js site/index.html` (la pagina carica i dati di esempio all'apertura).
+    node tools/build-demo.js site/index.html
+    npx wrangler pages deploy site --project-name perla-bar-dashboard --branch main
+
+Il primo comando controlla lettura e analisi, il secondo rigenera il sito con i dati di esempio, il terzo lo pubblica.
 
 ## Testo da incollare in una chat di Claude Code in locale
 Apri questa cartella con Claude Code e incolla:

@@ -28,6 +28,9 @@
   const fmtPct = (n, dec) => group(n * 100, dec == null ? 0 : dec) + '%';
   const sum = (a, f) => a.reduce((s, x) => s + (f ? f(x) : x), 0);
   const hh = h => h + ':00';
+  // Voci generiche della cassa: contano negli incassi ma non sono prodotti.
+  // Sono incluse le voci di servizio (conto, coperto, sconto, buoni), le aggiunte e le varianti che iniziano con + o #.
+  const SERVICE_ITEMS = /^([+#]|conto$|coperto$|sconto$|edenred$|aggiunta|piatto x\d)/i;
 
   function buildReceipts(lines) {
     const map = new Map();
@@ -40,7 +43,23 @@
     return [...map.values()];
   }
 
-  function compute(lines) {
+  function compute(lines, daily) {
+    if (daily) {
+      const days = new Map();
+      const dow = Array.from({ length: 7 }, () => ({ revenue: 0, receipts: 0, days: new Set() }));
+      for (const l of lines) {
+        const k = dayKey(l.ts);
+        let d = days.get(k);
+        if (!d) { d = { key: k, date: startOfDay(l.ts), dow: l.ts.getDay(), revenue: 0, receipts: 0, items: 0, firstHour: 0, lastHour: 0 }; days.set(k, d); }
+        d.revenue += l.revenue; d.items += l.qty;
+      }
+      const dayList = [...days.values()].sort((a, b) => a.date - b.date);
+      for (const d of dayList) { dow[d.dow].revenue += d.revenue; dow[d.dow].days.add(d.key); }
+      const totalRevenue = sum(lines, l => l.revenue);
+      return { lines, receipts: [], totalRevenue, ticketRevenue: totalRevenue, days, dayList, daily: true,
+        byHour: Array.from({ length: 24 }, () => ({ revenue: 0, receipts: 0, days: new Set() })), dow,
+        dowHour: Array.from({ length: 7 }, () => new Array(24).fill(0)) };
+    }
     const receipts = buildReceipts(lines).filter(r => r.revenue > 0);
     const totalRevenue = sum(lines, l => l.revenue);
     const ticketRevenue = sum(receipts, r => r.revenue);
@@ -66,6 +85,7 @@
 
   // L'ultimo giorno è "parziale" se le vendite finiscono molto prima del solito.
   function lastDayIsPartial(c) {
+    if (c.daily) return false;
     const n = c.dayList.length;
     if (n < 8) return false;
     const last = c.dayList[n - 1];
@@ -88,7 +108,7 @@
     const prev = sumRange(dayList, addDays(end, -(2 * len - 1)), addDays(end, -len));
     const d = (a, b) => (b ? a / b - 1 : null);
     return {
-      len, cur, prev,
+      len, cur, prev, hasReceipts: cur.receipts > 0 && prev.receipts > 0,
       curFrom: addDays(end, -(len - 1)), curTo: end,
       prevFrom: addDays(end, -(2 * len - 1)), prevTo: addDays(end, -len),
       delta: { revenue: d(cur.revenue, prev.revenue), receipts: d(cur.receipts, prev.receipts), avgTicket: d(cur.avgTicket, prev.avgTicket) }
@@ -98,13 +118,26 @@
   function analyze(allLines, opts) {
     opts = opts || {};
     if (!allLines.length) return null;
-    let c = compute(allLines);
-    if (!c.receipts.length) return null;
+    const daily = allLines.every(l => l.daily);
+    let c = compute(allLines, daily);
+    if (!c.dayList.length) return null;
     let droppedPartial = null;
     if (opts.dropPartial !== false && lastDayIsPartial(c)) {
       droppedPartial = c.dayList[c.dayList.length - 1].date;
       const cut = addDays(droppedPartial, 0);
-      c = compute(allLines.filter(l => startOfDay(l.ts) < cut));
+      c = compute(allLines.filter(l => startOfDay(l.ts) < cut), daily);
+    }
+    // Giorni con incasso quasi nullo rispetto alla mediana: probabili chiusure, escluse da medie e classifiche dei giorni.
+    c.closedDays = [];
+    if (c.dayList.length >= 14) {
+      const med = c.dayList.map(d => d.revenue).sort((x, y) => x - y)[Math.floor(c.dayList.length / 2)];
+      const closed = c.dayList.filter(d => d.revenue < 0.1 * med);
+      if (closed.length) {
+        const keys = new Set(closed.map(d => d.key));
+        c.closedDays = closed;
+        c.dayList = c.dayList.filter(d => !keys.has(d.key));
+        for (const d of closed) { c.dow[d.dow].revenue -= d.revenue; c.dow[d.dow].days.delete(d.key); }
+      }
     }
     const { receipts, dayList, byHour, dow, dowHour } = c;
     const activeDays = dayList.length;
@@ -112,48 +145,52 @@
 
     const totals = {
       revenue: c.totalRevenue,
-      receipts: receipts.length,
-      avgTicket: c.ticketRevenue / receipts.length,
-      itemsPerReceipt: sum(receipts, r => r.items) / receipts.length,
+      receipts: daily ? null : receipts.length,
+      avgTicket: daily ? null : c.ticketRevenue / receipts.length,
+      itemsPerReceipt: daily ? null : sum(receipts, r => r.items) / receipts.length,
       activeDays, avgDaily: c.totalRevenue / activeDays, first, last
     };
 
-    // --- ore
-    const minDays = Math.max(2, Math.ceil(activeDays * 0.2));
-    const openHours = [];
-    byHour.forEach((h, i) => { if (h.days.size >= minDays) openHours.push(i); });
-    if (!openHours.length) byHour.forEach((h, i) => { if (h.receipts) openHours.push(i); });
-    const hFrom = Math.min(...openHours), hTo = Math.max(...openHours);
-    const hours = byHour.map((h, i) => ({
-      hour: i, revenue: h.revenue, receipts: h.receipts,
-      avgRevenue: h.revenue / activeDays, avgReceipts: h.receipts / activeDays,
-      share: c.ticketRevenue ? h.revenue / c.ticketRevenue : 0,
-      inRange: i >= hFrom && i <= hTo
-    }));
-    const rangeHours = hours.filter(h => h.inRange);
-    const avgHourRevenue = sum(rangeHours, h => h.avgRevenue) / rangeHours.length;
+    // --- ore (solo se il file contiene l'orario di ogni vendita)
+    let hFrom = 0, hTo = -1, hours = [], rangeHours = [], avgHourRevenue = 0, bestWindow = null, topHours = [];
     const slowSlots = [];
-    if (rangeHours.length >= 6 && activeDays >= 5) {
-      let cur = null;
-      for (const h of rangeHours) {
-        if (h.avgRevenue < 0.6 * avgHourRevenue) {
-          if (cur && cur.to === h.hour) { cur.to = h.hour + 1; cur.hours.push(h); }
-          else { cur = { from: h.hour, to: h.hour + 1, hours: [h] }; slowSlots.push(cur); }
-        } else cur = null;
+    if (!daily) {
+      const minDays = Math.max(2, Math.ceil(activeDays * 0.2));
+      const openHours = [];
+      byHour.forEach((h, i) => { if (h.days.size >= minDays) openHours.push(i); });
+      if (!openHours.length) byHour.forEach((h, i) => { if (h.receipts) openHours.push(i); });
+      hFrom = Math.min(...openHours); hTo = Math.max(...openHours);
+      hours = byHour.map((h, i) => ({
+        hour: i, revenue: h.revenue, receipts: h.receipts,
+        avgRevenue: h.revenue / activeDays, avgReceipts: h.receipts / activeDays,
+        share: c.ticketRevenue ? h.revenue / c.ticketRevenue : 0,
+        inRange: i >= hFrom && i <= hTo
+      }));
+      rangeHours = hours.filter(h => h.inRange);
+      avgHourRevenue = sum(rangeHours, h => h.avgRevenue) / rangeHours.length;
+      
+      if (rangeHours.length >= 6 && activeDays >= 5) {
+        let cur = null;
+        for (const h of rangeHours) {
+          if (h.avgRevenue < 0.6 * avgHourRevenue) {
+            if (cur && cur.to === h.hour) { cur.to = h.hour + 1; cur.hours.push(h); }
+            else { cur = { from: h.hour, to: h.hour + 1, hours: [h] }; slowSlots.push(cur); }
+          } else cur = null;
+        }
+        slowSlots.forEach(s => {
+          s.avgRevenue = sum(s.hours, h => h.avgRevenue) / s.hours.length;
+          s.below = 1 - s.avgRevenue / avgHourRevenue;
+          s.edge = s.to === hTo + 1 ? 'end' : (s.from === hFrom ? 'start' : null);
+        });
+        slowSlots.sort((a, b) => b.below * b.hours.length - a.below * a.hours.length);
       }
-      slowSlots.forEach(s => {
-        s.avgRevenue = sum(s.hours, h => h.avgRevenue) / s.hours.length;
-        s.below = 1 - s.avgRevenue / avgHourRevenue;
-        s.edge = s.to === hTo + 1 ? 'end' : (s.from === hFrom ? 'start' : null);
-      });
-      slowSlots.sort((a, b) => b.below * b.hours.length - a.below * a.hours.length);
+      
+      for (let h = hFrom; h < hTo; h++) {
+        const share = hours[h].share + hours[h + 1].share;
+        if (!bestWindow || share > bestWindow.share) bestWindow = { from: h, to: h + 2, share };
+      }
+      topHours = rangeHours.slice().sort((a, b) => b.avgRevenue - a.avgRevenue).slice(0, 3);
     }
-    let bestWindow = null;
-    for (let h = hFrom; h < hTo; h++) {
-      const share = hours[h].share + hours[h + 1].share;
-      if (!bestWindow || share > bestWindow.share) bestWindow = { from: h, to: h + 2, share };
-    }
-    const topHours = rangeHours.slice().sort((a, b) => b.avgRevenue - a.avgRevenue).slice(0, 3);
 
     // --- giorni della settimana
     const dowStats = DOW_ORDER.map(w => {
@@ -187,7 +224,7 @@
       p.hourRevenue[l.ts.getHours()] += l.revenue;
       if (l.cost != null) { p.costLines++; p.cost += l.cost; p.knownRevenue += l.revenue; }
     }
-    const products = [...pm.values()].map(p => {
+    const productsAll = [...pm.values()].map(p => {
       const hasCost = p.costLines > 0;
       return Object.assign(p, {
         share: c.totalRevenue ? p.revenue / c.totalRevenue : 0,
@@ -196,6 +233,8 @@
         marginPct: hasCost && p.knownRevenue > 0 ? (p.knownRevenue - p.cost) / p.knownRevenue : null
       });
     }).sort((a, b) => b.revenue - a.revenue);
+    const products = productsAll.filter(p => !SERVICE_ITEMS.test(p.name));
+    const serviceItems = productsAll.filter(p => SERVICE_ITEMS.test(p.name));
     const costLines = c.lines.filter(l => l.cost != null).length;
     const costCoverage = costLines / c.lines.length;
     const withCost = products.filter(p => p.hasCost);
@@ -251,7 +290,7 @@
       return Object.assign(m, { avgTicket: m.receipts ? m.revenue / m.receipts : 0, avgDaily: m.revenue / m.days, partial: m.days < dim * 0.9 });
     }).slice(-6);
 
-    const a = { totals, hours, hFrom, hTo, avgHourRevenue, slowSlots, bestWindow, topHours,
+    const a = { daily, hasHours: !daily, serviceItems, closedDays: c.closedDays, totals, hours, hFrom, hTo, avgHourRevenue, slowSlots, bestWindow, topHours,
       dowStats, meanDow, worstDow, bestDow, worstDays, bestDays, heat, products, costCoverage, avgMarginPct,
       lowProfit, lowProfitMode, topPair, week, month, weeks, months, dayList, span, droppedPartial,
       multiReceipts: receipts.filter(r => r.products.size > 1).length };
@@ -271,6 +310,8 @@
     const out = [];
     const T = a.totals;
     const push = (level, title, text) => out.push({ level, title, text });
+
+    if (a.daily) push('tip', 'Mancano gli orari delle vendite', 'Il file contiene solo i totali giornalieri per prodotto, senza l\'ora di ogni scontrino. Per individuare le fasce deboli e proporre promozioni mirate serve un\'esportazione con data e ora di ogni vendita.');
 
     // fasce lente
     a.slowSlots.slice(0, 2).forEach(s => {
@@ -304,7 +345,7 @@
     if (a.week && a.week.delta.revenue != null) {
       const d = a.week.delta;
       if (d.revenue <= -0.1) {
-        const why = d.receipts < d.avgTicket ? 'Vengono meno clienti (' + fmtPct(d.receipts, 0).replace('-', '−') + ' scontrini)'
+        const why = (d.receipts == null || d.avgTicket == null) ? 'Controlla nel grafico delle settimane quando è iniziato il calo' : d.receipts < d.avgTicket ? 'Vengono meno clienti (' + fmtPct(d.receipts, 0).replace('-', '−') + ' scontrini)'
           : 'Lo scontrino medio è sceso (' + fmtPct(d.avgTicket, 0).replace('-', '−') + ')';
         push('warn', 'Ultimi 7 giorni in calo: ' + fmtPct(d.revenue).replace('-', '−') + ' sui 7 precedenti', why + '. Guarda il confronto qui sotto per capire quando è successo.');
       } else if (d.revenue >= 0.1) {
@@ -340,7 +381,7 @@
     if (a.topPair) {
       push('tip', a.topPair.a + ' + ' + a.topPair.b + ': proponili in combo',
         'Finiscono nello stesso scontrino ' + fmtInt(a.topPair.count) + ' volte. Una formula a prezzo unico può alzare lo scontrino medio e rende il servizio più rapido.');
-    } else if (T.itemsPerReceipt < 1.4 && a.products.length >= 4) {
+    } else if (T.itemsPerReceipt != null && T.itemsPerReceipt < 1.4 && a.products.length >= 4) {
       push('tip', 'Pochi prodotti per scontrino (' + group(T.itemsPerReceipt, 1) + ')',
         'Lo scontrino medio è ' + fmtEur(T.avgTicket) + '. Fai suggerire sempre un abbinamento alla cassa (es. "con un dolce?") per aumentarlo.');
     }

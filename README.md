@@ -20,3 +20,6 @@ Separatori `; , tab`, numeri `1.234,56`, date `gg/mm/aaaa` o `aaaa-mm-gg`, codif
 
 ## Sviluppo
 `node test/run.js` esegue i test su parser e analisi. Codice: `js/parser.js`, `js/analytics.js`, `js/demo.js`, `js/app.js`.
+
+## Formato ilConto (Zucchetti)
+Il file `PERLABAR-...-Vendite.csv` esportato da ilConto si riconosce da solo (nessuna intestazione, righe `VENDITE;` e `PAGAMENTO;`). Contiene un totale giornaliero per prodotto, quindi la dashboard mostra incassi, giorni, prodotti e metodi di pagamento, ma non le fasce orarie né lo scontrino medio. Le righe delle fatture, che contengono dati dei clienti, vengono ignorate. Dettagli in `CONTESTO.md`.

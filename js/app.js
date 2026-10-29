@@ -5,13 +5,15 @@
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const LABELS = { datetime: 'Data e ora (insieme)', date: 'Data', time: 'Ora', receipt: 'N. scontrino', product: 'Prodotto', qty: 'Quantità', price: 'Prezzo unitario', total: 'Importo riga', cost: 'Costo unitario', category: 'Categoria' };
 
-  const state = { datasets: [], lines: [], period: 7, topMode: 'revenue', full: null };
+  const state = { datasets: [], lines: [], payments: [], period: 7, topMode: 'revenue', full: null };
 
   // ---------- caricamento
   async function loadFiles(files) {
     for (const f of files) {
       try {
-        const t = P.parseTable(P.decodeBuffer(await f.arrayBuffer()));
+        const text = P.decodeBuffer(await f.arrayBuffer());
+        if (P.isIlConto(text)) { state.datasets.push({ name: f.name, kind: 'ilconto', parsed: P.parseIlConto(text, f.name), headers: [], rows: [], mapping: {} }); continue; }
+        const t = P.parseTable(text);
         state.datasets.push({ name: f.name, headers: t.headers, rows: t.rows, mapping: t.mapping });
       } catch (e) { showMsg('Non riesco a leggere "' + f.name + '".'); }
     }
@@ -29,14 +31,26 @@
   function rebuild() {
     state.lines = []; const problems = []; let skipped = 0;
     for (const ds of state.datasets) {
+      if (ds.kind === 'ilconto') continue;
       const miss = P.missingFields(ds.mapping);
       if (miss.length) { problems.push('<b>' + esc(ds.name) + '</b>: non trovo la colonna ' + miss.join(', ') + '. Sceglila qui sotto.'); continue; }
       const b = P.buildLines(ds.rows, ds.mapping);
       skipped += b.skipped.noDate + b.skipped.noAmount;
       for (const l of b.lines) state.lines.push(l);
     }
+    state.payments = [];
+    const il = state.datasets.filter(d => d.kind === 'ilconto').sort((a, b) => a.name.localeCompare(b.name));
+    const notes = [];
+    if (il.length) {
+      const m = P.mergeIlConto(il.map(d => d.parsed));
+      for (const l of m.lines) state.lines.push(l);
+      state.payments = m.payments;
+      skipped += m.bad;
+      notes.push('Formato ilConto riconosciuto. Le righe delle fatture (' + A.fmtInt(m.ignored) + ') sono ignorate perché contengono dati dei clienti.');
+      if (m.provisionalDays.length) notes.push('La giornata del ' + m.provisionalDays.map(k => k.split('-').reverse().join('/')).join(', ') + ' è esclusa perché l\'esportazione è stata fatta in quel giorno e i dati sono incompleti.');
+    }
     renderMapping(problems.length > 0);
-    let msg = problems.join('<br>');
+    let msg = problems.concat(notes).join('<br>');
     if (skipped) msg += (msg ? '<br>' : '') + skipped + ' righe ignorate perché senza data o importo valido.';
     showMsg(msg);
     state.full = state.lines.length ? A.analyze(state.lines) : null;
@@ -51,7 +65,8 @@
     const el = $('mapping');
     el.hidden = !state.datasets.length;
     el.open = open;
-    el.innerHTML = '<summary>Colonne riconosciute (correggi se serve)</summary>' + state.datasets.map((ds, di) =>
+    el.innerHTML = '<summary>Colonne riconosciute (correggi se serve)</summary>' + state.datasets.map((ds, di) => ds.kind === 'ilconto'
+      ? '<div class="mf">' + esc(ds.name) + ' · formato ilConto: ' + A.fmtInt(ds.parsed.lines.length) + ' righe di vendita giornaliere</div>' :
       '<div class="mf">' + esc(ds.name) + ' · ' + ds.rows.length + ' righe</div><div class="mgrid">' +
       P.FIELDS.map(f => '<label>' + LABELS[f] + '<select data-d="' + di + '" data-f="' + f + '"><option value="-1">— nessuna —</option>' +
         ds.headers.map((h, i) => '<option value="' + i + '"' + (ds.mapping[f] === i ? ' selected' : '') + '>' + esc(h || 'colonna ' + (i + 1)) + '</option>').join('') + '</select></label>').join('') + '</div>').join('');
@@ -83,6 +98,7 @@
     else {
       const pt = prev ? prev.totals : null, top = cur.products[0], bh = cur.hours.slice().sort((a, b) => b.revenue - a.revenue)[0];
       const win = cur.bestWindow;
+      if (F.daily) { $('kpis').innerHTML = dailyKpis(c, pt, top, cur, p); renderTop(cur); renderStatic(); return; }
       $('kpis').innerHTML =
         '<div class="kpi main"><div class="l">Incassi' + (p === 1 ? ' di ' + A.fmtDate(c.last) : '') + '</div><div class="v">' + A.fmtEur(c.revenue, 0) + '</div><div class="s">' + (pt ? pill(delta(c.revenue, pt.revenue), 'vs ' + PNAME[p]) : c.receipts + ' scontrini') + '</div></div>' +
         '<div class="kpi"><div class="l">Scontrino medio</div><div class="v">' + A.fmtEur(c.avgTicket) + '</div><div class="s">' + (pt ? pill(delta(c.avgTicket, pt.avgTicket), 'vs ' + PNAME[p]) : A.group(c.itemsPerReceipt, 1) + ' prodotti a scontrino') + '</div></div>' +
@@ -92,6 +108,27 @@
     }
     renderTop(cur);
     renderStatic();
+  }
+
+  function dailyKpis(c, pt, top, cur, p) {
+    const bd = cur.dayList.slice().sort((a, b) => b.revenue - a.revenue)[0];
+    const vs = d => (pt ? pill(d, 'vs ' + PNAME[p]) : '');
+    return '<div class="kpi main"><div class="l">Incassi' + (p === 1 ? ' di ' + A.fmtDate(c.last) : '') + '</div><div class="v">' + A.fmtEur(c.revenue, 0) + '</div><div class="s">' + (pt ? vs(delta(c.revenue, pt.revenue)) : c.activeDays + ' giorni con incassi') + '</div></div>' +
+      '<div class="kpi"><div class="l">Media al giorno</div><div class="v">' + A.fmtEur(c.avgDaily, 0) + '</div><div class="s">' + (pt ? vs(delta(c.avgDaily, pt.avgDaily)) : 'sui giorni con incassi') + '</div></div>' +
+      '<div class="kpi"><div class="l">Giorni con incassi</div><div class="v">' + A.fmtInt(c.activeDays) + '</div><div class="s">' + (pt ? vs(delta(c.activeDays, pt.activeDays)) : 'nel periodo') + '</div></div>' +
+      '<div class="kpi"><div class="l">Prodotto top</div><div class="v" style="font-size:1.4rem">' + (top ? esc(top.name) : '–') + '</div><div class="s">' + (top ? A.fmtEur(top.revenue, 0) + ' · ' + A.fmtInt(top.qty) + ' pezzi' : '') + '</div></div>' +
+      '<div class="kpi"><div class="l">Giorno migliore</div><div class="v" style="font-size:1.4rem">' + (bd ? A.DOW_SHORT[bd.dow] + ' ' + A.fmtShort(bd.date) : '–') + '</div><div class="s">' + (bd ? A.fmtEur(bd.revenue, 0) + ' incassati' : '') + '</div></div>';
+  }
+
+  function renderPayments() {
+    const pay = state.payments || [];
+    $('sec-pay').hidden = !pay.length;
+    if (!pay.length) return;
+    const tot = new Map();
+    for (const x of pay) tot.set(x.method, (tot.get(x.method) || 0) + x.amount);
+    const all = [...tot.values()].reduce((s, v) => s + v, 0);
+    const list = [...tot.entries()].sort((a, b) => b[1] - a[1]);
+    $('pay').innerHTML = '<ol class="rank">' + list.map(([m, v], i) => '<li><span class="n">' + (i + 1) + '</span><span>' + esc(m) + '</span><b>' + A.fmtEur(v, 0) + ' <span class="sub">' + A.fmtPct(v / all) + '</span></b><span class="bg"><i style="width:' + (Math.max(0, v) / list[0][1] * 100).toFixed(0) + '%"></i></span></li>').join('') + '</ol><p class="note">Somma su tutto il periodo caricato.</p>';
   }
 
   // ---------- grafici
@@ -113,6 +150,8 @@
 
   function renderStatic() {
     const F = state.full;
+    $('sec-hours').hidden = !F.hasHours;
+    $('no-hours').hidden = F.hasHours;
     // suggerimenti
     const TAG = { warn: 'Attenzione', tip: 'Da provare', good: 'Punto di forza' };
     $('sugg').innerHTML = F.suggestions.map(s => '<div class="s-card ' + s.level + '"><span class="tag">' + TAG[s.level] + '</span><b>' + esc(s.title) + '</b><p>' + esc(s.text) + '</p></div>').join('');
@@ -123,11 +162,10 @@
       const row = (l, a, b, d, f) => '<tr><td>' + l + '</td><td>' + f(a) + '</td><td>' + f(b) + '</td><td class="' + (d > 0.005 ? 'up' : d < -0.005 ? 'down' : '') + '">' + (d == null ? '–' : (d > 0 ? '▲ +' : d < 0 ? '▼ −' : '') + A.fmtPct(Math.abs(d))) + '</td></tr>';
       return '<article class="card"><h3>' + title + '</h3><table><tr><th></th><th>' + A.fmtShort(c.curFrom) + '–' + A.fmtShort(c.curTo) + '</th><th>' + A.fmtShort(c.prevFrom) + '–' + A.fmtShort(c.prevTo) + '</th><th>Δ</th></tr>' +
         row('Incasso', c.cur.revenue, c.prev.revenue, c.delta.revenue, v => A.fmtEur(v, 0)) +
-        row('Scontrini', c.cur.receipts, c.prev.receipts, c.delta.receipts, A.fmtInt) +
-        row('Scontrino medio', c.cur.avgTicket, c.prev.avgTicket, c.delta.avgTicket, v => A.fmtEur(v)) + '</table></article>';
+        (c.hasReceipts ? row('Scontrini', c.cur.receipts, c.prev.receipts, c.delta.receipts, A.fmtInt) + row('Scontrino medio', c.cur.avgTicket, c.prev.avgTicket, c.delta.avgTicket, v => A.fmtEur(v)) : '') + '</table></article>';
     };
-    const mt = F.months.length >= 2 ? '<article class="card wide"><h3>Mesi <small>(calendario)</small></h3><table><tr><th></th><th>Incasso</th><th>Scontrino medio</th><th>Media/giorno</th></tr>' +
-      F.months.map((m, i) => '<tr><td>' + ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'][m.month] + ' ' + m.year + (m.partial ? ' *' : '') + '</td><td>' + A.fmtEur(m.revenue, 0) + '</td><td>' + A.fmtEur(m.avgTicket) + '</td><td>' + A.fmtEur(m.avgDaily, 0) + '</td></tr>').join('') +
+    const mt = F.months.length >= 2 ? '<article class="card wide"><h3>Mesi <small>(calendario)</small></h3><table><tr><th></th><th>Incasso</th>' + (F.daily ? '' : '<th>Scontrino medio</th>') + '<th>Media/giorno</th></tr>' +
+      F.months.map((m, i) => '<tr><td>' + ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'][m.month] + ' ' + m.year + (m.partial ? ' *' : '') + '</td><td>' + A.fmtEur(m.revenue, 0) + '</td>' + (F.daily ? '' : '<td>' + (m.avgTicket ? A.fmtEur(m.avgTicket) : '–') + '</td>') + '<td>' + A.fmtEur(m.avgDaily, 0) + '</td></tr>').join('') +
       '</table><p class="note">* mese incompleto: confronta le medie al giorno.</p></article>' : '';
     $('compare').innerHTML = cmp(F.week, 'Ultimi 7 giorni vs 7 precedenti') + cmp(F.month, 'Ultimi 30 giorni vs 30 precedenti') + mt;
     $('ch-weeks').innerHTML = F.weeks.length >= 2 ? bars(F.weeks.map((w, i) => ({ label: A.fmtShort(w.from), v: w.revenue, top: short(w.revenue), cls: i === F.weeks.length - 1 ? 'gold' : '', tip: A.fmtShort(w.from) + '–' + A.fmtShort(w.to) + ': ' + A.fmtEur(w.revenue, 0) })), { bw: 56, aria: 'Incassi per settimana' })
@@ -146,10 +184,11 @@
     const open = F.dowStats.filter(d => d.days > 0);
     $('ch-dow').innerHTML = bars(F.dowStats.map(d => ({ label: d.short, v: d.avgRevenue, top: short(d.avgRevenue), cls: F.worstDow && d.dow === F.worstDow.dow ? 'warn' : F.bestDow && d.dow === F.bestDow.dow ? 'gold' : '', tip: d.name + ': media ' + A.fmtEur(d.avgRevenue, 0) + ' su ' + d.days + ' giorni' })), { bw: 56, aria: 'Incasso medio per giorno della settimana' });
     $('worst').innerHTML = F.worstDays.length ? '<table><tr><th>Giorno</th><th>Incasso</th><th>vs media del giorno</th></tr>' + F.worstDays.map(d =>
-      '<tr><td>' + A.DOW_SHORT[d.dow] + ' ' + A.fmtDate(d.date) + '</td><td>' + A.fmtEur(d.revenue, 0) + '</td><td class="' + (d.vsDow < -.005 ? 'down' : '') + '">' + (d.vsDow < 0 ? '▼ −' : '▲ +') + A.fmtPct(Math.abs(d.vsDow)) + '</td></tr>').join('') + '</table><p class="note">Giorni con meno incasso nel periodo caricato.</p>'
+      '<tr><td>' + A.DOW_SHORT[d.dow] + ' ' + A.fmtDate(d.date) + '</td><td>' + A.fmtEur(d.revenue, 0) + '</td><td class="' + (d.vsDow < -.005 ? 'down' : '') + '">' + (d.vsDow < 0 ? '▼ −' : '▲ +') + A.fmtPct(Math.abs(d.vsDow)) + '</td></tr>').join('') + '</table><p class="note">Giorni con meno incasso nel periodo caricato.' + (F.closedDays.length ? ' Esclusi ' + F.closedDays.length + ' giorni con incasso quasi nullo, probabili chiusure.' : '') + '</p>'
       : '<p class="note">Servono almeno 10 giorni di dati.</p>';
 
-    $('foot').textContent = A.fmtInt(F.totals.receipts) + ' scontrini · ' + A.fmtInt(state.lines.length) + ' righe · ' + F.totals.activeDays + ' giorni con vendite. Fasce orarie, giorni e suggerimenti usano tutti i dati caricati; le schede in alto cambiano solo i riquadri e i prodotti.';
+    renderPayments();
+    $('foot').textContent = (F.totals.receipts == null ? '' : A.fmtInt(F.totals.receipts) + ' scontrini · ') + '' + A.fmtInt(state.lines.length) + ' righe · ' + F.totals.activeDays + ' giorni con vendite. Fasce orarie, giorni e suggerimenti usano tutti i dati caricati; le schede in alto cambiano solo i riquadri e i prodotti.';
   }
 
   function renderTop(cur) {
@@ -165,7 +204,7 @@
     } else {
       $('low-h').textContent = 'Poco venduti';
       $('low').innerHTML = (F.lowProfit.length ? '<table><tr><th>Prodotto</th><th>Pezzi</th><th>Incasso</th></tr>' + F.lowProfit.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + A.fmtInt(p.qty) + '</td><td>' + A.fmtEur(p.revenue, 0) + '</td></tr>').join('') + '</table>' : '<p class="note">Nessun prodotto sotto l\'1% degli incassi.</p>') +
-        '<p class="note">Il file non contiene il <b>costo</b> dei prodotti, quindi non posso calcolare il margine reale: aggiungi una colonna "Costo" (costo unitario) per vedere quali prodotti rendono poco.</p>';
+        '<p class="note">Il file non contiene il <b>costo</b> dei prodotti, quindi non si può calcolare il margine reale: aggiungi una colonna "Costo" (costo unitario) per vedere quali prodotti rendono poco.</p>';
     }
   }
 

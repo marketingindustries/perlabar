@@ -150,39 +150,50 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
   </section>
 
   <div id="msg" class="msg" role="status" hidden=""></div>
-  <details id="mapping" class="mapping"><summary>Colonne riconosciute (correggi se serve)</summary><div class="mf">dati di esempio · 53088 righe</div><div class="mgrid"><label>Data e ora (insieme)<select data-d="0" data-f="datetime"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Data<select data-d="0" data-f="date"><option value="-1">— nessuna —</option><option value="0" selected="">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Ora<select data-d="0" data-f="time"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1" selected="">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>N. scontrino<select data-d="0" data-f="receipt"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2" selected="">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Prodotto<select data-d="0" data-f="product"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3" selected="">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Quantità<select data-d="0" data-f="qty"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5" selected="">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Prezzo unitario<select data-d="0" data-f="price"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6" selected="">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Importo riga<select data-d="0" data-f="total"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7" selected="">Importo</option><option value="8">Costo</option></select></label><label>Costo unitario<select data-d="0" data-f="cost"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8" selected="">Costo</option></select></label><label>Categoria<select data-d="0" data-f="category"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4" selected="">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label></div></details>
+  <details id="mapping" class="mapping"><summary>Colonne riconosciute (correggi se serve)</summary><div class="mf">dati di esempio · 52780 righe</div><div class="mgrid"><label>Data e ora (insieme)<select data-d="0" data-f="datetime"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Data<select data-d="0" data-f="date"><option value="-1">— nessuna —</option><option value="0" selected="">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Ora<select data-d="0" data-f="time"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1" selected="">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>N. scontrino<select data-d="0" data-f="receipt"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2" selected="">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Prodotto<select data-d="0" data-f="product"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3" selected="">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Quantità<select data-d="0" data-f="qty"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5" selected="">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Prezzo unitario<select data-d="0" data-f="price"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6" selected="">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label><label>Importo riga<select data-d="0" data-f="total"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7" selected="">Importo</option><option value="8">Costo</option></select></label><label>Costo unitario<select data-d="0" data-f="cost"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8" selected="">Costo</option></select></label><label>Categoria<select data-d="0" data-f="category"><option value="-1">— nessuna —</option><option value="0">Data</option><option value="1">Ora</option><option value="2">Scontrino</option><option value="3">Prodotto</option><option value="4" selected="">Categoria</option><option value="5">Quantità</option><option value="6">Prezzo</option><option value="7">Importo</option><option value="8">Costo</option></select></label></div></details>
 
   <div id="dash">
     <nav class="tabs" id="tabs" aria-label="Periodo">
       <button data-p="1">Oggi</button><button data-p="7" class="on">Settimana</button><button data-p="30">Mese</button><button data-p="365">Anno</button><button data-p="0">Tutto</button>
     </nav>
-    <p class="range" id="range">Ultimi 7 giorni · dati dal 28/06/2026 al 25/10/2026</p>
-    <section class="kpis" id="kpis"><div class="kpi main"><div class="l">Incassi</div><div class="v">€10.584</div><div class="s"><span class="pill neg">▼ −9%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Scontrino medio</div><div class="v">€6,12</div><div class="s"><span class="pill ">▲ +2%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Scontrini</div><div class="v">1.730</div><div class="s"><span class="pill neg">▼ −10%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Prodotto top</div><div class="v" style="font-size:1.4rem">Spritz</div><div class="s">€1.535 · 307 pezzi</div></div><div class="kpi"><div class="l">Ora migliore</div><div class="v">19:00 – 20:00</div><div class="s">finestra migliore 19:00–21:00 (33% incassi)</div></div></section>
+    <p class="range" id="range">Ultimi 7 giorni · dati dal 01/07/2026 al 28/10/2026</p>
+    <section class="kpis" id="kpis"><div class="kpi main"><div class="l">Incassi</div><div class="v">€10.354</div><div class="s"><span class="pill neg">▼ −12%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Scontrino medio</div><div class="v">€6,10</div><div class="s"><span class="pill ">▲ +2%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Scontrini</div><div class="v">1.698</div><div class="s"><span class="pill neg">▼ −13%</span> <span>vs settimana scorsa</span></div></div><div class="kpi"><div class="l">Prodotto top</div><div class="v" style="font-size:1.4rem">Spritz</div><div class="s">€1.440 · 288 pezzi</div></div><div class="kpi"><div class="l">Ora migliore</div><div class="v">19:00 – 20:00</div><div class="s">finestra migliore 19:00–21:00 (32% incassi)</div></div></section>
 
     <h2>Suggerimenti</h2>
-    <section class="sugg" id="sugg"><div class="s-card warn"><span class="tag">Attenzione</span><b>Margini bassi su Tagliere misto, Insalatona</b><p>Tagliere misto (margine 43%), Insalatona (margine 41%) contro una media del 66%. Valuta di ritoccare il prezzo di qualche decimo, ridurre la porzione o trattare meglio il fornitore.</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Dalle 15 alle 18 vendi poco: prova una promo aperitivo</b><p>In media incassi €29 l'ora, il 73% in meno della tua media oraria (€107). Prova una promo aperitivo anticipato o una merenda (es. spritz + stuzzichino a prezzo fisso).</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Dalle 9 alle 12 vendi poco: prova una promo colazione</b><p>In media incassi €43 l'ora, il 60% in meno della tua media oraria (€107). Prova una formula colazione a prezzo fisso (caffè + brioche).</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Martedì è il giorno più debole</b><p>Incassi in media €1.018, il 41% sotto la media dei giorni (€1.712). Prova una serata a tema, un menu fisso o uno sconto per chi torna (es. coupon sul prossimo acquisto) il martedì.</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Cappuccino + Cornetto: proponili in combo</b><p>Finiscono nello stesso scontrino 4.075 volte. Una formula a prezzo unico può alzare lo scontrino medio e rende il servizio più rapido.</p></div><div class="s-card good"><span class="tag">Punto di forza</span><b>Dalle 19 alle 21 fai il 33% degli incassi</b><p>Sono le ore in cui conviene avere tutto il personale presente e i prodotti più richiesti già pronti. Evita di fissare consegne o pulizie in questa fascia.</p></div><div class="s-card good"><span class="tag">Punto di forza</span><b>Sabato è il tuo giorno migliore</b><p>Incassi in media €2.450 (+43% sulla media). Assicurati di avere scorte e personale adeguati.</p></div></section>
+    <section class="sugg" id="sugg"><div class="s-card warn"><span class="tag">Attenzione</span><b>Ultimi 7 giorni in calo: −12% sui 7 precedenti</b><p>Vengono meno clienti (−13% scontrini). Guarda il confronto qui sotto per capire quando è successo.</p></div><div class="s-card warn"><span class="tag">Attenzione</span><b>Margini bassi su Tagliere misto, Insalatona</b><p>Tagliere misto (margine 43%), Insalatona (margine 41%) contro una media del 66%. Valuta di ritoccare il prezzo di qualche decimo, ridurre la porzione o trattare meglio il fornitore.</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Dalle 15 alle 18 vendi poco: prova una promo aperitivo</b><p>In media incassi €29 l'ora, il 73% in meno della tua media oraria (€107). Prova una promo aperitivo anticipato o una merenda (es. spritz + stuzzichino a prezzo fisso).</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Dalle 9 alle 12 vendi poco: prova una promo colazione</b><p>In media incassi €41 l'ora, il 61% in meno della tua media oraria (€107). Prova una formula colazione a prezzo fisso (caffè + brioche).</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Martedì è il giorno più debole</b><p>Incassi in media €991, il 42% sotto la media dei giorni (€1.707). Prova una serata a tema, un menu fisso o uno sconto per chi torna (es. coupon sul prossimo acquisto) il martedì.</p></div><div class="s-card tip"><span class="tag">Da provare</span><b>Cappuccino + Cornetto: proponili in combo</b><p>Finiscono nello stesso scontrino 3.979 volte. Una formula a prezzo unico può alzare lo scontrino medio e rende il servizio più rapido.</p></div><div class="s-card good"><span class="tag">Punto di forza</span><b>Dalle 19 alle 21 fai il 33% degli incassi</b><p>Sono le ore in cui conviene avere tutto il personale presente e i prodotti più richiesti già pronti. Evita di fissare consegne o pulizie in questa fascia.</p></div><div class="s-card good"><span class="tag">Punto di forza</span><b>Sabato è il tuo giorno migliore</b><p>Incassi in media €2.422 (+42% sulla media). Assicurati di avere scorte e personale adeguati.</p></div></section>
 
     <h2>Confronto nel tempo</h2>
-    <section class="grid2" id="compare"><article class="card"><h3>Ultimi 7 giorni vs 7 precedenti</h3><table><tbody><tr><th></th><th>19/10–25/10</th><th>12/10–18/10</th><th>Δ</th></tr><tr><td>Incasso</td><td>€10.584</td><td>€11.618</td><td class="down">▼ −9%</td></tr><tr><td>Scontrini</td><td>1.730</td><td>1.929</td><td class="down">▼ −10%</td></tr><tr><td>Scontrino medio</td><td>€6,12</td><td>€6,02</td><td class="up">▲ +2%</td></tr></tbody></table></article><article class="card"><h3>Ultimi 30 giorni vs 30 precedenti</h3><table><tbody><tr><th></th><th>26/09–25/10</th><th>27/08–25/09</th><th>Δ</th></tr><tr><td>Incasso</td><td>€49.571</td><td>€51.854</td><td class="down">▼ −4%</td></tr><tr><td>Scontrini</td><td>8.273</td><td>8.620</td><td class="down">▼ −4%</td></tr><tr><td>Scontrino medio</td><td>€5,99</td><td>€6,02</td><td class="">▼ −0%</td></tr></tbody></table></article><article class="card wide"><h3>Mesi <small>(calendario)</small></h3><table><tbody><tr><th></th><th>Incasso</th><th>Scontrino medio</th><th>Media/giorno</th></tr><tr><td>giu 2026 *</td><td>€4.029</td><td>€5,93</td><td>€1.343</td></tr><tr><td>lug 2026</td><td>€54.412</td><td>€6,10</td><td>€1.755</td></tr><tr><td>ago 2026</td><td>€55.242</td><td>€6,14</td><td>€1.782</td></tr><tr><td>set 2026</td><td>€50.509</td><td>€6,01</td><td>€1.684</td></tr><tr><td>ott 2026 *</td><td>€41.210</td><td>€5,99</td><td>€1.648</td></tr></tbody></table><p class="note">* mese incompleto: confronta le medie al giorno.</p></article></section>
-    <article class="card"><h3>Incassi per settimana <small>(blocchi di 7 giorni)</small></h3><div class="chart" id="ch-weeks"><svg viewBox="0 0 456 190" width="456" role="img" aria-label="Incassi per settimana"><line x1="0" x2="456" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar " x="11.84" y="21.835401007681526" width="40.32" height="144.16459899231847" rx="3"><title>31/08–06/09: €11.955</title></rect><text class="mut" x="32" y="182" text-anchor="middle">31/08</text><text x="32" y="17.835401007681526" text-anchor="middle">12,0k</text><rect class="bar " x="67.84" y="23.84807136367391" width="40.32" height="142.1519286363261" rx="3"><title>07/09–13/09: €11.788</title></rect><text class="mut" x="88" y="182" text-anchor="middle">07/09</text><text x="88" y="19.84807136367391" text-anchor="middle">11,8k</text><rect class="bar " x="123.84" y="20" width="40.32" height="146" rx="3"><title>14/09–20/09: €12.107</title></rect><text class="mut" x="144" y="182" text-anchor="middle">14/09</text><text x="144" y="16" text-anchor="middle">12,1k</text><rect class="bar " x="179.84" y="20.302684397456005" width="40.32" height="145.697315602544" rx="3"><title>21/09–27/09: €12.082</title></rect><text class="mut" x="200" y="182" text-anchor="middle">21/09</text><text x="200" y="16.302684397456005" text-anchor="middle">12,1k</text><rect class="bar " x="235.84" y="21.2577682332535" width="40.32" height="144.7422317667465" rx="3"><title>28/09–04/10: €12.003</title></rect><text class="mut" x="256" y="182" text-anchor="middle">28/09</text><text x="256" y="17.2577682332535" text-anchor="middle">12,0k</text><rect class="bar " x="291.84" y="31.292178078797377" width="40.32" height="134.70782192120262" rx="3"><title>05/10–11/10: €11.171</title></rect><text class="mut" x="312" y="182" text-anchor="middle">05/10</text><text x="312" y="27.292178078797377" text-anchor="middle">11,2k</text><rect class="bar " x="347.84" y="25.89450730982074" width="40.32" height="140.10549269017926" rx="3"><title>12/10–18/10: €11.618</title></rect><text class="mut" x="368" y="182" text-anchor="middle">12/10</text><text x="368" y="21.89450730982074" text-anchor="middle">11,6k</text><rect class="bar gold" x="403.84" y="38.372098785826395" width="40.32" height="127.6279012141736" rx="3"><title>19/10–25/10: €10.584</title></rect><text class="mut" x="424" y="182" text-anchor="middle">19/10</text><text x="424" y="34.372098785826395" text-anchor="middle">10,6k</text></svg></div></article>
+    <section class="grid2" id="compare"><article class="card"><h3>Ultimi 7 giorni vs 7 precedenti</h3><table><tbody><tr><th></th><th>22/10–28/10</th><th>15/10–21/10</th><th>Δ</th></tr><tr><td>Incasso</td><td>€10.354</td><td>€11.727</td><td class="down">▼ −12%</td></tr><tr><td>Scontrini</td><td>1.698</td><td>1.960</td><td class="down">▼ −13%</td></tr><tr><td>Scontrino medio</td><td>€6,10</td><td>€5,98</td><td class="up">▲ +2%</td></tr></tbody></table></article><article class="card"><h3>Ultimi 30 giorni vs 30 precedenti</h3><table><tbody><tr><th></th><th>29/09–28/10</th><th>30/08–28/09</th><th>Δ</th></tr><tr><td>Incasso</td><td>€48.542</td><td>€51.342</td><td class="down">▼ −5%</td></tr><tr><td>Scontrini</td><td>8.055</td><td>8.403</td><td class="down">▼ −4%</td></tr><tr><td>Scontrino medio</td><td>€6,03</td><td>€6,11</td><td class="down">▼ −1%</td></tr></tbody></table></article><article class="card wide"><h3>Mesi <small>(calendario)</small></h3><table><tbody><tr><th></th><th>Incasso</th><th>Scontrino medio</th><th>Media/giorno</th></tr><tr><td>lug 2026</td><td>€53.620</td><td>€6,08</td><td>€1.730</td></tr><tr><td>ago 2026</td><td>€54.353</td><td>€6,15</td><td>€1.753</td></tr><tr><td>set 2026</td><td>€50.463</td><td>€6,11</td><td>€1.682</td></tr><tr><td>ott 2026</td><td>€46.211</td><td>€6,03</td><td>€1.650</td></tr></tbody></table><p class="note">* mese incompleto: confronta le medie al giorno.</p></article></section>
+    <article class="card"><h3>Incassi per settimana <small>(blocchi di 7 giorni)</small></h3><div class="chart" id="ch-weeks"><svg viewBox="0 0 456 190" width="456" role="img" aria-label="Incassi per settimana"><line x1="0" x2="456" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar " x="11.84" y="24.408683992902525" width="40.32" height="141.59131600709748" rx="3"><title>03/09–09/09: €12.079</title></rect><text class="mut" x="32" y="182" text-anchor="middle">03/09</text><text x="32" y="20.408683992902525" text-anchor="middle">12,1k</text><rect class="bar " x="67.84" y="23.558831322109" width="40.32" height="142.441168677891" rx="3"><title>10/09–16/09: €12.152</title></rect><text class="mut" x="88" y="182" text-anchor="middle">10/09</text><text x="88" y="19.558831322109" text-anchor="middle">12,2k</text><rect class="bar " x="123.84" y="26.16348323176851" width="40.32" height="139.8365167682315" rx="3"><title>17/09–23/09: €11.929</title></rect><text class="mut" x="144" y="182" text-anchor="middle">17/09</text><text x="144" y="22.16348323176851" text-anchor="middle">11,9k</text><rect class="bar " x="179.84" y="25.531661728930317" width="40.32" height="140.46833827106968" rx="3"><title>24/09–30/09: €11.983</title></rect><text class="mut" x="200" y="182" text-anchor="middle">24/09</text><text x="200" y="21.531661728930317" text-anchor="middle">12,0k</text><rect class="bar " x="235.84" y="20" width="40.32" height="146" rx="3"><title>01/10–07/10: €12.455</title></rect><text class="mut" x="256" y="182" text-anchor="middle">01/10</text><text x="256" y="16" text-anchor="middle">12,5k</text><rect class="bar " x="291.84" y="29.143242527157554" width="40.32" height="136.85675747284245" rx="3"><title>08/10–14/10: €11.675</title></rect><text class="mut" x="312" y="182" text-anchor="middle">08/10</text><text x="312" y="25.143242527157554" text-anchor="middle">11,7k</text><rect class="bar " x="347.84" y="28.54072628882946" width="40.32" height="137.45927371117054" rx="3"><title>15/10–21/10: €11.727</title></rect><text class="mut" x="368" y="182" text-anchor="middle">15/10</text><text x="368" y="24.54072628882946" text-anchor="middle">11,7k</text><rect class="bar gold" x="403.84" y="44.62579987314433" width="40.32" height="121.37420012685567" rx="3"><title>22/10–28/10: €10.354</title></rect><text class="mut" x="424" y="182" text-anchor="middle">22/10</text><text x="424" y="40.62579987314433" text-anchor="middle">10,4k</text></svg></div></article>
 
+    <div id="sec-hours">
     <h2>Fasce orarie</h2>
-    <article class="card"><h3>Incasso medio per ora <small>(per giorno di apertura)</small></h3><div class="chart" id="ch-hours"><svg viewBox="0 0 616 190" width="616" role="img" aria-label="Incasso medio per ora"><line x1="0" x2="616" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar warn" x="9.32" y="145.8008878699115" width="27.36" height="20.199112130088515" rx="3"><title>7:00–8:00 · media €42 · 2,4% degli incassi</title></rect><text class="mut" x="23" y="182" text-anchor="middle">7</text><text x="23" y="141.8008878699115" text-anchor="middle">42</text><rect class="bar " x="47.32" y="125.17450694561197" width="27.36" height="40.82549305438803" rx="3"><title>8:00–9:00 · media €85 · 4,9% degli incassi</title></rect><text class="mut" x="61" y="182" text-anchor="middle">8</text><text x="61" y="121.17450694561197" text-anchor="middle">85</text><rect class="bar warn" x="85.32" y="136.32493503558945" width="27.36" height="29.675064964410552" rx="3"><title>9:00–10:00 · media €61 · 3,6% degli incassi</title></rect><text class="mut" x="99" y="182" text-anchor="middle">9</text><text x="99" y="132.32493503558945" text-anchor="middle">61</text><rect class="bar warn" x="123.32" y="147.77469267631338" width="27.36" height="18.225307323686625" rx="3"><title>10:00–11:00 · media €38 · 2,2% degli incassi</title></rect><text class="mut" x="137" y="182" text-anchor="middle">10</text><text x="137" y="143.77469267631338" text-anchor="middle">38</text><rect class="bar warn" x="161.32" y="151.91179720632374" width="27.36" height="14.088202793676269" rx="3"><title>11:00–12:00 · media €29 · 1,7% degli incassi</title></rect><text class="mut" x="175" y="182" text-anchor="middle">11</text><text x="175" y="147.91179720632374" text-anchor="middle">29</text><rect class="bar " x="199.32" y="91.90386645025593" width="27.36" height="74.09613354974407" rx="3"><title>12:00–13:00 · media €153 · 9,0% degli incassi</title></rect><text class="mut" x="213" y="182" text-anchor="middle">12</text><text x="213" y="87.90386645025593" text-anchor="middle">153</text><rect class="bar " x="237.32" y="89.08437519806155" width="27.36" height="76.91562480193845" rx="3"><title>13:00–14:00 · media €159 · 9,3% degli incassi</title></rect><text class="mut" x="251" y="182" text-anchor="middle">13</text><text x="251" y="85.08437519806155" text-anchor="middle">159</text><rect class="bar " x="275.32" y="130.08608645571275" width="27.36" height="35.91391354428726" rx="3"><title>14:00–15:00 · media €74 · 4,3% degli incassi</title></rect><text class="mut" x="289" y="182" text-anchor="middle">14</text><text x="289" y="126.08608645571275" text-anchor="middle">74</text><rect class="bar warn" x="313.32" y="152.34469854584438" width="27.36" height="13.655301454155621" rx="3"><title>15:00–16:00 · media €28 · 1,7% degli incassi</title></rect><text class="mut" x="327" y="182" text-anchor="middle">15</text><text x="327" y="148.34469854584438" text-anchor="middle">28</text><rect class="bar warn" x="351.32" y="154.29677782033727" width="27.36" height="11.703222179662733" rx="3"><title>16:00–17:00 · media €24 · 1,4% degli incassi</title></rect><text class="mut" x="365" y="182" text-anchor="middle">16</text><text x="365" y="150.29677782033727" text-anchor="middle">24</text><rect class="bar warn" x="389.32" y="149.99512250234926" width="27.36" height="16.004877497650746" rx="3"><title>17:00–18:00 · media €33 · 1,9% degli incassi</title></rect><text class="mut" x="403" y="182" text-anchor="middle">17</text><text x="403" y="145.99512250234926" text-anchor="middle">33</text><rect class="bar gold" x="427.32" y="77.69013836110564" width="27.36" height="88.30986163889436" rx="3"><title>18:00–19:00 · media €183 · 10,7% degli incassi</title></rect><text class="mut" x="441" y="182" text-anchor="middle">18</text><text x="441" y="73.69013836110564" text-anchor="middle">183</text><rect class="bar gold" x="465.32" y="20" width="27.36" height="146" rx="3"><title>19:00–20:00 · media €302 · 17,7% degli incassi</title></rect><text class="mut" x="479" y="182" text-anchor="middle">19</text><text x="479" y="16" text-anchor="middle">302</text><rect class="bar gold" x="503.32" y="38.61596457338406" width="27.36" height="127.38403542661594" rx="3"><title>20:00–21:00 · media €264 · 15,4% degli incassi</title></rect><text class="mut" x="517" y="182" text-anchor="middle">20</text><text x="517" y="34.61596457338406" text-anchor="middle">264</text><rect class="bar " x="541.32" y="87.72210388243288" width="27.36" height="78.27789611756712" rx="3"><title>21:00–22:00 · media €162 · 9,5% degli incassi</title></rect><text class="mut" x="555" y="182" text-anchor="middle">21</text><text x="555" y="83.72210388243288" text-anchor="middle">162</text><rect class="bar " x="579.32" y="130.8931497336667" width="27.36" height="35.106850266333296" rx="3"><title>22:00–23:00 · media €73 · 4,2% degli incassi</title></rect><text class="mut" x="593" y="182" text-anchor="middle">22</text><text x="593" y="126.89314973366669" text-anchor="middle">73</text></svg></div>
+    <article class="card"><h3>Incasso medio per ora <small>(per giorno di apertura)</small></h3><div class="chart" id="ch-hours"><svg viewBox="0 0 616 190" width="616" role="img" aria-label="Incasso medio per ora"><line x1="0" x2="616" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar warn" x="9.32" y="145.49279827783133" width="27.36" height="20.50720172216867" rx="3"><title>7:00–8:00 · media €43 · 2,5% degli incassi</title></rect><text class="mut" x="23" y="182" text-anchor="middle">7</text><text x="23" y="141.49279827783133" text-anchor="middle">43</text><rect class="bar " x="47.32" y="126.3735364440831" width="27.36" height="39.6264635559169" rx="3"><title>8:00–9:00 · media €83 · 4,8% degli incassi</title></rect><text class="mut" x="61" y="182" text-anchor="middle">8</text><text x="61" y="122.3735364440831" text-anchor="middle">83</text><rect class="bar warn" x="85.32" y="138.03726983657498" width="27.36" height="27.96273016342501" rx="3"><title>9:00–10:00 · media €58 · 3,4% degli incassi</title></rect><text class="mut" x="99" y="182" text-anchor="middle">9</text><text x="99" y="134.03726983657498" text-anchor="middle">58</text><rect class="bar warn" x="123.32" y="147.30339805160494" width="27.36" height="18.696601948395063" rx="3"><title>10:00–11:00 · media €39 · 2,3% degli incassi</title></rect><text class="mut" x="137" y="182" text-anchor="middle">10</text><text x="137" y="143.30339805160494" text-anchor="middle">39</text><rect class="bar warn" x="161.32" y="152.9419288400284" width="27.36" height="13.058071159971599" rx="3"><title>11:00–12:00 · media €27 · 1,6% degli incassi</title></rect><text class="mut" x="175" y="182" text-anchor="middle">11</text><text x="175" y="148.9419288400284" text-anchor="middle">27</text><rect class="bar " x="199.32" y="93.58200706067244" width="27.36" height="72.41799293932756" rx="3"><title>12:00–13:00 · media €151 · 8,8% degli incassi</title></rect><text class="mut" x="213" y="182" text-anchor="middle">12</text><text x="213" y="89.58200706067244" text-anchor="middle">151</text><rect class="bar " x="237.32" y="89.31982000487454" width="27.36" height="76.68017999512546" rx="3"><title>13:00–14:00 · media €160 · 9,4% degli incassi</title></rect><text class="mut" x="251" y="182" text-anchor="middle">13</text><text x="251" y="85.31982000487454" text-anchor="middle">160</text><rect class="bar " x="275.32" y="130.87244502507406" width="27.36" height="35.12755497492596" rx="3"><title>14:00–15:00 · media €73 · 4,3% degli incassi</title></rect><text class="mut" x="289" y="182" text-anchor="middle">14</text><text x="289" y="126.87244502507406" text-anchor="middle">73</text><rect class="bar warn" x="313.32" y="151.83509576277456" width="27.36" height="14.164904237225443" rx="3"><title>15:00–16:00 · media €30 · 1,7% degli incassi</title></rect><text class="mut" x="327" y="182" text-anchor="middle">15</text><text x="327" y="147.83509576277456" text-anchor="middle">30</text><rect class="bar warn" x="351.32" y="155.24596503624826" width="27.36" height="10.75403496375173" rx="3"><title>16:00–17:00 · media €22 · 1,3% degli incassi</title></rect><text class="mut" x="365" y="182" text-anchor="middle">16</text><text x="365" y="151.24596503624826" text-anchor="middle">22</text><rect class="bar warn" x="389.32" y="149.2247611065921" width="27.36" height="16.77523889340789" rx="3"><title>17:00–18:00 · media €35 · 2,0% degli incassi</title></rect><text class="mut" x="403" y="182" text-anchor="middle">17</text><text x="403" y="145.2247611065921" text-anchor="middle">35</text><rect class="bar gold" x="427.32" y="79.36392045376716" width="27.36" height="86.63607954623284" rx="3"><title>18:00–19:00 · media €181 · 10,6% degli incassi</title></rect><text class="mut" x="441" y="182" text-anchor="middle">18</text><text x="441" y="75.36392045376716" text-anchor="middle">181</text><rect class="bar gold" x="465.32" y="20" width="27.36" height="146" rx="3"><title>19:00–20:00 · media €304 · 17,8% degli incassi</title></rect><text class="mut" x="479" y="182" text-anchor="middle">19</text><text x="479" y="16" text-anchor="middle">304</text><rect class="bar gold" x="503.32" y="40.694339684651965" width="27.36" height="125.30566031534804" rx="3"><title>20:00–21:00 · media €261 · 15,3% degli incassi</title></rect><text class="mut" x="517" y="182" text-anchor="middle">20</text><text x="517" y="36.694339684651965" text-anchor="middle">261</text><rect class="bar " x="541.32" y="86.77106493463793" width="27.36" height="79.22893506536207" rx="3"><title>21:00–22:00 · media €165 · 9,7% degli incassi</title></rect><text class="mut" x="555" y="182" text-anchor="middle">21</text><text x="555" y="82.77106493463793" text-anchor="middle">165</text><rect class="bar " x="579.32" y="130.62612668129202" width="27.36" height="35.373873318707965" rx="3"><title>22:00–23:00 · media €74 · 4,3% degli incassi</title></rect><text class="mut" x="593" y="182" text-anchor="middle">22</text><text x="593" y="126.62612668129202" text-anchor="middle">74</text></svg></div>
       <p class="legend"><i class="sw gold"></i>migliori <i class="sw green"></i>nella media <i class="sw warn"></i>fasce deboli</p></article>
-    <article class="card"><h3>Giorno × ora <small>(incasso medio, più scuro = meglio)</small></h3><div class="chart" id="heat"><table class="heat"><tbody><tr><th></th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th></tr><tr><th>Lun</th><td class="" style="background:rgba(20,20,20,0.17)" title="€35">35</td><td class="" style="background:rgba(20,20,20,0.26)" title="€76">76</td><td class="" style="background:rgba(20,20,20,0.22)" title="€55">55</td><td class="" style="background:rgba(20,20,20,0.17)" title="€33">33</td><td class="" style="background:rgba(20,20,20,0.16)" title="€27">27</td><td class="" style="background:rgba(20,20,20,0.38)" title="€134">134</td><td class="" style="background:rgba(20,20,20,0.42)" title="€151">151</td><td class="" style="background:rgba(20,20,20,0.23)" title="€64">64</td><td class="" style="background:rgba(20,20,20,0.15)" title="€24">24</td><td class="" style="background:rgba(20,20,20,0.15)" title="€23">23</td><td class="" style="background:rgba(20,20,20,0.16)" title="€28">28</td><td class="" style="background:rgba(20,20,20,0.44)" title="€164">164</td><td class="dk" style="background:rgba(20,20,20,0.65)" title="€261">261</td><td class="dk" style="background:rgba(20,20,20,0.61)" title="€244">244</td><td class="" style="background:rgba(20,20,20,0.41)" title="€150">150</td><td class="" style="background:rgba(20,20,20,0.25)" title="€73">73</td></tr><tr><th>Mar</th><td class="" style="background:rgba(20,20,20,0.15)" title="€24">24</td><td class="" style="background:rgba(20,20,20,0.21)" title="€53">53</td><td class="" style="background:rgba(20,20,20,0.18)" title="€39">39</td><td class="" style="background:rgba(20,20,20,0.14)" title="€20">20</td><td class="" style="background:rgba(20,20,20,0.14)" title="€17">17</td><td class="" style="background:rgba(20,20,20,0.29)" title="€89">89</td><td class="" style="background:rgba(20,20,20,0.31)" title="€98">98</td><td class="" style="background:rgba(20,20,20,0.19)" title="€41">41</td><td class="" style="background:rgba(20,20,20,0.13)" title="€12">12</td><td class="" style="background:rgba(20,20,20,0.13)" title="€14">14</td><td class="" style="background:rgba(20,20,20,0.14)" title="€17">17</td><td class="" style="background:rgba(20,20,20,0.31)" title="€102">102</td><td class="" style="background:rgba(20,20,20,0.50)" title="€193">193</td><td class="" style="background:rgba(20,20,20,0.45)" title="€165">165</td><td class="" style="background:rgba(20,20,20,0.30)" title="€93">93</td><td class="" style="background:rgba(20,20,20,0.18)" title="€39">39</td></tr><tr><th>Mer</th><td class="" style="background:rgba(20,20,20,0.18)" title="€39">39</td><td class="" style="background:rgba(20,20,20,0.25)" title="€73">73</td><td class="" style="background:rgba(20,20,20,0.21)" title="€52">52</td><td class="" style="background:rgba(20,20,20,0.18)" title="€38">38</td><td class="" style="background:rgba(20,20,20,0.15)" title="€26">26</td><td class="" style="background:rgba(20,20,20,0.38)" title="€136">136</td><td class="" style="background:rgba(20,20,20,0.41)" title="€150">150</td><td class="" style="background:rgba(20,20,20,0.23)" title="€64">64</td><td class="" style="background:rgba(20,20,20,0.16)" title="€27">27</td><td class="" style="background:rgba(20,20,20,0.14)" title="€21">21</td><td class="" style="background:rgba(20,20,20,0.16)" title="€30">30</td><td class="" style="background:rgba(20,20,20,0.45)" title="€167">167</td><td class="dk" style="background:rgba(20,20,20,0.67)" title="€274">274</td><td class="" style="background:rgba(20,20,20,0.56)" title="€221">221</td><td class="" style="background:rgba(20,20,20,0.38)" title="€135">135</td><td class="" style="background:rgba(20,20,20,0.25)" title="€69">69</td></tr><tr><th>Gio</th><td class="" style="background:rgba(20,20,20,0.19)" title="€42">42</td><td class="" style="background:rgba(20,20,20,0.27)" title="€83">83</td><td class="" style="background:rgba(20,20,20,0.22)" title="€59">59</td><td class="" style="background:rgba(20,20,20,0.18)" title="€39">39</td><td class="" style="background:rgba(20,20,20,0.16)" title="€28">28</td><td class="" style="background:rgba(20,20,20,0.40)" title="€142">142</td><td class="" style="background:rgba(20,20,20,0.45)" title="€165">165</td><td class="" style="background:rgba(20,20,20,0.25)" title="€73">73</td><td class="" style="background:rgba(20,20,20,0.16)" title="€27">27</td><td class="" style="background:rgba(20,20,20,0.15)" title="€22">22</td><td class="" style="background:rgba(20,20,20,0.17)" title="€35">35</td><td class="" style="background:rgba(20,20,20,0.46)" title="€172">172</td><td class="dk" style="background:rgba(20,20,20,0.67)" title="€271">271</td><td class="dk" style="background:rgba(20,20,20,0.62)" title="€248">248</td><td class="" style="background:rgba(20,20,20,0.42)" title="€155">155</td><td class="" style="background:rgba(20,20,20,0.23)" title="€62">62</td></tr><tr><th>Ven</th><td class="" style="background:rgba(20,20,20,0.22)" title="€57">57</td><td class="" style="background:rgba(20,20,20,0.33)" title="€108">108</td><td class="" style="background:rgba(20,20,20,0.25)" title="€70">70</td><td class="" style="background:rgba(20,20,20,0.20)" title="€47">47</td><td class="" style="background:rgba(20,20,20,0.17)" title="€36">36</td><td class="" style="background:rgba(20,20,20,0.53)" title="€207">207</td><td class="" style="background:rgba(20,20,20,0.49)" title="€186">186</td><td class="" style="background:rgba(20,20,20,0.31)" title="€102">102</td><td class="" style="background:rgba(20,20,20,0.18)" title="€36">36</td><td class="" style="background:rgba(20,20,20,0.16)" title="€28">28</td><td class="" style="background:rgba(20,20,20,0.19)" title="€45">45</td><td class="dk" style="background:rgba(20,20,20,0.60)" title="€237">237</td><td class="dk" style="background:rgba(20,20,20,0.92)" title="€390">390</td><td class="dk" style="background:rgba(20,20,20,0.79)" title="€328">328</td><td class="" style="background:rgba(20,20,20,0.53)" title="€203">203</td><td class="" style="background:rgba(20,20,20,0.30)" title="€96">96</td></tr><tr><th>Sab</th><td class="" style="background:rgba(20,20,20,0.22)" title="€57">57</td><td class="" style="background:rgba(20,20,20,0.34)" title="€116">116</td><td class="" style="background:rgba(20,20,20,0.29)" title="€92">92</td><td class="" style="background:rgba(20,20,20,0.20)" title="€49">49</td><td class="" style="background:rgba(20,20,20,0.18)" title="€40">40</td><td class="" style="background:rgba(20,20,20,0.57)" title="€223">223</td><td class="" style="background:rgba(20,20,20,0.57)" title="€224">224</td><td class="" style="background:rgba(20,20,20,0.33)" title="€108">108</td><td class="" style="background:rgba(20,20,20,0.19)" title="€45">45</td><td class="" style="background:rgba(20,20,20,0.17)" title="€32">32</td><td class="" style="background:rgba(20,20,20,0.20)" title="€49">49</td><td class="dk" style="background:rgba(20,20,20,0.62)" title="€250">250</td><td class="dk" style="background:rgba(20,20,20,1.00)" title="€429">429</td><td class="dk" style="background:rgba(20,20,20,0.92)" title="€389">389</td><td class="dk" style="background:rgba(20,20,20,0.62)" title="€248">248</td><td class="" style="background:rgba(20,20,20,0.30)" title="€97">97</td></tr><tr><th>Dom</th><td class="" style="background:rgba(20,20,20,0.18)" title="€40">40</td><td class="" style="background:rgba(20,20,20,0.27)" title="€83">83</td><td class="" style="background:rgba(20,20,20,0.23)" title="€62">62</td><td class="" style="background:rgba(20,20,20,0.18)" title="€38">38</td><td class="" style="background:rgba(20,20,20,0.17)" title="€31">31</td><td class="" style="background:rgba(20,20,20,0.40)" title="€145">145</td><td class="" style="background:rgba(20,20,20,0.40)" title="€143">143</td><td class="" style="background:rgba(20,20,20,0.25)" title="€69">69</td><td class="" style="background:rgba(20,20,20,0.16)" title="€27">27</td><td class="" style="background:rgba(20,20,20,0.16)" title="€29">29</td><td class="" style="background:rgba(20,20,20,0.16)" title="€29">29</td><td class="" style="background:rgba(20,20,20,0.49)" title="€187">187</td><td class="dk" style="background:rgba(20,20,20,0.73)" title="€299">299</td><td class="dk" style="background:rgba(20,20,20,0.63)" title="€252">252</td><td class="" style="background:rgba(20,20,20,0.42)" title="€152">152</td><td class="" style="background:rgba(20,20,20,0.25)" title="€73">73</td></tr></tbody></table></div></article>
+    <article class="card"><h3>Giorno × ora <small>(incasso medio, più scuro = meglio)</small></h3><div class="chart" id="heat"><table class="heat"><tbody><tr><th></th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th></tr><tr><th>Lun</th><td class="" style="background:rgba(20,20,20,0.18)" title="€38">38</td><td class="" style="background:rgba(20,20,20,0.26)" title="€78">78</td><td class="" style="background:rgba(20,20,20,0.21)" title="€52">52</td><td class="" style="background:rgba(20,20,20,0.17)" title="€35">35</td><td class="" style="background:rgba(20,20,20,0.15)" title="€26">26</td><td class="" style="background:rgba(20,20,20,0.37)" title="€133">133</td><td class="" style="background:rgba(20,20,20,0.39)" title="€140">140</td><td class="" style="background:rgba(20,20,20,0.23)" title="€64">64</td><td class="" style="background:rgba(20,20,20,0.15)" title="€26">26</td><td class="" style="background:rgba(20,20,20,0.14)" title="€20">20</td><td class="" style="background:rgba(20,20,20,0.16)" title="€29">29</td><td class="" style="background:rgba(20,20,20,0.40)" title="€147">147</td><td class="dk" style="background:rgba(20,20,20,0.65)" title="€267">267</td><td class="" style="background:rgba(20,20,20,0.54)" title="€216">216</td><td class="" style="background:rgba(20,20,20,0.38)" title="€137">137</td><td class="" style="background:rgba(20,20,20,0.24)" title="€67">67</td></tr><tr><th>Mar</th><td class="" style="background:rgba(20,20,20,0.15)" title="€23">23</td><td class="" style="background:rgba(20,20,20,0.20)" title="€48">48</td><td class="" style="background:rgba(20,20,20,0.17)" title="€34">34</td><td class="" style="background:rgba(20,20,20,0.15)" title="€22">22</td><td class="" style="background:rgba(20,20,20,0.13)" title="€16">16</td><td class="" style="background:rgba(20,20,20,0.29)" title="€92">92</td><td class="" style="background:rgba(20,20,20,0.31)" title="€103">103</td><td class="" style="background:rgba(20,20,20,0.18)" title="€40">40</td><td class="" style="background:rgba(20,20,20,0.14)" title="€18">18</td><td class="" style="background:rgba(20,20,20,0.12)" title="€12">12</td><td class="" style="background:rgba(20,20,20,0.14)" title="€18">18</td><td class="" style="background:rgba(20,20,20,0.32)" title="€105">105</td><td class="" style="background:rgba(20,20,20,0.45)" title="€170">170</td><td class="" style="background:rgba(20,20,20,0.42)" title="€153">153</td><td class="" style="background:rgba(20,20,20,0.29)" title="€92">92</td><td class="" style="background:rgba(20,20,20,0.20)" title="€47">47</td></tr><tr><th>Mer</th><td class="" style="background:rgba(20,20,20,0.17)" title="€36">36</td><td class="" style="background:rgba(20,20,20,0.25)" title="€74">74</td><td class="" style="background:rgba(20,20,20,0.21)" title="€52">52</td><td class="" style="background:rgba(20,20,20,0.17)" title="€32">32</td><td class="" style="background:rgba(20,20,20,0.15)" title="€24">24</td><td class="" style="background:rgba(20,20,20,0.37)" title="€133">133</td><td class="" style="background:rgba(20,20,20,0.37)" title="€130">130</td><td class="" style="background:rgba(20,20,20,0.23)" title="€64">64</td><td class="" style="background:rgba(20,20,20,0.15)" title="€24">24</td><td class="" style="background:rgba(20,20,20,0.15)" title="€22">22</td><td class="" style="background:rgba(20,20,20,0.16)" title="€31">31</td><td class="" style="background:rgba(20,20,20,0.44)" title="€164">164</td><td class="dk" style="background:rgba(20,20,20,0.63)" title="€259">259</td><td class="" style="background:rgba(20,20,20,0.55)" title="€218">218</td><td class="" style="background:rgba(20,20,20,0.42)" title="€155">155</td><td class="" style="background:rgba(20,20,20,0.24)" title="€68">68</td></tr><tr><th>Gio</th><td class="" style="background:rgba(20,20,20,0.18)" title="€40">40</td><td class="" style="background:rgba(20,20,20,0.26)" title="€75">75</td><td class="" style="background:rgba(20,20,20,0.23)" title="€61">61</td><td class="" style="background:rgba(20,20,20,0.18)" title="€38">38</td><td class="" style="background:rgba(20,20,20,0.16)" title="€27">27</td><td class="" style="background:rgba(20,20,20,0.40)" title="€145">145</td><td class="" style="background:rgba(20,20,20,0.45)" title="€168">168</td><td class="" style="background:rgba(20,20,20,0.25)" title="€72">72</td><td class="" style="background:rgba(20,20,20,0.17)" title="€33">33</td><td class="" style="background:rgba(20,20,20,0.15)" title="€22">22</td><td class="" style="background:rgba(20,20,20,0.17)" title="€34">34</td><td class="" style="background:rgba(20,20,20,0.45)" title="€172">172</td><td class="dk" style="background:rgba(20,20,20,0.75)" title="€315">315</td><td class="dk" style="background:rgba(20,20,20,0.65)" title="€268">268</td><td class="" style="background:rgba(20,20,20,0.42)" title="€154">154</td><td class="" style="background:rgba(20,20,20,0.24)" title="€67">67</td></tr><tr><th>Ven</th><td class="" style="background:rgba(20,20,20,0.22)" title="€58">58</td><td class="" style="background:rgba(20,20,20,0.32)" title="€106">106</td><td class="" style="background:rgba(20,20,20,0.26)" title="€78">78</td><td class="" style="background:rgba(20,20,20,0.21)" title="€52">52</td><td class="" style="background:rgba(20,20,20,0.17)" title="€33">33</td><td class="" style="background:rgba(20,20,20,0.51)" title="€200">200</td><td class="" style="background:rgba(20,20,20,0.50)" title="€196">196</td><td class="" style="background:rgba(20,20,20,0.29)" title="€93">93</td><td class="" style="background:rgba(20,20,20,0.18)" title="€37">37</td><td class="" style="background:rgba(20,20,20,0.16)" title="€30">30</td><td class="" style="background:rgba(20,20,20,0.21)" title="€51">51</td><td class="" style="background:rgba(20,20,20,0.59)" title="€238">238</td><td class="dk" style="background:rgba(20,20,20,0.91)" title="€395">395</td><td class="dk" style="background:rgba(20,20,20,0.84)" title="€361">361</td><td class="" style="background:rgba(20,20,20,0.51)" title="€201">201</td><td class="" style="background:rgba(20,20,20,0.30)" title="€97">97</td></tr><tr><th>Sab</th><td class="" style="background:rgba(20,20,20,0.23)" title="€62">62</td><td class="" style="background:rgba(20,20,20,0.34)" title="€116">116</td><td class="" style="background:rgba(20,20,20,0.25)" title="€74">74</td><td class="" style="background:rgba(20,20,20,0.22)" title="€58">58</td><td class="" style="background:rgba(20,20,20,0.18)" title="€36">36</td><td class="" style="background:rgba(20,20,20,0.53)" title="€210">210</td><td class="" style="background:rgba(20,20,20,0.56)" title="€224">224</td><td class="" style="background:rgba(20,20,20,0.33)" title="€110">110</td><td class="" style="background:rgba(20,20,20,0.18)" title="€41">41</td><td class="" style="background:rgba(20,20,20,0.16)" title="€30">30</td><td class="" style="background:rgba(20,20,20,0.21)" title="€51">51</td><td class="dk" style="background:rgba(20,20,20,0.62)" title="€252">252</td><td class="dk" style="background:rgba(20,20,20,1.00)" title="€438">438</td><td class="dk" style="background:rgba(20,20,20,0.86)" title="€371">371</td><td class="dk" style="background:rgba(20,20,20,0.60)" title="€242">242</td><td class="" style="background:rgba(20,20,20,0.32)" title="€106">106</td></tr><tr><th>Dom</th><td class="" style="background:rgba(20,20,20,0.19)" title="€43">43</td><td class="" style="background:rgba(20,20,20,0.27)" title="€81">81</td><td class="" style="background:rgba(20,20,20,0.22)" title="€57">57</td><td class="" style="background:rgba(20,20,20,0.17)" title="€36">36</td><td class="" style="background:rgba(20,20,20,0.16)" title="€28">28</td><td class="" style="background:rgba(20,20,20,0.40)" title="€144">144</td><td class="" style="background:rgba(20,20,20,0.43)" title="€159">159</td><td class="" style="background:rgba(20,20,20,0.24)" title="€70">70</td><td class="" style="background:rgba(20,20,20,0.16)" title="€27">27</td><td class="" style="background:rgba(20,20,20,0.15)" title="€22">22</td><td class="" style="background:rgba(20,20,20,0.16)" title="€31">31</td><td class="" style="background:rgba(20,20,20,0.48)" title="€187">187</td><td class="dk" style="background:rgba(20,20,20,0.70)" title="€290">290</td><td class="dk" style="background:rgba(20,20,20,0.60)" title="€244">244</td><td class="" style="background:rgba(20,20,20,0.46)" title="€174">174</td><td class="" style="background:rgba(20,20,20,0.23)" title="€65">65</td></tr></tbody></table></div></article>
+    </div>
+    <div id="no-hours" hidden="">
+    <h2>Fasce orarie</h2>
+    <article class="card"><p class="note">Questo file contiene solo i totali giornalieri per prodotto, senza l'ora di ogni scontrino. Per questo mancano le fasce orarie, lo scontrino medio e i prodotti acquistati insieme. Serve un'esportazione con data e ora di ogni vendita.</p></article>
+    </div>
 
     <h2>Giorni</h2>
     <section class="grid2">
-      <article class="card"><h3>Incasso medio per giorno della settimana</h3><div class="chart" id="ch-dow"><svg viewBox="0 0 400 190" width="400" role="img" aria-label="Incasso medio per giorno della settimana"><line x1="0" x2="400" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar " x="11.84" y="74.14047926014945" width="40.32" height="91.85952073985055" rx="3"><title>Lunedì: media €1.542 su 17 giorni</title></rect><text class="mut" x="32" y="182" text-anchor="middle">Lun</text><text x="32" y="70.14047926014945" text-anchor="middle">1,5k</text><rect class="bar warn" x="67.84" y="105.31379991692985" width="40.32" height="60.68620008307015" rx="3"><title>Martedì: media €1.018 su 17 giorni</title></rect><text class="mut" x="88" y="182" text-anchor="middle">Mar</text><text x="88" y="101.31379991692985" text-anchor="middle">1,0k</text><rect class="bar " x="123.84" y="75.41814619811367" width="40.32" height="90.58185380188633" rx="3"><title>Mercoledì: media €1.520 su 17 giorni</title></rect><text class="mut" x="144" y="182" text-anchor="middle">Mer</text><text x="144" y="71.41814619811367" text-anchor="middle">1,5k</text><rect class="bar " x="179.84" y="69.41784368945231" width="40.32" height="96.58215631054769" rx="3"><title>Giovedì: media €1.621 su 17 giorni</title></rect><text class="mut" x="200" y="182" text-anchor="middle">Gio</text><text x="200" y="65.41784368945231" text-anchor="middle">1,6k</text><rect class="bar " x="235.84" y="36.29279477188152" width="40.32" height="129.70720522811848" rx="3"><title>Venerdì: media €2.177 su 17 giorni</title></rect><text class="mut" x="256" y="182" text-anchor="middle">Ven</text><text x="256" y="32.29279477188152" text-anchor="middle">2,2k</text><rect class="bar gold" x="291.84" y="20" width="40.32" height="146" rx="3"><title>Sabato: media €2.450 su 17 giorni</title></rect><text class="mut" x="312" y="182" text-anchor="middle">Sab</text><text x="312" y="16" text-anchor="middle">2,5k</text><rect class="bar " x="347.84" y="67.24082463754223" width="40.32" height="98.75917536245777" rx="3"><title>Domenica: media €1.657 su 18 giorni</title></rect><text class="mut" x="368" y="182" text-anchor="middle">Dom</text><text x="368" y="63.24082463754223" text-anchor="middle">1,7k</text></svg></div></article>
-      <article class="card"><h3>Giorni peggiori</h3><div id="worst"><table><tbody><tr><th>Giorno</th><th>Incasso</th><th>vs media del giorno</th></tr><tr><td>Mar 20/10/2026</td><td>€828</td><td class="down">▼ −19%</td></tr><tr><td>Mar 13/10/2026</td><td>€898</td><td class="down">▼ −12%</td></tr><tr><td>Mar 15/09/2026</td><td>€944</td><td class="down">▼ −7%</td></tr><tr><td>Mar 22/09/2026</td><td>€961</td><td class="down">▼ −6%</td></tr><tr><td>Mar 11/08/2026</td><td>€967</td><td class="down">▼ −5%</td></tr></tbody></table><p class="note">Giorni con meno incasso nel periodo caricato.</p></div></article>
+      <article class="card"><h3>Incasso medio per giorno della settimana</h3><div class="chart" id="ch-dow"><svg viewBox="0 0 400 190" width="400" role="img" aria-label="Incasso medio per giorno della settimana"><line x1="0" x2="400" y1="166" y2="166" stroke="#d8cfb3"></line><rect class="bar " x="11.84" y="77.11309221694081" width="40.32" height="88.88690778305919" rx="3"><title>Lunedì: media €1.475 su 17 giorni</title></rect><text class="mut" x="32" y="182" text-anchor="middle">Lun</text><text x="32" y="73.11309221694081" text-anchor="middle">1,5k</text><rect class="bar warn" x="67.84" y="106.27912545321624" width="40.32" height="59.720874546783755" rx="3"><title>Martedì: media €991 su 17 giorni</title></rect><text class="mut" x="88" y="182" text-anchor="middle">Mar</text><text x="88" y="102.27912545321624" text-anchor="middle">991</text><rect class="bar " x="123.84" y="76.47145839556228" width="40.32" height="89.52854160443772" rx="3"><title>Mercoledì: media €1.485 su 18 giorni</title></rect><text class="mut" x="144" y="182" text-anchor="middle">Mer</text><text x="144" y="72.47145839556228" text-anchor="middle">1,5k</text><rect class="bar " x="179.84" y="64.10148161999408" width="40.32" height="101.89851838000592" rx="3"><title>Giovedì: media €1.691 su 17 giorni</title></rect><text class="mut" x="200" y="182" text-anchor="middle">Gio</text><text x="200" y="60.101481619994075" text-anchor="middle">1,7k</text><rect class="bar " x="235.84" y="31.699741851817805" width="40.32" height="134.3002581481822" rx="3"><title>Venerdì: media €2.228 su 17 giorni</title></rect><text class="mut" x="256" y="182" text-anchor="middle">Ven</text><text x="256" y="27.699741851817805" text-anchor="middle">2,2k</text><rect class="bar gold" x="291.84" y="20" width="40.32" height="146" rx="3"><title>Sabato: media €2.422 su 17 giorni</title></rect><text class="mut" x="312" y="182" text-anchor="middle">Sab</text><text x="312" y="16" text-anchor="middle">2,4k</text><rect class="bar " x="347.84" y="66.00794600987318" width="40.32" height="99.99205399012682" rx="3"><title>Domenica: media €1.659 su 17 giorni</title></rect><text class="mut" x="368" y="182" text-anchor="middle">Dom</text><text x="368" y="62.00794600987318" text-anchor="middle">1,7k</text></svg></div></article>
+      <article class="card"><h3>Giorni peggiori</h3><div id="worst"><table><tbody><tr><th>Giorno</th><th>Incasso</th><th>vs media del giorno</th></tr><tr><td>Mar 27/10/2026</td><td>€780</td><td class="down">▼ −21%</td></tr><tr><td>Mar 20/10/2026</td><td>€867</td><td class="down">▼ −12%</td></tr><tr><td>Mar 01/09/2026</td><td>€868</td><td class="down">▼ −12%</td></tr><tr><td>Mar 29/09/2026</td><td>€912</td><td class="down">▼ −8%</td></tr><tr><td>Mar 07/07/2026</td><td>€930</td><td class="down">▼ −6%</td></tr></tbody></table><p class="note">Giorni con meno incasso nel periodo caricato.</p></div></article>
     </section>
+
+    <div id="sec-pay" hidden="">
+    <h2>Pagamenti</h2>
+    <article class="card"><h3>Incassi per metodo di pagamento</h3><div id="pay"></div></article>
+    </div>
 
     <h2>Prodotti</h2>
     <section class="grid2">
-      <article class="card"><h3>Più venduti <span class="seg" id="seg"><button data-m="revenue" class="on">€</button><button data-m="qty">pezzi</button></span></h3><div id="top"><ol class="rank"><li><span class="n">1</span><span>Spritz <span class="sub">307 pz</span></span><b>€1.535</b><span class="bg"><i style="width:100%"></i></span></li><li><span class="n">2</span><span>Tagliere misto <span class="sub">107 pz</span></span><b>€1.284</b><span class="bg"><i style="width:84%"></i></span></li><li><span class="n">3</span><span>Cocktail <span class="sub">144 pz</span></span><b>€1.152</b><span class="bg"><i style="width:75%"></i></span></li><li><span class="n">4</span><span>Birra media <span class="sub">215 pz</span></span><b>€1.075</b><span class="bg"><i style="width:70%"></i></span></li><li><span class="n">5</span><span>Panino <span class="sub">195 pz</span></span><b>€1.073</b><span class="bg"><i style="width:70%"></i></span></li><li><span class="n">6</span><span>Calice di vino <span class="sub">182 pz</span></span><b>€728</b><span class="bg"><i style="width:47%"></i></span></li><li><span class="n">7</span><span>Toast <span class="sub">145 pz</span></span><b>€653</b><span class="bg"><i style="width:43%"></i></span></li><li><span class="n">8</span><span>Espresso <span class="sub">501 pz</span></span><b>€601</b><span class="bg"><i style="width:39%"></i></span></li><li><span class="n">9</span><span>Cornetto <span class="sub">461 pz</span></span><b>€599</b><span class="bg"><i style="width:39%"></i></span></li><li><span class="n">10</span><span>Cappuccino <span class="sub">351 pz</span></span><b>€562</b><span class="bg"><i style="width:37%"></i></span></li></ol></div></article>
-      <article class="card"><h3 id="low-h">Poco redditizi (margine basso)</h3><div id="low"><table><tbody><tr><th>Prodotto</th><th>Margine</th><th>€ margine</th></tr><tr><td>Insalatona</td><td class="down">41%</td><td>€2.148</td></tr><tr><td>Tagliere misto</td><td class="down">43%</td><td>€10.156</td></tr></tbody></table><p class="note">Margine medio del locale: 66%. Elenco: prodotti sotto il 75% della media (tutti i dati).</p></div></article>
+      <article class="card"><h3>Più venduti <span class="seg" id="seg"><button data-m="revenue" class="on">€</button><button data-m="qty">pezzi</button></span></h3><div id="top"><ol class="rank"><li><span class="n">1</span><span>Spritz <span class="sub">288 pz</span></span><b>€1.440</b><span class="bg"><i style="width:100%"></i></span></li><li><span class="n">2</span><span>Panino <span class="sub">224 pz</span></span><b>€1.232</b><span class="bg"><i style="width:86%"></i></span></li><li><span class="n">3</span><span>Tagliere misto <span class="sub">97 pz</span></span><b>€1.164</b><span class="bg"><i style="width:81%"></i></span></li><li><span class="n">4</span><span>Birra media <span class="sub">225 pz</span></span><b>€1.125</b><span class="bg"><i style="width:78%"></i></span></li><li><span class="n">5</span><span>Cocktail <span class="sub">130 pz</span></span><b>€1.040</b><span class="bg"><i style="width:72%"></i></span></li><li><span class="n">6</span><span>Calice di vino <span class="sub">188 pz</span></span><b>€752</b><span class="bg"><i style="width:52%"></i></span></li><li><span class="n">7</span><span>Toast <span class="sub">148 pz</span></span><b>€666</b><span class="bg"><i style="width:46%"></i></span></li><li><span class="n">8</span><span>Espresso <span class="sub">505 pz</span></span><b>€606</b><span class="bg"><i style="width:42%"></i></span></li><li><span class="n">9</span><span>Cornetto <span class="sub">386 pz</span></span><b>€502</b><span class="bg"><i style="width:35%"></i></span></li><li><span class="n">10</span><span>Cappuccino <span class="sub">303 pz</span></span><b>€485</b><span class="bg"><i style="width:34%"></i></span></li></ol></div></article>
+      <article class="card"><h3 id="low-h">Poco redditizi (margine basso)</h3><div id="low"><table><tbody><tr><th>Prodotto</th><th>Margine</th><th>€ margine</th></tr><tr><td>Insalatona</td><td class="down">41%</td><td>€2.168</td></tr><tr><td>Tagliere misto</td><td class="down">43%</td><td>€9.558</td></tr></tbody></table><p class="note">Margine medio del locale: 66%. Elenco: prodotti sotto il 75% della media (tutti i dati).</p></div></article>
     </section>
-    <p class="foot" id="foot">33.879 scontrini · 53.088 righe · 120 giorni con vendite. Fasce orarie, giorni e suggerimenti usano tutti i dati caricati; le schede in alto cambiano solo i riquadri e i prodotti.</p>
+    <p class="foot" id="foot">33.580 scontrini · 52.780 righe · 120 giorni con vendite. Fasce orarie, giorni e suggerimenti usano tutti i dati caricati; le schede in alto cambiano solo i riquadri e i prodotti.</p>
   </div>
 </main>
 
@@ -381,8 +392,66 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     return { lines, skipped };
   }
 
+
+  // Numeri con il punto come separatore decimale ("3.000" = 3 pezzi, "81.00" = 81 euro), come nell'export di ilConto.
+  function parseDot(v) {
+    const s = String(v == null ? '' : v).trim();
+    return /^-?\d+(\.\d+)?$/.test(s) ? parseFloat(s) : NaN;
+  }
+
+  // ilConto (Zucchetti): file senza intestazione, ';' come separatore, una riga per prodotto e per giorno.
+  const IL_TYPES = /^(VENDITE|PAGAMENTO|RIGA|TESTA FATTURA|VARIANTE);/;
+  function isIlConto(text) {
+    const first = text.replace(/^﻿/, '').split(/\r?\n/).find(l => l.trim() !== '');
+    return !!first && IL_TYPES.test(first);
+  }
+  // Le righe RIGA, TESTA FATTURA e VARIANTE riguardano le fatture e contengono dati dei clienti: vengono ignorate.
+  function parseIlConto(text, filename) {
+    const rows = parseCSV(text.replace(/^﻿/, ''), ';');
+    const lines = [], payments = [];
+    let ignored = 0, bad = 0;
+    for (const r of rows) {
+      if (r[0] === 'VENDITE' && r.length >= 8) {
+        const ts = parseDateTime(r[1]), qty = parseDot(r[5]), revenue = parseDot(r[6]);
+        if (!ts || !isFinite(qty) || !isFinite(revenue)) { bad++; continue; }
+        const name = String(r[4]).trim() || '(senza nome)';
+        lines.push({ ts, receipt: 'giorno|' + dayKey(ts) + '|' + String(r[3]).trim() + '|' + name, product: name,
+          category: String(r[7]).trim() ? 'Reparto ' + String(r[7]).trim() : '', qty, revenue, cost: null, daily: true });
+      } else if (r[0] === 'PAGAMENTO' && r.length >= 4) {
+        const ts = parseDateTime(r[1]), amount = parseDot(r[3]);
+        if (!ts || !isFinite(amount)) { bad++; continue; }
+        const m = String(r[2]).trim();
+        payments.push({ ts, method: !m || m === '_' ? 'Altro' : m, amount });
+      } else ignored++;
+    }
+    const m = String(filename || '').match(/(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})/);
+    const exportedAt = m ? new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]) : null;
+    return { kind: 'ilconto', lines, payments, ignored, bad, exportedAt };
+  }
+  // Unisce più esportazioni in ordine cronologico: un giorno presente in un file più recente sostituisce quello dei file precedenti.
+  // Il giorno in cui è stato fatto l'export è incompleto e viene escluso, salvo che un file successivo lo riporti.
+  function mergeIlConto(list) {
+    let lines = [], payments = [], ignored = 0, bad = 0;
+    const provisional = new Set();
+    for (const p of list) {
+      ignored += p.ignored; bad += p.bad;
+      const days = new Set(p.lines.map(l => dayKey(l.ts)).concat(p.payments.map(x => dayKey(x.ts))));
+      lines = lines.filter(l => !days.has(dayKey(l.ts)));
+      payments = payments.filter(x => !days.has(dayKey(x.ts)));
+      days.forEach(d => provisional.delete(d));
+      lines = lines.concat(p.lines); payments = payments.concat(p.payments);
+      if (p.exportedAt && days.has(dayKey(p.exportedAt))) provisional.add(dayKey(p.exportedAt));
+    }
+    const dropped = [...provisional];
+    if (dropped.length) {
+      lines = lines.filter(l => !provisional.has(dayKey(l.ts)));
+      payments = payments.filter(x => !provisional.has(dayKey(x.ts)));
+    }
+    return { lines, payments, ignored, bad, provisionalDays: dropped };
+  }
+
   return { FIELDS, norm, dayKey, parseCSV, parseTable, parseNumber, parseDateTime,
-    detectColumns, decodeBuffer, missingFields, buildLines };
+    detectColumns, decodeBuffer, missingFields, buildLines, isIlConto, parseIlConto, mergeIlConto };
 });
 
 /* Analisi vendite: prodotti, fasce orarie, giorni, confronti e suggerimenti. */
@@ -415,6 +484,9 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
   const fmtPct = (n, dec) => group(n * 100, dec == null ? 0 : dec) + '%';
   const sum = (a, f) => a.reduce((s, x) => s + (f ? f(x) : x), 0);
   const hh = h => h + ':00';
+  // Voci generiche della cassa: contano negli incassi ma non sono prodotti.
+  // Sono incluse le voci di servizio (conto, coperto, sconto, buoni), le aggiunte e le varianti che iniziano con + o #.
+  const SERVICE_ITEMS = /^([+#]|conto$|coperto$|sconto$|edenred$|aggiunta|piatto x\d)/i;
 
   function buildReceipts(lines) {
     const map = new Map();
@@ -427,7 +499,23 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     return [...map.values()];
   }
 
-  function compute(lines) {
+  function compute(lines, daily) {
+    if (daily) {
+      const days = new Map();
+      const dow = Array.from({ length: 7 }, () => ({ revenue: 0, receipts: 0, days: new Set() }));
+      for (const l of lines) {
+        const k = dayKey(l.ts);
+        let d = days.get(k);
+        if (!d) { d = { key: k, date: startOfDay(l.ts), dow: l.ts.getDay(), revenue: 0, receipts: 0, items: 0, firstHour: 0, lastHour: 0 }; days.set(k, d); }
+        d.revenue += l.revenue; d.items += l.qty;
+      }
+      const dayList = [...days.values()].sort((a, b) => a.date - b.date);
+      for (const d of dayList) { dow[d.dow].revenue += d.revenue; dow[d.dow].days.add(d.key); }
+      const totalRevenue = sum(lines, l => l.revenue);
+      return { lines, receipts: [], totalRevenue, ticketRevenue: totalRevenue, days, dayList, daily: true,
+        byHour: Array.from({ length: 24 }, () => ({ revenue: 0, receipts: 0, days: new Set() })), dow,
+        dowHour: Array.from({ length: 7 }, () => new Array(24).fill(0)) };
+    }
     const receipts = buildReceipts(lines).filter(r => r.revenue > 0);
     const totalRevenue = sum(lines, l => l.revenue);
     const ticketRevenue = sum(receipts, r => r.revenue);
@@ -453,6 +541,7 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
 
   // L'ultimo giorno è "parziale" se le vendite finiscono molto prima del solito.
   function lastDayIsPartial(c) {
+    if (c.daily) return false;
     const n = c.dayList.length;
     if (n < 8) return false;
     const last = c.dayList[n - 1];
@@ -475,7 +564,7 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     const prev = sumRange(dayList, addDays(end, -(2 * len - 1)), addDays(end, -len));
     const d = (a, b) => (b ? a / b - 1 : null);
     return {
-      len, cur, prev,
+      len, cur, prev, hasReceipts: cur.receipts > 0 && prev.receipts > 0,
       curFrom: addDays(end, -(len - 1)), curTo: end,
       prevFrom: addDays(end, -(2 * len - 1)), prevTo: addDays(end, -len),
       delta: { revenue: d(cur.revenue, prev.revenue), receipts: d(cur.receipts, prev.receipts), avgTicket: d(cur.avgTicket, prev.avgTicket) }
@@ -485,13 +574,26 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
   function analyze(allLines, opts) {
     opts = opts || {};
     if (!allLines.length) return null;
-    let c = compute(allLines);
-    if (!c.receipts.length) return null;
+    const daily = allLines.every(l => l.daily);
+    let c = compute(allLines, daily);
+    if (!c.dayList.length) return null;
     let droppedPartial = null;
     if (opts.dropPartial !== false && lastDayIsPartial(c)) {
       droppedPartial = c.dayList[c.dayList.length - 1].date;
       const cut = addDays(droppedPartial, 0);
-      c = compute(allLines.filter(l => startOfDay(l.ts) < cut));
+      c = compute(allLines.filter(l => startOfDay(l.ts) < cut), daily);
+    }
+    // Giorni con incasso quasi nullo rispetto alla mediana: probabili chiusure, escluse da medie e classifiche dei giorni.
+    c.closedDays = [];
+    if (c.dayList.length >= 14) {
+      const med = c.dayList.map(d => d.revenue).sort((x, y) => x - y)[Math.floor(c.dayList.length / 2)];
+      const closed = c.dayList.filter(d => d.revenue < 0.1 * med);
+      if (closed.length) {
+        const keys = new Set(closed.map(d => d.key));
+        c.closedDays = closed;
+        c.dayList = c.dayList.filter(d => !keys.has(d.key));
+        for (const d of closed) { c.dow[d.dow].revenue -= d.revenue; c.dow[d.dow].days.delete(d.key); }
+      }
     }
     const { receipts, dayList, byHour, dow, dowHour } = c;
     const activeDays = dayList.length;
@@ -499,48 +601,52 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
 
     const totals = {
       revenue: c.totalRevenue,
-      receipts: receipts.length,
-      avgTicket: c.ticketRevenue / receipts.length,
-      itemsPerReceipt: sum(receipts, r => r.items) / receipts.length,
+      receipts: daily ? null : receipts.length,
+      avgTicket: daily ? null : c.ticketRevenue / receipts.length,
+      itemsPerReceipt: daily ? null : sum(receipts, r => r.items) / receipts.length,
       activeDays, avgDaily: c.totalRevenue / activeDays, first, last
     };
 
-    // --- ore
-    const minDays = Math.max(2, Math.ceil(activeDays * 0.2));
-    const openHours = [];
-    byHour.forEach((h, i) => { if (h.days.size >= minDays) openHours.push(i); });
-    if (!openHours.length) byHour.forEach((h, i) => { if (h.receipts) openHours.push(i); });
-    const hFrom = Math.min(...openHours), hTo = Math.max(...openHours);
-    const hours = byHour.map((h, i) => ({
-      hour: i, revenue: h.revenue, receipts: h.receipts,
-      avgRevenue: h.revenue / activeDays, avgReceipts: h.receipts / activeDays,
-      share: c.ticketRevenue ? h.revenue / c.ticketRevenue : 0,
-      inRange: i >= hFrom && i <= hTo
-    }));
-    const rangeHours = hours.filter(h => h.inRange);
-    const avgHourRevenue = sum(rangeHours, h => h.avgRevenue) / rangeHours.length;
+    // --- ore (solo se il file contiene l'orario di ogni vendita)
+    let hFrom = 0, hTo = -1, hours = [], rangeHours = [], avgHourRevenue = 0, bestWindow = null, topHours = [];
     const slowSlots = [];
-    if (rangeHours.length >= 6 && activeDays >= 5) {
-      let cur = null;
-      for (const h of rangeHours) {
-        if (h.avgRevenue < 0.6 * avgHourRevenue) {
-          if (cur && cur.to === h.hour) { cur.to = h.hour + 1; cur.hours.push(h); }
-          else { cur = { from: h.hour, to: h.hour + 1, hours: [h] }; slowSlots.push(cur); }
-        } else cur = null;
+    if (!daily) {
+      const minDays = Math.max(2, Math.ceil(activeDays * 0.2));
+      const openHours = [];
+      byHour.forEach((h, i) => { if (h.days.size >= minDays) openHours.push(i); });
+      if (!openHours.length) byHour.forEach((h, i) => { if (h.receipts) openHours.push(i); });
+      hFrom = Math.min(...openHours); hTo = Math.max(...openHours);
+      hours = byHour.map((h, i) => ({
+        hour: i, revenue: h.revenue, receipts: h.receipts,
+        avgRevenue: h.revenue / activeDays, avgReceipts: h.receipts / activeDays,
+        share: c.ticketRevenue ? h.revenue / c.ticketRevenue : 0,
+        inRange: i >= hFrom && i <= hTo
+      }));
+      rangeHours = hours.filter(h => h.inRange);
+      avgHourRevenue = sum(rangeHours, h => h.avgRevenue) / rangeHours.length;
+      
+      if (rangeHours.length >= 6 && activeDays >= 5) {
+        let cur = null;
+        for (const h of rangeHours) {
+          if (h.avgRevenue < 0.6 * avgHourRevenue) {
+            if (cur && cur.to === h.hour) { cur.to = h.hour + 1; cur.hours.push(h); }
+            else { cur = { from: h.hour, to: h.hour + 1, hours: [h] }; slowSlots.push(cur); }
+          } else cur = null;
+        }
+        slowSlots.forEach(s => {
+          s.avgRevenue = sum(s.hours, h => h.avgRevenue) / s.hours.length;
+          s.below = 1 - s.avgRevenue / avgHourRevenue;
+          s.edge = s.to === hTo + 1 ? 'end' : (s.from === hFrom ? 'start' : null);
+        });
+        slowSlots.sort((a, b) => b.below * b.hours.length - a.below * a.hours.length);
       }
-      slowSlots.forEach(s => {
-        s.avgRevenue = sum(s.hours, h => h.avgRevenue) / s.hours.length;
-        s.below = 1 - s.avgRevenue / avgHourRevenue;
-        s.edge = s.to === hTo + 1 ? 'end' : (s.from === hFrom ? 'start' : null);
-      });
-      slowSlots.sort((a, b) => b.below * b.hours.length - a.below * a.hours.length);
+      
+      for (let h = hFrom; h < hTo; h++) {
+        const share = hours[h].share + hours[h + 1].share;
+        if (!bestWindow || share > bestWindow.share) bestWindow = { from: h, to: h + 2, share };
+      }
+      topHours = rangeHours.slice().sort((a, b) => b.avgRevenue - a.avgRevenue).slice(0, 3);
     }
-    let bestWindow = null;
-    for (let h = hFrom; h < hTo; h++) {
-      const share = hours[h].share + hours[h + 1].share;
-      if (!bestWindow || share > bestWindow.share) bestWindow = { from: h, to: h + 2, share };
-    }
-    const topHours = rangeHours.slice().sort((a, b) => b.avgRevenue - a.avgRevenue).slice(0, 3);
 
     // --- giorni della settimana
     const dowStats = DOW_ORDER.map(w => {
@@ -574,7 +680,7 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
       p.hourRevenue[l.ts.getHours()] += l.revenue;
       if (l.cost != null) { p.costLines++; p.cost += l.cost; p.knownRevenue += l.revenue; }
     }
-    const products = [...pm.values()].map(p => {
+    const productsAll = [...pm.values()].map(p => {
       const hasCost = p.costLines > 0;
       return Object.assign(p, {
         share: c.totalRevenue ? p.revenue / c.totalRevenue : 0,
@@ -583,6 +689,8 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
         marginPct: hasCost && p.knownRevenue > 0 ? (p.knownRevenue - p.cost) / p.knownRevenue : null
       });
     }).sort((a, b) => b.revenue - a.revenue);
+    const products = productsAll.filter(p => !SERVICE_ITEMS.test(p.name));
+    const serviceItems = productsAll.filter(p => SERVICE_ITEMS.test(p.name));
     const costLines = c.lines.filter(l => l.cost != null).length;
     const costCoverage = costLines / c.lines.length;
     const withCost = products.filter(p => p.hasCost);
@@ -638,7 +746,7 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
       return Object.assign(m, { avgTicket: m.receipts ? m.revenue / m.receipts : 0, avgDaily: m.revenue / m.days, partial: m.days < dim * 0.9 });
     }).slice(-6);
 
-    const a = { totals, hours, hFrom, hTo, avgHourRevenue, slowSlots, bestWindow, topHours,
+    const a = { daily, hasHours: !daily, serviceItems, closedDays: c.closedDays, totals, hours, hFrom, hTo, avgHourRevenue, slowSlots, bestWindow, topHours,
       dowStats, meanDow, worstDow, bestDow, worstDays, bestDays, heat, products, costCoverage, avgMarginPct,
       lowProfit, lowProfitMode, topPair, week, month, weeks, months, dayList, span, droppedPartial,
       multiReceipts: receipts.filter(r => r.products.size > 1).length };
@@ -658,6 +766,8 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     const out = [];
     const T = a.totals;
     const push = (level, title, text) => out.push({ level, title, text });
+
+    if (a.daily) push('tip', 'Mancano gli orari delle vendite', 'Il file contiene solo i totali giornalieri per prodotto, senza l\'ora di ogni scontrino. Per individuare le fasce deboli e proporre promozioni mirate serve un\'esportazione con data e ora di ogni vendita.');
 
     // fasce lente
     a.slowSlots.slice(0, 2).forEach(s => {
@@ -691,7 +801,7 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     if (a.week && a.week.delta.revenue != null) {
       const d = a.week.delta;
       if (d.revenue <= -0.1) {
-        const why = d.receipts < d.avgTicket ? 'Vengono meno clienti (' + fmtPct(d.receipts, 0).replace('-', '−') + ' scontrini)'
+        const why = (d.receipts == null || d.avgTicket == null) ? 'Controlla nel grafico delle settimane quando è iniziato il calo' : d.receipts < d.avgTicket ? 'Vengono meno clienti (' + fmtPct(d.receipts, 0).replace('-', '−') + ' scontrini)'
           : 'Lo scontrino medio è sceso (' + fmtPct(d.avgTicket, 0).replace('-', '−') + ')';
         push('warn', 'Ultimi 7 giorni in calo: ' + fmtPct(d.revenue).replace('-', '−') + ' sui 7 precedenti', why + '. Guarda il confronto qui sotto per capire quando è successo.');
       } else if (d.revenue >= 0.1) {
@@ -727,7 +837,7 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     if (a.topPair) {
       push('tip', a.topPair.a + ' + ' + a.topPair.b + ': proponili in combo',
         'Finiscono nello stesso scontrino ' + fmtInt(a.topPair.count) + ' volte. Una formula a prezzo unico può alzare lo scontrino medio e rende il servizio più rapido.');
-    } else if (T.itemsPerReceipt < 1.4 && a.products.length >= 4) {
+    } else if (T.itemsPerReceipt != null && T.itemsPerReceipt < 1.4 && a.products.length >= 4) {
       push('tip', 'Pochi prodotti per scontrino (' + group(T.itemsPerReceipt, 1) + ')',
         'Lo scontrino medio è ' + fmtEur(T.avgTicket) + '. Fai suggerire sempre un abbinamento alla cassa (es. "con un dolce?") per aumentarlo.');
     }
@@ -841,13 +951,15 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const LABELS = { datetime: 'Data e ora (insieme)', date: 'Data', time: 'Ora', receipt: 'N. scontrino', product: 'Prodotto', qty: 'Quantità', price: 'Prezzo unitario', total: 'Importo riga', cost: 'Costo unitario', category: 'Categoria' };
 
-  const state = { datasets: [], lines: [], period: 7, topMode: 'revenue', full: null };
+  const state = { datasets: [], lines: [], payments: [], period: 7, topMode: 'revenue', full: null };
 
   // ---------- caricamento
   async function loadFiles(files) {
     for (const f of files) {
       try {
-        const t = P.parseTable(P.decodeBuffer(await f.arrayBuffer()));
+        const text = P.decodeBuffer(await f.arrayBuffer());
+        if (P.isIlConto(text)) { state.datasets.push({ name: f.name, kind: 'ilconto', parsed: P.parseIlConto(text, f.name), headers: [], rows: [], mapping: {} }); continue; }
+        const t = P.parseTable(text);
         state.datasets.push({ name: f.name, headers: t.headers, rows: t.rows, mapping: t.mapping });
       } catch (e) { showMsg('Non riesco a leggere "' + f.name + '".'); }
     }
@@ -865,14 +977,26 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
   function rebuild() {
     state.lines = []; const problems = []; let skipped = 0;
     for (const ds of state.datasets) {
+      if (ds.kind === 'ilconto') continue;
       const miss = P.missingFields(ds.mapping);
       if (miss.length) { problems.push('<b>' + esc(ds.name) + '</b>: non trovo la colonna ' + miss.join(', ') + '. Sceglila qui sotto.'); continue; }
       const b = P.buildLines(ds.rows, ds.mapping);
       skipped += b.skipped.noDate + b.skipped.noAmount;
       for (const l of b.lines) state.lines.push(l);
     }
+    state.payments = [];
+    const il = state.datasets.filter(d => d.kind === 'ilconto').sort((a, b) => a.name.localeCompare(b.name));
+    const notes = [];
+    if (il.length) {
+      const m = P.mergeIlConto(il.map(d => d.parsed));
+      for (const l of m.lines) state.lines.push(l);
+      state.payments = m.payments;
+      skipped += m.bad;
+      notes.push('Formato ilConto riconosciuto. Le righe delle fatture (' + A.fmtInt(m.ignored) + ') sono ignorate perché contengono dati dei clienti.');
+      if (m.provisionalDays.length) notes.push('La giornata del ' + m.provisionalDays.map(k => k.split('-').reverse().join('/')).join(', ') + ' è esclusa perché l\'esportazione è stata fatta in quel giorno e i dati sono incompleti.');
+    }
     renderMapping(problems.length > 0);
-    let msg = problems.join('<br>');
+    let msg = problems.concat(notes).join('<br>');
     if (skipped) msg += (msg ? '<br>' : '') + skipped + ' righe ignorate perché senza data o importo valido.';
     showMsg(msg);
     state.full = state.lines.length ? A.analyze(state.lines) : null;
@@ -887,7 +1011,8 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     const el = $('mapping');
     el.hidden = !state.datasets.length;
     el.open = open;
-    el.innerHTML = '<summary>Colonne riconosciute (correggi se serve)</summary>' + state.datasets.map((ds, di) =>
+    el.innerHTML = '<summary>Colonne riconosciute (correggi se serve)</summary>' + state.datasets.map((ds, di) => ds.kind === 'ilconto'
+      ? '<div class="mf">' + esc(ds.name) + ' · formato ilConto: ' + A.fmtInt(ds.parsed.lines.length) + ' righe di vendita giornaliere</div>' :
       '<div class="mf">' + esc(ds.name) + ' · ' + ds.rows.length + ' righe</div><div class="mgrid">' +
       P.FIELDS.map(f => '<label>' + LABELS[f] + '<select data-d="' + di + '" data-f="' + f + '"><option value="-1">— nessuna —</option>' +
         ds.headers.map((h, i) => '<option value="' + i + '"' + (ds.mapping[f] === i ? ' selected' : '') + '>' + esc(h || 'colonna ' + (i + 1)) + '</option>').join('') + '</select></label>').join('') + '</div>').join('');
@@ -919,6 +1044,7 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     else {
       const pt = prev ? prev.totals : null, top = cur.products[0], bh = cur.hours.slice().sort((a, b) => b.revenue - a.revenue)[0];
       const win = cur.bestWindow;
+      if (F.daily) { $('kpis').innerHTML = dailyKpis(c, pt, top, cur, p); renderTop(cur); renderStatic(); return; }
       $('kpis').innerHTML =
         '<div class="kpi main"><div class="l">Incassi' + (p === 1 ? ' di ' + A.fmtDate(c.last) : '') + '</div><div class="v">' + A.fmtEur(c.revenue, 0) + '</div><div class="s">' + (pt ? pill(delta(c.revenue, pt.revenue), 'vs ' + PNAME[p]) : c.receipts + ' scontrini') + '</div></div>' +
         '<div class="kpi"><div class="l">Scontrino medio</div><div class="v">' + A.fmtEur(c.avgTicket) + '</div><div class="s">' + (pt ? pill(delta(c.avgTicket, pt.avgTicket), 'vs ' + PNAME[p]) : A.group(c.itemsPerReceipt, 1) + ' prodotti a scontrino') + '</div></div>' +
@@ -928,6 +1054,27 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     }
     renderTop(cur);
     renderStatic();
+  }
+
+  function dailyKpis(c, pt, top, cur, p) {
+    const bd = cur.dayList.slice().sort((a, b) => b.revenue - a.revenue)[0];
+    const vs = d => (pt ? pill(d, 'vs ' + PNAME[p]) : '');
+    return '<div class="kpi main"><div class="l">Incassi' + (p === 1 ? ' di ' + A.fmtDate(c.last) : '') + '</div><div class="v">' + A.fmtEur(c.revenue, 0) + '</div><div class="s">' + (pt ? vs(delta(c.revenue, pt.revenue)) : c.activeDays + ' giorni con incassi') + '</div></div>' +
+      '<div class="kpi"><div class="l">Media al giorno</div><div class="v">' + A.fmtEur(c.avgDaily, 0) + '</div><div class="s">' + (pt ? vs(delta(c.avgDaily, pt.avgDaily)) : 'sui giorni con incassi') + '</div></div>' +
+      '<div class="kpi"><div class="l">Giorni con incassi</div><div class="v">' + A.fmtInt(c.activeDays) + '</div><div class="s">' + (pt ? vs(delta(c.activeDays, pt.activeDays)) : 'nel periodo') + '</div></div>' +
+      '<div class="kpi"><div class="l">Prodotto top</div><div class="v" style="font-size:1.4rem">' + (top ? esc(top.name) : '–') + '</div><div class="s">' + (top ? A.fmtEur(top.revenue, 0) + ' · ' + A.fmtInt(top.qty) + ' pezzi' : '') + '</div></div>' +
+      '<div class="kpi"><div class="l">Giorno migliore</div><div class="v" style="font-size:1.4rem">' + (bd ? A.DOW_SHORT[bd.dow] + ' ' + A.fmtShort(bd.date) : '–') + '</div><div class="s">' + (bd ? A.fmtEur(bd.revenue, 0) + ' incassati' : '') + '</div></div>';
+  }
+
+  function renderPayments() {
+    const pay = state.payments || [];
+    $('sec-pay').hidden = !pay.length;
+    if (!pay.length) return;
+    const tot = new Map();
+    for (const x of pay) tot.set(x.method, (tot.get(x.method) || 0) + x.amount);
+    const all = [...tot.values()].reduce((s, v) => s + v, 0);
+    const list = [...tot.entries()].sort((a, b) => b[1] - a[1]);
+    $('pay').innerHTML = '<ol class="rank">' + list.map(([m, v], i) => '<li><span class="n">' + (i + 1) + '</span><span>' + esc(m) + '</span><b>' + A.fmtEur(v, 0) + ' <span class="sub">' + A.fmtPct(v / all) + '</span></b><span class="bg"><i style="width:' + (Math.max(0, v) / list[0][1] * 100).toFixed(0) + '%"></i></span></li>').join('') + '</ol><p class="note">Somma su tutto il periodo caricato.</p>';
   }
 
   // ---------- grafici
@@ -949,6 +1096,8 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
 
   function renderStatic() {
     const F = state.full;
+    $('sec-hours').hidden = !F.hasHours;
+    $('no-hours').hidden = F.hasHours;
     // suggerimenti
     const TAG = { warn: 'Attenzione', tip: 'Da provare', good: 'Punto di forza' };
     $('sugg').innerHTML = F.suggestions.map(s => '<div class="s-card ' + s.level + '"><span class="tag">' + TAG[s.level] + '</span><b>' + esc(s.title) + '</b><p>' + esc(s.text) + '</p></div>').join('');
@@ -959,11 +1108,10 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
       const row = (l, a, b, d, f) => '<tr><td>' + l + '</td><td>' + f(a) + '</td><td>' + f(b) + '</td><td class="' + (d > 0.005 ? 'up' : d < -0.005 ? 'down' : '') + '">' + (d == null ? '–' : (d > 0 ? '▲ +' : d < 0 ? '▼ −' : '') + A.fmtPct(Math.abs(d))) + '</td></tr>';
       return '<article class="card"><h3>' + title + '</h3><table><tr><th></th><th>' + A.fmtShort(c.curFrom) + '–' + A.fmtShort(c.curTo) + '</th><th>' + A.fmtShort(c.prevFrom) + '–' + A.fmtShort(c.prevTo) + '</th><th>Δ</th></tr>' +
         row('Incasso', c.cur.revenue, c.prev.revenue, c.delta.revenue, v => A.fmtEur(v, 0)) +
-        row('Scontrini', c.cur.receipts, c.prev.receipts, c.delta.receipts, A.fmtInt) +
-        row('Scontrino medio', c.cur.avgTicket, c.prev.avgTicket, c.delta.avgTicket, v => A.fmtEur(v)) + '</table></article>';
+        (c.hasReceipts ? row('Scontrini', c.cur.receipts, c.prev.receipts, c.delta.receipts, A.fmtInt) + row('Scontrino medio', c.cur.avgTicket, c.prev.avgTicket, c.delta.avgTicket, v => A.fmtEur(v)) : '') + '</table></article>';
     };
-    const mt = F.months.length >= 2 ? '<article class="card wide"><h3>Mesi <small>(calendario)</small></h3><table><tr><th></th><th>Incasso</th><th>Scontrino medio</th><th>Media/giorno</th></tr>' +
-      F.months.map((m, i) => '<tr><td>' + ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'][m.month] + ' ' + m.year + (m.partial ? ' *' : '') + '</td><td>' + A.fmtEur(m.revenue, 0) + '</td><td>' + A.fmtEur(m.avgTicket) + '</td><td>' + A.fmtEur(m.avgDaily, 0) + '</td></tr>').join('') +
+    const mt = F.months.length >= 2 ? '<article class="card wide"><h3>Mesi <small>(calendario)</small></h3><table><tr><th></th><th>Incasso</th>' + (F.daily ? '' : '<th>Scontrino medio</th>') + '<th>Media/giorno</th></tr>' +
+      F.months.map((m, i) => '<tr><td>' + ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'][m.month] + ' ' + m.year + (m.partial ? ' *' : '') + '</td><td>' + A.fmtEur(m.revenue, 0) + '</td>' + (F.daily ? '' : '<td>' + (m.avgTicket ? A.fmtEur(m.avgTicket) : '–') + '</td>') + '<td>' + A.fmtEur(m.avgDaily, 0) + '</td></tr>').join('') +
       '</table><p class="note">* mese incompleto: confronta le medie al giorno.</p></article>' : '';
     $('compare').innerHTML = cmp(F.week, 'Ultimi 7 giorni vs 7 precedenti') + cmp(F.month, 'Ultimi 30 giorni vs 30 precedenti') + mt;
     $('ch-weeks').innerHTML = F.weeks.length >= 2 ? bars(F.weeks.map((w, i) => ({ label: A.fmtShort(w.from), v: w.revenue, top: short(w.revenue), cls: i === F.weeks.length - 1 ? 'gold' : '', tip: A.fmtShort(w.from) + '–' + A.fmtShort(w.to) + ': ' + A.fmtEur(w.revenue, 0) })), { bw: 56, aria: 'Incassi per settimana' })
@@ -982,10 +1130,11 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     const open = F.dowStats.filter(d => d.days > 0);
     $('ch-dow').innerHTML = bars(F.dowStats.map(d => ({ label: d.short, v: d.avgRevenue, top: short(d.avgRevenue), cls: F.worstDow && d.dow === F.worstDow.dow ? 'warn' : F.bestDow && d.dow === F.bestDow.dow ? 'gold' : '', tip: d.name + ': media ' + A.fmtEur(d.avgRevenue, 0) + ' su ' + d.days + ' giorni' })), { bw: 56, aria: 'Incasso medio per giorno della settimana' });
     $('worst').innerHTML = F.worstDays.length ? '<table><tr><th>Giorno</th><th>Incasso</th><th>vs media del giorno</th></tr>' + F.worstDays.map(d =>
-      '<tr><td>' + A.DOW_SHORT[d.dow] + ' ' + A.fmtDate(d.date) + '</td><td>' + A.fmtEur(d.revenue, 0) + '</td><td class="' + (d.vsDow < -.005 ? 'down' : '') + '">' + (d.vsDow < 0 ? '▼ −' : '▲ +') + A.fmtPct(Math.abs(d.vsDow)) + '</td></tr>').join('') + '</table><p class="note">Giorni con meno incasso nel periodo caricato.</p>'
+      '<tr><td>' + A.DOW_SHORT[d.dow] + ' ' + A.fmtDate(d.date) + '</td><td>' + A.fmtEur(d.revenue, 0) + '</td><td class="' + (d.vsDow < -.005 ? 'down' : '') + '">' + (d.vsDow < 0 ? '▼ −' : '▲ +') + A.fmtPct(Math.abs(d.vsDow)) + '</td></tr>').join('') + '</table><p class="note">Giorni con meno incasso nel periodo caricato.' + (F.closedDays.length ? ' Esclusi ' + F.closedDays.length + ' giorni con incasso quasi nullo, probabili chiusure.' : '') + '</p>'
       : '<p class="note">Servono almeno 10 giorni di dati.</p>';
 
-    $('foot').textContent = A.fmtInt(F.totals.receipts) + ' scontrini · ' + A.fmtInt(state.lines.length) + ' righe · ' + F.totals.activeDays + ' giorni con vendite. Fasce orarie, giorni e suggerimenti usano tutti i dati caricati; le schede in alto cambiano solo i riquadri e i prodotti.';
+    renderPayments();
+    $('foot').textContent = (F.totals.receipts == null ? '' : A.fmtInt(F.totals.receipts) + ' scontrini · ') + '' + A.fmtInt(state.lines.length) + ' righe · ' + F.totals.activeDays + ' giorni con vendite. Fasce orarie, giorni e suggerimenti usano tutti i dati caricati; le schede in alto cambiano solo i riquadri e i prodotti.';
   }
 
   function renderTop(cur) {
@@ -1001,7 +1150,7 @@ th{font-weight:500;color:var(--muted);font-size:.74rem;letter-spacing:.08em;text
     } else {
       $('low-h').textContent = 'Poco venduti';
       $('low').innerHTML = (F.lowProfit.length ? '<table><tr><th>Prodotto</th><th>Pezzi</th><th>Incasso</th></tr>' + F.lowProfit.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + A.fmtInt(p.qty) + '</td><td>' + A.fmtEur(p.revenue, 0) + '</td></tr>').join('') + '</table>' : '<p class="note">Nessun prodotto sotto l\'1% degli incassi.</p>') +
-        '<p class="note">Il file non contiene il <b>costo</b> dei prodotti, quindi non posso calcolare il margine reale: aggiungi una colonna "Costo" (costo unitario) per vedere quali prodotti rendono poco.</p>';
+        '<p class="note">Il file non contiene il <b>costo</b> dei prodotti, quindi non si può calcolare il margine reale: aggiungi una colonna "Costo" (costo unitario) per vedere quali prodotti rendono poco.</p>';
     }
   }
 

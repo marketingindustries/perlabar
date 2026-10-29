@@ -60,16 +60,27 @@
     <section class="grid2" id="compare"></section>
     <article class="card"><h3>Incassi per settimana <small>(blocchi di 7 giorni)</small></h3><div class="chart" id="ch-weeks"></div></article>
 
+    <div id="sec-hours">
     <h2>Fasce orarie</h2>
     <article class="card"><h3>Incasso medio per ora <small>(per giorno di apertura)</small></h3><div class="chart" id="ch-hours"></div>
       <p class="legend"><i class="sw gold"></i>migliori <i class="sw green"></i>nella media <i class="sw warn"></i>fasce deboli</p></article>
     <article class="card"><h3>Giorno × ora <small>(incasso medio, più scuro = meglio)</small></h3><div class="chart" id="heat"></div></article>
+    </div>
+    <div id="no-hours" hidden>
+    <h2>Fasce orarie</h2>
+    <article class="card"><p class="note">Questo file contiene solo i totali giornalieri per prodotto, senza l'ora di ogni scontrino. Per questo mancano le fasce orarie, lo scontrino medio e i prodotti acquistati insieme. Serve un'esportazione con data e ora di ogni vendita.</p></article>
+    </div>
 
     <h2>Giorni</h2>
     <section class="grid2">
       <article class="card"><h3>Incasso medio per giorno della settimana</h3><div class="chart" id="ch-dow"></div></article>
       <article class="card"><h3>Giorni peggiori</h3><div id="worst"></div></article>
     </section>
+
+    <div id="sec-pay" hidden>
+    <h2>Pagamenti</h2>
+    <article class="card"><h3>Incassi per metodo di pagamento</h3><div id="pay"></div></article>
+    </div>
 
     <h2>Prodotti</h2>
     <section class="grid2">

@@ -190,6 +190,64 @@
     return { lines, skipped };
   }
 
+
+  // Numeri con il punto come separatore decimale ("3.000" = 3 pezzi, "81.00" = 81 euro), come nell'export di ilConto.
+  function parseDot(v) {
+    const s = String(v == null ? '' : v).trim();
+    return /^-?\d+(\.\d+)?$/.test(s) ? parseFloat(s) : NaN;
+  }
+
+  // ilConto (Zucchetti): file senza intestazione, ';' come separatore, una riga per prodotto e per giorno.
+  const IL_TYPES = /^(VENDITE|PAGAMENTO|RIGA|TESTA FATTURA|VARIANTE);/;
+  function isIlConto(text) {
+    const first = text.replace(/^﻿/, '').split(/\r?\n/).find(l => l.trim() !== '');
+    return !!first && IL_TYPES.test(first);
+  }
+  // Le righe RIGA, TESTA FATTURA e VARIANTE riguardano le fatture e contengono dati dei clienti: vengono ignorate.
+  function parseIlConto(text, filename) {
+    const rows = parseCSV(text.replace(/^﻿/, ''), ';');
+    const lines = [], payments = [];
+    let ignored = 0, bad = 0;
+    for (const r of rows) {
+      if (r[0] === 'VENDITE' && r.length >= 8) {
+        const ts = parseDateTime(r[1]), qty = parseDot(r[5]), revenue = parseDot(r[6]);
+        if (!ts || !isFinite(qty) || !isFinite(revenue)) { bad++; continue; }
+        const name = String(r[4]).trim() || '(senza nome)';
+        lines.push({ ts, receipt: 'giorno|' + dayKey(ts) + '|' + String(r[3]).trim() + '|' + name, product: name,
+          category: String(r[7]).trim() ? 'Reparto ' + String(r[7]).trim() : '', qty, revenue, cost: null, daily: true });
+      } else if (r[0] === 'PAGAMENTO' && r.length >= 4) {
+        const ts = parseDateTime(r[1]), amount = parseDot(r[3]);
+        if (!ts || !isFinite(amount)) { bad++; continue; }
+        const m = String(r[2]).trim();
+        payments.push({ ts, method: !m || m === '_' ? 'Altro' : m, amount });
+      } else ignored++;
+    }
+    const m = String(filename || '').match(/(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})/);
+    const exportedAt = m ? new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]) : null;
+    return { kind: 'ilconto', lines, payments, ignored, bad, exportedAt };
+  }
+  // Unisce più esportazioni in ordine cronologico: un giorno presente in un file più recente sostituisce quello dei file precedenti.
+  // Il giorno in cui è stato fatto l'export è incompleto e viene escluso, salvo che un file successivo lo riporti.
+  function mergeIlConto(list) {
+    let lines = [], payments = [], ignored = 0, bad = 0;
+    const provisional = new Set();
+    for (const p of list) {
+      ignored += p.ignored; bad += p.bad;
+      const days = new Set(p.lines.map(l => dayKey(l.ts)).concat(p.payments.map(x => dayKey(x.ts))));
+      lines = lines.filter(l => !days.has(dayKey(l.ts)));
+      payments = payments.filter(x => !days.has(dayKey(x.ts)));
+      days.forEach(d => provisional.delete(d));
+      lines = lines.concat(p.lines); payments = payments.concat(p.payments);
+      if (p.exportedAt && days.has(dayKey(p.exportedAt))) provisional.add(dayKey(p.exportedAt));
+    }
+    const dropped = [...provisional];
+    if (dropped.length) {
+      lines = lines.filter(l => !provisional.has(dayKey(l.ts)));
+      payments = payments.filter(x => !provisional.has(dayKey(x.ts)));
+    }
+    return { lines, payments, ignored, bad, provisionalDays: dropped };
+  }
+
   return { FIELDS, norm, dayKey, parseCSV, parseTable, parseNumber, parseDateTime,
-    detectColumns, decodeBuffer, missingFields, buildLines };
+    detectColumns, decodeBuffer, missingFields, buildLines, isIlConto, parseIlConto, mergeIlConto };
 });

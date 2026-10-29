@@ -18,26 +18,37 @@ Il software è creato da **Automated by You**: la riga "Software creato da Autom
 - Branch di lavoro: `claude/festive-carson-2sgvh1` nel repository `marketingindustries/perlabar`.
 
 ## La cassa e il gestionale
-- Il gestionale è **ilConto di Zucchetti** (versione ristorazione o retail da confermare). Non ho trovato documentazione pubblica di API per ilConto. Zucchetti ha API pubbliche sul portale Servizi-IT, ma non è confermato che includano le vendite di ilConto. I report risultano consultabili online se ilConto è collegato a Business Coach, Tieni il Conto o Digital Hub. Va chiesto a Zucchetti o al tecnico.
-- Dalle foto del computer della cassa (Windows 10, utente `POS`, PC `DESKTOP-CASO7TV`): la cartella `C:\Users\POS\Desktop\export dati` contiene due esportazioni CSV create a mano da ilConto:
-  - `PERLABAR-2026-10-27-09-11-54-Vendite.csv` (2,07 MB, creata il 27/10/2026 alle 09:12)
-  - `PERLABAR-2026-10-29-11-04-49-Vendite.csv` (creata il 29/10/2026 alle 11:04)
-  Il nome ha il formato `PERLABAR-AAAA-MM-GG-HH-MM-SS-Vendite.csv`. **Non ho ancora visto il contenuto**: colonne, separatore, codifica e formato dei numeri sono da verificare. Serve data e ora per ogni articolo, altrimenti le fasce orarie non si calcolano.
-- Non è chiaro se ilConto può programmare l'esportazione ogni sera. Da chiedere.
+- Il gestionale è **ilConto di Zucchetti**. Non esiste documentazione pubblica di API per ilConto. Zucchetti ha API pubbliche sul portale Servizi-IT, ma non è confermato che includano le vendite. I report risultano online se ilConto è collegato a Business Coach, Tieni il Conto o Digital Hub. Va chiesto a Zucchetti o al tecnico.
+- Sul computer della cassa (Windows 10, utente `POS`) la cartella `C:\Users\POS\Desktop\export dati` contiene esportazioni CSV fatte a mano da ilConto, con nome `PERLABAR-AAAA-MM-GG-HH-MM-SS-Vendite.csv`.
+- **Formato reale dell'export "Vendite"** (verificato il 29/10/2026 su due file: `...10-27-09-11-54` da 2,07 MB e `...10-29-11-04-49` da 8 KB):
+  - nessuna intestazione, separatore `;`, fine riga CRLF, codifica Windows-1252, date `gg/mm/aaaa`;
+  - `VENDITE;data;A;codice;descrizione;quantità;importo;reparto;sconto?;n` con numeri a punto decimale ("3.000" = 3 pezzi, "81.00" = 81 euro). È **un totale giornaliero per prodotto**, senza ora e senza numero di scontrino;
+  - `PAGAMENTO;data;metodo;importo` (Contanti, POS, PEP, Buoni pasto, "_" = altro): totale giornaliero per metodo;
+  - `TESTA FATTURA`, `RIGA`, `VARIANTE`: solo per le vendite fatturate (con data e ora), contengono nome, indirizzo e partita IVA dei clienti. Il parser le ignora e non le conserva;
+  - il file grande copre dal 01/01/2026 al 26/10/2026 (283 giorni, 649 prodotti, circa 622.000 euro). Le vendite di ogni giorno coincidono con la somma dei pagamenti dello stesso giorno in 281 giorni su 283 (differenze di 12 euro il 15/04 e 7 euro il 18/04).
+- **Conseguenza:** con questo export non si possono calcolare fasce orarie, scontrino medio e prodotti acquistati insieme. La dashboard li nasconde e mostra un suggerimento che spiega cosa manca. **Serve un altro tipo di esportazione di ilConto con data, ora e numero di ogni scontrino**; da cercare nel programma o da chiedere a Zucchetti.
+- Margini: l'export non ha il costo dei prodotti.
+- Non è chiaro se ilConto può programmare l'esportazione ogni sera.
+
+## Come la dashboard legge ilConto
+- `js/parser.js`: `isIlConto`, `parseIlConto`, `mergeIlConto`. Più file si uniscono in ordine di nome (cioè di data di esportazione): un giorno presente in un file più recente sostituisce quello dei file precedenti. Il giorno dell'esportazione è escluso perché incompleto.
+- `js/analytics.js`: modalità "giornaliera" quando tutte le righe hanno `daily: true`. Voci di servizio escluse dai prodotti (conto, coperto, sconto, edenred, aggiunte, varianti con + o #). Giorni con incasso sotto il 10% della mediana sono trattati come chiusure e non entrano in medie e classifiche dei giorni.
+- `js/app.js`: riquadri, sezione pagamenti, messaggi sul formato riconosciuto.
+- Test: `test/run.js` ha un blocco ilConto con dati inventati. I file veri non sono nel repository.
 
 ## Piano di integrazione scelto
 Versione con Google Drive: Google Drive per computer sincronizza la cartella `export dati` della cassa, e la dashboard legge i CSV dalla cartella (con login Google), li unisce ed elimina i doppioni. Serve un progetto Google gratuito con un client OAuth, da creare insieme all'utente. I dati restano nel Drive del bar e nel browser, non su un nostro server.
 Alternativa più completa ma più laboriosa: un programma sul PC della cassa che invia i dati a un servizio online.
 
 ## Google Drive
-- Account del bar: `perlabar60@gmail.com`. Cartella sincronizzata "Desktop": id `10SYUNMnhjRW7deaoc4Ai5AYxkPCWTEsJ`. Cartella "export dati": id `16_bh2DtnZRGFBfM5wnF7ndFs5lGPcOJb`.
+- Account del bar: `perlabar60@gmail.com`. Cartella "export dati": id `16_bh2DtnZRGFBfM5wnF7ndFs5lGPcOJb`, ora condivisa con l'account della sessione cloud: contiene i due CSV.
 - L'account Google collegato alla sessione precedente era `dealerfuel@gmail.com`. Dalla sessione precedente la cartella risultava condivisa solo con "chiunque abbia il link, lettore" e il contenuto non compariva nelle ricerche. L'utente vedeva i CSV su Drive.
 - **Attenzione alla privacy:** una cartella con le vendite del bar condivisa a chiunque abbia il link è accessibile pubblicamente. Va ristretta, condividendola solo con gli account necessari.
 - Da fare: far condividere la cartella (o i link dei singoli file) con l'account usato dalla sessione, poi leggere i CSV e adattare `js/parser.js`.
 
 ## Prossimi passi, in ordine
-1. Leggere uno dei CSV (da Drive o caricato a mano) e verificare le colonne reali.
-2. Adattare il riconoscimento delle colonne in `js/parser.js` e aggiungere un test con un estratto del file (senza dati sensibili).
+1. (Fatto) Lettura del formato ilConto "Vendite" giornaliero.
+2. Trovare in ilConto un'esportazione con data, ora e numero di ogni scontrino, e adattare il parser anche a quella.
 3. Costruire la lettura da Drive con login Google, unione dei file ed eliminazione dei doppioni (la chiave di uno scontrino è data + numero scontrino).
 4. Pubblicare `site/` su Cloudflare Pages e aggiungere un login prima di caricare dati reali.
 5. Chiedere a Zucchetti: esportazione programmata ogni sera, API di Servizi-IT, collegamento con Business Coach.
